@@ -1,0 +1,20 @@
+@import "../styles/HigiaBase.module.scss";
+
+.button {
+  background-color:  $bg-higia-buttons; 
+  border: none;
+  color: white;
+  display: inline-block;
+  text-align: center;
+  font-size: 16px ;
+  padding: 16px;
+  width: 130px;
+  text-decoration: none;
+  margin: 5px; 
+  transition: box-shadow .3s;
+ }
+
+ .button:hover {
+  box-shadow: 0 0 11px rgb(110 231 183); 
+}
+ 

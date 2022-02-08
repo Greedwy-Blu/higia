@@ -1,0 +1,17 @@
+/* tailwind.scss */
+@import "~tailwindcss/base";
+@import "~tailwindcss/components";
+@import "~tailwindcss/utilities";
+.button {
+    border: none;
+    color: white;
+     width: 229;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    height: 82;
+    cursor: pointer;
+  }
+
+ 
