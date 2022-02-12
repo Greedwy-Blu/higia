@@ -81,8 +81,10 @@ const Create: React.FC = () => {
 
 </div>
 
-<div className="px-4 pt-7 col-span-2">
+<div className="px-4  col-span-2">
   <div className="mb-3 xl:w-96">
+  <label htmlFor="genêro" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 pt-2">gênero</label>
+ 
     <select className="form-select appearance-none
       block
       w-full
@@ -98,10 +100,11 @@ const Create: React.FC = () => {
       ease-in-out
       m-0
       focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
-        <option selected>Open this select menu</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
+        <option selected>gênero</option>
+        <option value="1">masculino</option>
+        <option value="2">feminino</option>
+        <option value="3">não-binário</option>
+        <option value="4">transgênero</option>
     </select>
   </div>
 </div>

@@ -1,0 +1,132 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+
+  id Int @id @default(autoincrement())
+
+  email String @unique
+
+  name String?
+
+  cidade String?
+
+  SobreNome String?
+
+  idade Int?
+
+  telefone String?
+
+  genero String?
+
+  Profissionais Profissional[]
+
+  clientes Cliente[]
+
+  usuario_perfil imgem_perfil[]
+}
+
+model Profissional {
+  id Int @id @default(autoincrement())
+
+  imagens String?
+
+  servico String
+
+  raio Decimal @default(6.2)
+
+  grupo Int @default(1)
+
+  ambiente String @db.Char(55)
+
+  localatendimento String @db.Char(55)
+
+  especial String @default("SIM") @db.Char(55)
+
+  idade String
+
+  identificacaoProfissionalId Int
+  UsuarioId                   Usuario? @relation(fields: [identificacaoProfissionalId], references: [id])
+
+  especialidade String
+
+  qualificacao String
+
+  Comentario_PostsProfissionsl Comentario_Post[]
+
+}
+
+model Cliente {
+  id Int @id @default(autoincrement())
+
+  nivel Int
+
+  medicamentos String
+
+  identificacaoCliente Int
+  UsuarioId            Usuario? @relation(fields: [identificacaoCliente], references: [id])
+
+  Comentario_PostsCliente Comentario_Post[]
+
+  Notificacao_ComentariosCliente Notificacao_Comentario[]
+}
+
+model Notificacao_Comentario {
+
+  id Int @id @default(autoincrement())
+
+  comentario String
+
+
+  notificacaoID Int
+
+  notificacoes Comentario_Post? @relation(fields: [notificacaoID], references: [id])
+
+  imgem_perfil String
+
+  cliente_id Int
+
+  clientedados Cliente? @relation(fields: [cliente_id], references: [id])
+
+}
+
+model Comentario_Post {
+
+  id Int @id @default(autoincrement())
+
+  nota Int
+
+  ComentarioProfissinalID Int
+
+  profissionaisID Profissional? @relation(fields: [ComentarioProfissinalID], references: [id])
+
+  createdAt DateTime @default(now())
+
+  ComentariosClienteID Int
+
+  clienteID Cliente? @relation(fields: [ComentariosClienteID], references: [id])
+
+  Notificacao_Comentarios Notificacao_Comentario[]
+
+
+
+}
+
+model imgem_perfil {
+
+  id                   Int     @id @default(autoincrement())
+  identificacao_perfil Int
+  imagen               String?
+
+  UsuarioPerfil Usuario? @relation(fields: [identificacao_perfil], references: [id])
+
+}
