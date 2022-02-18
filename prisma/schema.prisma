@@ -18,6 +18,8 @@ model Usuario {
 
   name String?
 
+  senha String?
+
   cidade String?
 
   SobreNome String?
@@ -52,7 +54,7 @@ model Profissional {
 
   especial String @default("SIM") @db.Char(55)
 
-  idade String
+  idade Int
 
   identificacaoProfissionalId Int
   UsuarioId                   Usuario? @relation(fields: [identificacaoProfissionalId], references: [id])
@@ -104,7 +106,9 @@ model Comentario_Post {
   id Int @id @default(autoincrement())
 
   nota Int
-
+  
+  coteudo String 
+  
   ComentarioProfissinalID Int
 
   profissionaisID Profissional? @relation(fields: [ComentarioProfissinalID], references: [id])

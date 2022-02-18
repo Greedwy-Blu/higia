@@ -51,6 +51,13 @@ const Create: React.FC = () => {
 
 </div>
 
+<div className=" px-4 "> 
+
+<label htmlFor="senha" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 pt-2">cidade</label>
+    <input type="text" id="senha" className="  focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"  />
+
+
+</div>
 
 <div className=" px-4 "> 
 
