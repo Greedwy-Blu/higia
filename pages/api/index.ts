@@ -265,6 +265,84 @@ const imgem_perfil = objectType({
 })
 
 
+const Query  = objectType({
+  name: 'Query ',
+  definition(t) {
+
+    t.nonNull.list.nonNull.field('TodosUsuario', {
+      type: 'Usuario',
+      resolve: (_parent, _args, context: Context) => {
+        return context.prisma.usuario.findMany()
+      },
+    })
+
+    t.nullable.field('Perfil', {
+      type: 'Usuario',
+      resolve: (parent, args, context: Context) => {
+        const userId = getUserId(context)
+        return context.prisma.usuario.findUnique({
+          where: {
+            id: Number(userId),
+          },
+        })
+
+
+      },
+    })
+
+   
+    t.list.field('MeusPost', {
+      type: 'Profissional',
+      args: {
+        UsuarioWhereUniqueInput: nonNull(
+          arg({
+            type: 'UsuarioWhereUniqueInput',
+          }),
+        ),
+      },
+      resolve: (_parent, args, context: Context) => {
+        const userId = getUserId(context)
+        return context.prisma.usuario
+          .findUnique({
+            where: {
+              id: args.UsuarioWhereUniqueInput.id || undefined,
+              email: args.UsuarioWhereUniqueInput.email || undefined,
+            },
+          })
+          .Profissionais({
+            where: {
+              id: Number(userId),
+            },
+          })
+
+  },
+})
+
+
+t.nullable.field('IdPosts', {
+  type: 'Profissional',
+  args: {
+    id: intArg(),
+  },
+  resolve: (_parent, args, context: Context) => {
+    return context.prisma.profissional.findUnique({
+      where: { id: args.id || undefined },
+    })
+  },
+})
+
+
+
+  },
+
+})
+
+
+
+
+
+
+
 
 
 

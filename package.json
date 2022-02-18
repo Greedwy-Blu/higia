@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.5.8",
-    "@prisma/client": "^3.9.1",
+    "@prisma/client": "^3.9.2",
     "@tailwindcss/forms": "^0.4.0",
     "@types/bcryptjs": "^2.4.2",
     "@types/express": "^4.17.13",
@@ -42,7 +42,7 @@
     "postcss-import": "^14.0.2",
     "postcss-nested": "^5.0.6",
     "postcss-nesting": "^10.0.2",
-    "prisma": "^3.9.1",
+    "prisma": "^3.9.2",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "sass": "^1.44.0",
