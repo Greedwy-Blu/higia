@@ -11,6 +11,7 @@ import {
   arg,
   asNexusMethod,
   enumType,
+  floatArg,
 } from 'nexus'
 import path from 'path'
 import cors from 'micro-cors'
@@ -81,17 +82,17 @@ const Profissional = objectType({
   name: 'Profissional',
   definition(t){
   t.nonNull.int('id')
-  t.string('imagens')
-  t.nonNull.float('raio')
-  t.nonNull.int('grupo')
-  t.nonNull.string('ambiente')
-  t.nonNull.string('localatendimento')
-  t.nonNull.string('especial')
-  t.nonNull.string('idade')
-  t.nonNull.string('especialidade')   
-  t.nonNull.string('qualificacao')   
+  t.nonNull.string('imagens')
+  t.float('raio')
+  t.int('grupo')
+  t.string('ambiente')
+  t.string('localatendimento')
+  t.string('especial')
+  t.string('idade')
+  t.string('especialidade')   
+  t.string('qualificacao')   
   
-    t.nonNull.list.nonNull.field('UsuarioId', {
+    t.nonNull.list.nonNull.field('identificacaoProfissionalId', {
     type: 'Usuario',
     resolve: (parent,  _, context: Context) =>{
  
@@ -103,7 +104,7 @@ const Profissional = objectType({
       },
     })
    
-    t.nonNull.list.nonNull.field('Comentario_PostsProfissionsl', {
+    t.nonNull.list.nonNull.field('ComentarioProfissinalID', {
       type: 'Comentario_Post',
       resolve: (parent,  _, context: Context) =>{
    
@@ -130,7 +131,7 @@ const Comentario_Post = objectType({
   t.nonNull.string('coteudo')
   t.nonNull.field('createdAt', { type: 'DateTime' })
  
-  t.nonNull.list.nonNull.field('profissionaisID', {
+  t.nonNull.list.nonNull.field('ComentarioProfissinalID', {
     type: 'Profissional',
     resolve: (parent,  _, context: Context) =>{
  
@@ -142,7 +143,7 @@ const Comentario_Post = objectType({
       },
     })
    
-    t.nonNull.list.nonNull.field('Notificacao_Comentarios', {
+    t.nonNull.list.nonNull.field('notificacaoID', {
       type: 'Comentario_Post',
       resolve: (parent,  _, context: Context) =>{
    
@@ -153,7 +154,18 @@ const Comentario_Post = objectType({
           .Notificacao_Comentarios()
         },
       })
-   
+      t.nonNull.list.nonNull.field('ComentariosClienteID', {
+        type: 'Comentario_Post',
+        resolve: (parent,  _, context: Context) =>{
+     
+        return  context.prisma.comentario_Post
+            .findUnique({
+              where: { id: parent.id || undefined },
+            })
+            .clienteID()
+          },
+        })
+     
   },
 })
 
@@ -166,7 +178,7 @@ const Notificacao_Comentario = objectType({
   t.nonNull.string('imgem_perfil')
   
   
-    t.nonNull.list.nonNull.field('notificacoes', {
+    t.nonNull.list.nonNull.field('notificacaoID', {
     type: 'Comentario_Post',
     resolve: (parent,  _, context: Context) =>{
  
@@ -179,7 +191,7 @@ const Notificacao_Comentario = objectType({
     })
    
     
-    t.nonNull.list.nonNull.field('clientedados', {
+    t.nonNull.list.nonNull.field('cliente_id', {
       type: 'Cliente',
       resolve: (parent,  _, context: Context) =>{
    
@@ -207,7 +219,7 @@ const Cliente = objectType({
   t.string('nivel')
   t.nonNull.string('medicamentos')
   
-    t.nonNull.list.nonNull.field('UsuarioId', {
+    t.nonNull.list.nonNull.field('identificacaoCliente', {
     type: 'Usuario',
     resolve: (parent,  _, context: Context) =>{
  
@@ -219,7 +231,7 @@ const Cliente = objectType({
       },
     })
    
-    t.nonNull.list.nonNull.field('Comentario_PostsCliente', {
+    t.nonNull.list.nonNull.field('ComentarioProfissinalID', {
       type: 'Comentario_Post',
       resolve: (parent,  _, context: Context) =>{
    
@@ -231,7 +243,7 @@ const Cliente = objectType({
         },
       })
      
-      t.nonNull.list.nonNull.field('Notificacao_ComentariosCliente', {
+      t.nonNull.list.nonNull.field('notificacaoID', {
         type: 'Notificacao_Comentario',
         resolve: (parent,  _, context: Context) =>{
      
@@ -254,7 +266,7 @@ const imgem_perfil = objectType({
   t.string('email')
    
   
-    t.nonNull.list.nonNull.field('UsuarioPerfil', {
+    t.nonNull.list.nonNull.field('identificacao_perfil', {
     type: 'Usuario',
     resolve: (parent,  _, context: Context) =>{
  
@@ -421,6 +433,40 @@ const Mutation  = objectType({
         },
       })
 
+      t.field('CriarPost', {
+        type: 'Profissional',
+        args: {
+          imagens: nonNull(stringArg()),
+          raio:nonNull(floatArg()),
+          grupo:nonNull(intArg()),
+          ambiente:nonNull(stringArg()),
+          localatendimento:nonNull(stringArg()),
+          especial:nonNull(stringArg()),
+          idade:nonNull(stringArg()),
+          especialidade: nonNull(stringArg()),
+          qualificacao:nonNull(stringArg()),
+          servico : stringArg(),
+          identificacaoProfissionalId: intArg(),
+        },
+        resolve: (_, {imagens, raio, grupo,  ambiente, localatendimento, especial, idade,especialidade,qualificacao, servico, identificacaoProfissionalId   }, context: Context) => {
+          const userId = getUserId(context)
+          return context.prisma.profissional.create({
+            data: {
+              imagens, 
+              raio, 
+              grupo,  
+              ambiente, 
+              localatendimento, 
+              especial, 
+              idade,
+              especialidade,
+              qualificacao,
+              servico,
+              identificacaoProfissionalId: userId,
+            },
+          })
+        },
+      })
 
   },
 })
@@ -493,15 +539,15 @@ const ProfissionalCreateInput = inputObjectType({
   name: 'ProfissionalCreateInput',
   definition(t) {
     t.nonNull.int('id')
-    t.string('imagens')
-    t.nonNull.float('raio')
-    t.nonNull.int('grupo')
-    t.nonNull.string('ambiente')
-    t.nonNull.string('localatendimento')
-    t.nonNull.string('especial')
-    t.nonNull.string('idade')
-    t.nonNull.string('especialidade')   
-    t.nonNull.string('qualificacao')   
+    t.nonNull.string('imagens')
+    t.float('raio')
+    t.int('grupo')
+    t.string('ambiente')
+    t.string('localatendimento')
+    t.string('especial')
+    t.string('idade')
+    t.string('especialidade')   
+    t.string('qualificacao')   
     
   },
 })
@@ -512,9 +558,6 @@ const AuthPayload = objectType({
   name: 'AuthPayload',
   definition(t) {
     t.string('token')
-    t.field('usuario', { type: 'Usuario',
-    resolve() {
-      return { senha: ''}
-    }, })
+    t.field('usuario', { type: 'Usuario'})
   },
 })
