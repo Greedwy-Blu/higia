@@ -468,22 +468,48 @@ const Mutation  = objectType({
         args:{
           comentario:stringArg(),
           imgem_perfil: nonNull(stringArg()),
-          cliente_id: nonNull(intArg()),
-          notificacaoID: nonNull(intArg()),
+          cliente_id: intArg(),
+          notificacaoID: intArg(),
         },
-        resolve: (_, {comentario,imgem_perfil, cliente_id, notificacaoID }, context: Context) => {
-          const userId = getUserId(context)
-          return context.prisma.notificacao_Comentario.create({
+        resolve: (_, {comentario,imgem_perfil,cliente_id,  notificacaoID }, context: Context) => {
+           return context.prisma.notificacao_Comentario.create({
             data: {
               comentario,
               imgem_perfil,
-              cliente_id: 1,
-              notificacaoID:1
+              clientedados: { connect:{id: cliente_id}},
+              notificacoes:{connect:{id:notificacaoID}}
             },
           })
         },
         })
 
+
+        t.field('CriarComentario', { 
+          type: 'Comentario_Post',
+          args:{
+            coteudo:stringArg(),
+            nota: intArg(),
+            createdAt:stringArg(),
+            ComentarioProfissinalID: intArg(),
+            ComentariosClienteID: intArg(),
+          },
+          resolve: (_, {coteudo,nota,createdAt, ComentarioProfissinalID,  ComentariosClienteID }, context: Context) => {
+             return context.prisma.comentario_Post.create({
+              data: {
+                coteudo,
+                nota,
+                createdAt,
+                profissionaisID: { connect:{id: ComentarioProfissinalID}},
+                clienteID:{connect:{id:ComentariosClienteID}}
+              },
+            })
+          },
+          })
+  
+
+
+
+          
 
   },
 })
