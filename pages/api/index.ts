@@ -22,11 +22,6 @@ import { sign } from 'jsonwebtoken'
 export const GQLDate = asNexusMethod(DateTimeResolver, 'date')
 
 
-export interface IUser extends Document {
- 
-  senha: string;
-  
-};
 const Usuario = objectType({
     name: 'Usuario',
     definition(t){
@@ -467,6 +462,28 @@ const Mutation  = objectType({
           })
         },
       })
+
+      t.field('CriarNotificacao_Comentario', { 
+        type: 'Notificacao_Comentario',
+        args:{
+          comentario:stringArg(),
+          imgem_perfil: nonNull(stringArg()),
+          cliente_id: nonNull(intArg()),
+          notificacaoID: nonNull(intArg()),
+        },
+        resolve: (_, {comentario,imgem_perfil, cliente_id, notificacaoID }, context: Context) => {
+          const userId = getUserId(context)
+          return context.prisma.notificacao_Comentario.create({
+            data: {
+              comentario,
+              imgem_perfil,
+              cliente_id: 1,
+              notificacaoID:1
+            },
+          })
+        },
+        })
+
 
   },
 })
