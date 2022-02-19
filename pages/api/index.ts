@@ -507,9 +507,26 @@ const Mutation  = objectType({
           })
   
 
+          t.field('CriarImgem_perfil', { 
+            type: 'imgem_perfil',
+            args:{
+              imagen:stringArg(),
+             
+              identificacao_perfil: intArg(),
+
+            },
+            resolve: (_, {imagen, identificacao_perfil }, context: Context) => {
+               return context.prisma.imgem_perfil.create({
+                data: {
+                  imagen,
+                  UsuarioPerfil: { connect:{id: identificacao_perfil}},
+                },
+              })
+            },
+            })
+    
 
 
-          
 
   },
 })
