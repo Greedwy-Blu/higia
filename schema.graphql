@@ -120,3 +120,14 @@ input ProfissionalCreateInput{
   qualificacao:  String
 }
 
+type Query{
+  TodosUsuario: [Usuario!]!
+  Perfil: Usuario
+  MeusPost(usuarioWhereUniqueInput: UsuarioWhereUniqueInput!):[Profissional]
+  IdPosts(id: Int): Profissional
+}
+
+type Mutation {
+
+  
+}

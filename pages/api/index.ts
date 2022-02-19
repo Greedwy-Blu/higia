@@ -306,7 +306,7 @@ const Query  = objectType({
     t.list.field('MeusPost', {
       type: 'Profissional',
       args: {
-        UsuarioWhereUniqueInput: nonNull(
+        usuarioWhereUniqueInput: nonNull(
           arg({
             type: 'UsuarioWhereUniqueInput',
           }),
@@ -317,8 +317,8 @@ const Query  = objectType({
         return context.prisma.usuario
           .findUnique({
             where: {
-              id: args.UsuarioWhereUniqueInput.id || undefined,
-              email: args.UsuarioWhereUniqueInput.email || undefined,
+              id: args.usuarioWhereUniqueInput.id || undefined,
+              email: args.usuarioWhereUniqueInput.email || undefined,
             },
           })
           .Profissionais({
