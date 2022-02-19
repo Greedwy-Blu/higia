@@ -600,6 +600,7 @@ const ProfissionalCreateInput = inputObjectType({
   definition(t) {
     t.nonNull.int('id')
     t.nonNull.string('imagens')
+   
     t.float('raio')
     t.int('grupo')
     t.string('ambiente')

@@ -57,7 +57,7 @@ type Comentario_Post{
     nota: Int
     coteudo: String 
     profissionaisID: Profissional
-    createdAt: String
+    createdAt: DateTime
      clienteID: Cliente
      Notificacao_Comentarios: [Notificacao_Comentario!]!
 
@@ -74,3 +74,49 @@ type AuthPayload {
   token: String
   usuario: Usuario
 }
+
+
+input UsuarioWhereUniqueInput{
+  id: Int!
+email: String
+name:  String!
+senha: String
+cidade:String!
+SobreNome: String!
+idade: Int!
+telefone: String!
+genero: String!
+}
+
+input ProfissionalWhereUniqueInput{
+   id: Int
+  imagens: String
+  raio: Float
+  grupo: Int
+  ambiente: String
+  especial: String
+  idade: Int
+  especialidade: String
+  qualificacao:  String
+}
+
+input UsuarioCreateInput{
+  id: Int!
+email: String
+name:  String!
+senha: String
+relacionamentosUsuario: ProfissionalCreateInput
+}
+
+input ProfissionalCreateInput{
+    id: Int
+  imagens: String
+  raio: Float
+  grupo: Int
+  ambiente: String
+  especial: String
+  idade: Int
+  especialidade: String
+  qualificacao:  String
+}
+
