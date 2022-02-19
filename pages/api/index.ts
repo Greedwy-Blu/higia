@@ -17,10 +17,15 @@ import cors from 'micro-cors'
 import { Context } from './context'
 import { APP_SECRET, getUserId } from './utils'
 import { compare, hash } from 'bcryptjs'
-
+import { sign } from 'jsonwebtoken'
 export const GQLDate = asNexusMethod(DateTimeResolver, 'date')
 
 
+export interface IUser extends Document {
+ 
+  senha: string;
+  
+};
 const Usuario = objectType({
     name: 'Usuario',
     definition(t){
@@ -32,7 +37,7 @@ const Usuario = objectType({
     t.nonNull.string('idade')
     t.nonNull.string('telefone')
     t.nonNull.string('genero')
-    t.nonNull.string('senha')   
+    t.string('senha')   
     
       t.nonNull.list.nonNull.field('relacionamentosUsuario', {
       type: 'Profissional',
@@ -342,6 +347,86 @@ t.nullable.field('IdPosts', {
 
 
 
+const Mutation  = objectType({
+  name: 'Mutation',
+ 
+  definition(t) {
+   
+    t.field('CadastroUsuario', {
+      type: 'AuthPayload',
+      args: {
+        name: stringArg(),
+        cidade: stringArg(),
+        SobreNome: stringArg(),
+        telefone: stringArg(),
+        genero: stringArg(),
+        idade: intArg(),
+        email: nonNull(stringArg()),
+        senha: stringArg()
+      },
+      resolve: async (_parent, args, context: Context) => {
+        const hashedPassword = await hash(args.senha, 10)
+        
+        const usuarios = await context.prisma.usuario.create({
+         
+          data: {
+            name: args.name,
+            email: args.email,
+            senha: hashedPassword,
+            cidade: args.cidade,
+            SobreNome: args.SobreNome,
+            idade: args.idade,
+            telefone: args.telefone,
+
+          },
+        })
+      
+        return {
+          token: sign({ userId: usuarios.id }, APP_SECRET),
+          usuarios,
+        }
+    
+      }
+
+      }) 
+      
+      t.field('login', {
+        type: 'AuthPayload',
+        args: {
+          email: nonNull(stringArg()),
+          senha:nonNull(stringArg()), 
+        },
+        resolve: async (_parent,{email, senha}, context: Context) => {
+          
+          const {...usuario} = await context.prisma.usuario.findUnique({
+            where: {
+              email,
+           
+            },
+          })
+
+
+          if (!usuario) {
+            throw new Error(`No user found for email: ${email}`)
+          }
+         
+          const passwordValid = await compare(senha, usuario.senha)
+          if (!passwordValid) {
+            throw new Error('Invalid password')
+          }
+          return {
+            token: sign({ userId: usuario.id }, APP_SECRET),
+            usuario,
+          }
+        },
+      })
+
+
+  },
+})
+
+
+
 
 
 
@@ -369,7 +454,7 @@ const UsuarioWhereUniqueInput = inputObjectType({
     t.string('idade')
     t.string('telefone')
     t.string('genero')
-    t.nonNull.string('senha')   
+    t.string('senha')   
     
   },
 })
@@ -396,6 +481,7 @@ const UsuarioCreateInput = inputObjectType({
   definition(t) {
     t.nonNull.string('email')
     t.string('name')
+    t.string('senha')
     t.list.nonNull.field('relacionamentosUsuario', { type: 'ProfissionalCreateInput' })
   },
 })
@@ -426,6 +512,9 @@ const AuthPayload = objectType({
   name: 'AuthPayload',
   definition(t) {
     t.string('token')
-    t.field('usuario', { type: 'Usuario' })
+    t.field('usuario', { type: 'Usuario',
+    resolve() {
+      return { senha: ''}
+    }, })
   },
 })
