@@ -1,4 +1,76 @@
+
+scalar DateTime
+
+
+type Usuario{
+id: Int!
+email: String
+name:  String!
+senha: String
+cidade:String!
+SobreNome: String!
+idade: Int!
+telefone: String!
+genero: String!
+Profissionais: [Profissional!]!
+clientes: [Cliente!]!
+usuario_perfil: [imgem_perfil!]!
+}
+
+type Profissional{
+  id: Int
+  imagens: String
+  raio: Float
+  grupo: Int
+  ambiente: String
+  especial: String
+  idade: Int
+  UsuarioId: Usuario
+  especialidade: String
+  qualificacao:  String
+  Comentario_PostsProfissionsl: [Comentario_Post!]!
+}
+
+type Cliente{
+   id: Int
+   nivel: Int
+   medicamentos: String
+   UsuarioId: Usuario
+   Comentario_PostsProfissionsl: [Comentario_Post!]!
+   Notificacao_ComentariosCliente: [Notificacao_Comentario!]!
+
+}
+
+
+type Notificacao_Comentario{
+  id: Int
+  comentario: String
+  notificacoes: Comentario_Post
+  imgem_perfil: String
+  clientedados: Cliente
+
+
+}
+
+type Comentario_Post{
+    id: Int
+    nota: Int
+    coteudo: String 
+    profissionaisID: Profissional
+    createdAt: String
+     clienteID: Cliente
+     Notificacao_Comentarios: [Notificacao_Comentario!]!
+
+}
+
+type imgem_perfil{
+  id: Int
+   imagen:String
+   UsuarioPerfil: Usuario
+}
+
+
 type AuthPayload {
   token: String
-  user: User
+  usuario: Usuario
 }
