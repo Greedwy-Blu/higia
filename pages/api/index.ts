@@ -25,12 +25,12 @@ export const GQLDate = asNexusMethod(DateTimeResolver, 'date')
 const Usuario = objectType({
     name: 'Usuario',
     definition(t){
-    t.nonNull.int('id')
+    t.int('id')
     t.string('email')
     t.nonNull.string('name')
     t.nonNull.string('cidade')
     t.nonNull.string('SobreNome')
-    t.nonNull.string('idade')
+    t.nonNull.int('idade')
     t.nonNull.string('telefone')
     t.nonNull.string('genero')
     t.string('senha')   
@@ -76,14 +76,14 @@ const Usuario = objectType({
 const Profissional = objectType({
   name: 'Profissional',
   definition(t){
-  t.nonNull.int('id')
+  t.int('id')
   t.nonNull.string('imagens')
   t.float('raio')
   t.int('grupo')
   t.string('ambiente')
   t.string('localatendimento')
   t.string('especial')
-  t.string('idade')
+  t.int('idade')
   t.string('especialidade')   
   t.string('qualificacao')   
   
@@ -123,8 +123,8 @@ const Comentario_Post = objectType({
   definition(t){
   t.nonNull.int('id')
   t.int('nota')
-  t.nonNull.string('coteudo')
-  t.nonNull.field('createdAt', { type: 'DateTime' })
+  t.string('coteudo')
+  t.field('createdAt', { type: 'DateTime' })
  
   t.nonNull.list.nonNull.field('ComentarioProfissinalID', {
     type: 'Profissional',
@@ -168,9 +168,9 @@ const Comentario_Post = objectType({
 const Notificacao_Comentario = objectType({
   name: 'Notificacao_Comentario',
   definition(t){
-  t.nonNull.int('id')
+  t.int('id')
   t.string('comentario')
-  t.nonNull.string('imgem_perfil')
+  t.string('imgem_perfil')
   
   
     t.nonNull.list.nonNull.field('notificacaoID', {
@@ -210,9 +210,9 @@ const Notificacao_Comentario = objectType({
 const Cliente = objectType({
   name: 'Cliente',
   definition(t){
-  t.nonNull.int('id')
-  t.string('nivel')
-  t.nonNull.string('medicamentos')
+  t.int('id')
+  t.int('nivel')
+  t.string('medicamentos')
   
     t.nonNull.list.nonNull.field('identificacaoCliente', {
     type: 'Usuario',
@@ -257,8 +257,8 @@ const Cliente = objectType({
 const imgem_perfil = objectType({
   name: 'imgem_perfil',
   definition(t){
-  t.nonNull.int('id')
-  t.string('email')
+  t.int('id')
+  t.nonNull.string('imagen')
    
   
     t.nonNull.list.nonNull.field('identificacao_perfil', {
@@ -278,7 +278,7 @@ const imgem_perfil = objectType({
 
 
 const Query  = objectType({
-  name: 'Query ',
+  name: 'Query',
   definition(t) {
 
     t.nonNull.list.nonNull.field('TodosUsuario', {
@@ -362,7 +362,7 @@ const Mutation  = objectType({
     t.field('CadastroUsuario', {
       type: 'AuthPayload',
       args: {
-        name: stringArg(),
+        name:  nonNull(stringArg()),
         cidade: stringArg(),
         SobreNome: stringArg(),
         telefone: stringArg(),
@@ -414,7 +414,7 @@ const Mutation  = objectType({
 
 
           if (!usuario) {
-            throw new Error(`No user found for email: ${email}`)
+            throw new Error(`No user found for email`)
           }
          
           const passwordValid = await compare(senha, usuario.senha)
@@ -554,10 +554,10 @@ const UsuarioWhereUniqueInput = inputObjectType({
   definition(t) {
     t.int('id')
     t.string('email')
-    t.string('name')
+   
     t.string('cidade')
     t.string('SobreNome')
-    t.string('idade')
+    t.int('idade')
     t.string('telefone')
     t.string('genero')
     t.string('senha')   
@@ -575,7 +575,7 @@ const  ProfissionalWhereUniqueInput = inputObjectType({
   t.nonNull.string('ambiente')
   t.nonNull.string('localatendimento')
   t.nonNull.string('especial')
-  t.nonNull.string('idade')
+  t.nonNull.int('idade')
   t.nonNull.string('especialidade')   
   t.nonNull.string('qualificacao')   
   
@@ -586,9 +586,8 @@ const UsuarioCreateInput = inputObjectType({
   name: 'UsuarioCreateInput',
   definition(t) {
     t.nonNull.string('email')
-    t.string('name')
     t.string('senha')
-    t.list.nonNull.field('relacionamentosUsuario', { type: 'ProfissionalCreateInput' })
+    t.list.nonNull.field('relacionamentosUsuariom', { type: 'ProfissionalCreateInput' })
   },
 })
 
@@ -622,3 +621,44 @@ const AuthPayload = objectType({
     t.field('usuario', { type: 'Usuario'})
   },
 })
+
+
+
+
+export const schema = makeSchema({
+  types: [  Query,
+    Mutation,
+    Profissional,
+    Usuario,
+    AuthPayload,
+    Cliente,
+    Comentario_Post,
+   Notificacao_Comentario,
+    ProfissionalCreateInput,
+    ProfissionalWhereUniqueInput,
+    UsuarioWhereUniqueInput,
+    UsuarioCreateInput,
+    GQLDate,],
+  outputs: {
+    typegen: path.join(process.cwd(), 'generated/nexus-typegen.ts'),
+    schema: path.join(process.cwd(), 'generated/schema.graphql'),
+  },
+  contextType: {
+    module: require.resolve('./context'),
+    export: 'Context',
+  },
+  sourceTypes: {
+    modules: [
+      {
+        module: '@prisma/client',
+        alias: 'prisma',
+      },
+    ],
+  },
+})
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+}
