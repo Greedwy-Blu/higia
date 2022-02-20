@@ -35,7 +35,8 @@ const Usuario = objectType({
     t.nonNull.string('genero')
     t.string('senha')   
     
-      t.nonNull.list.nonNull.field('relacionamentosUsuario', {
+    
+    t.list.field('identificacaoProfissionalId', {
       type: 'Profissional',
       resolve: (parent,  _, context: Context) =>{
    
@@ -46,7 +47,8 @@ const Usuario = objectType({
           .Profissionais()
         },
       })
-      t.nonNull.list.nonNull.field('relacionamentosUsuario2', {
+
+      t.nonNull.list.nonNull.field('identificacaoCliente', {
         type: 'Cliente',
         resolve: (parent,  _, context: Context) =>{
      
@@ -57,21 +59,35 @@ const Usuario = objectType({
             .clientes()
           },
         })
-        t.nonNull.list.nonNull.field('relacionamentosUsuario3', {
-          type: 'imgem_perfil',
+
+      t.nonNull.list.nonNull.field('identificacao_perfil', {
+        type: 'imgem_perfil',
+        resolve: (parent,  _, context: Context) =>{
+     
+        return  context.prisma.usuario
+            .findUnique({
+              where: { id: parent.id || undefined },
+            })
+            .usuario_perfil()
+          },
+        })
+
+        t.nonNull.list.nonNull.field('identificacaoProfissionalId', {
+          type: 'Usuario',
           resolve: (parent,  _, context: Context) =>{
        
-          return  context.prisma.usuario
+          return  context.prisma.profissional
               .findUnique({
                 where: { id: parent.id || undefined },
               })
-              .usuario_perfil()
+              .UsuarioId()
             },
           })
+
+
+
     },
 })
-
-
 
 const Profissional = objectType({
   name: 'Profissional',
@@ -87,18 +103,19 @@ const Profissional = objectType({
   t.string('especialidade')   
   t.string('qualificacao')   
   
-    t.nonNull.list.nonNull.field('identificacaoProfissionalId', {
-    type: 'Usuario',
+  t.nonNull.list.nonNull.field('ComentarioProfissinalID', {
+    type: 'Comentario_Post',
     resolve: (parent,  _, context: Context) =>{
  
     return  context.prisma.profissional
         .findUnique({
           where: { id: parent.id || undefined },
         })
-        .UsuarioId()
+        .Comentario_PostsProfissionsl()
       },
     })
-   
+
+
     t.nonNull.list.nonNull.field('ComentarioProfissinalID', {
       type: 'Comentario_Post',
       resolve: (parent,  _, context: Context) =>{
@@ -110,11 +127,10 @@ const Profissional = objectType({
           .Comentario_PostsProfissionsl()
         },
       })
+  
+ 
   },
 })
-
-
-
 
 
 
@@ -139,7 +155,7 @@ const Comentario_Post = objectType({
     })
    
     t.nonNull.list.nonNull.field('notificacaoID', {
-      type: 'Comentario_Post',
+      type: 'Notificacao_Comentario',
       resolve: (parent,  _, context: Context) =>{
    
       return  context.prisma.comentario_Post
@@ -204,9 +220,6 @@ const Notificacao_Comentario = objectType({
 })
 
 
-
-
-
 const Cliente = objectType({
   name: 'Cliente',
   definition(t){
@@ -214,7 +227,7 @@ const Cliente = objectType({
   t.int('nivel')
   t.string('medicamentos')
   
-    t.nonNull.list.nonNull.field('identificacaoCliente', {
+  t.nonNull.list.nonNull.field('identificacaoCliente', {
     type: 'Usuario',
     resolve: (parent,  _, context: Context) =>{
  
@@ -250,8 +263,12 @@ const Cliente = objectType({
           },
         })
 
+
   },
 })
+
+
+
 
 
 const imgem_perfil = objectType({
@@ -261,7 +278,7 @@ const imgem_perfil = objectType({
   t.nonNull.string('imagen')
    
   
-    t.nonNull.list.nonNull.field('identificacao_perfil', {
+  t.list.field('UsuarioPerfil', {
     type: 'Usuario',
     resolve: (parent,  _, context: Context) =>{
  
@@ -351,6 +368,78 @@ t.nullable.field('IdPosts', {
 
 
 
+const UsuarioWhereUniqueInput = inputObjectType({
+  name: 'UsuarioWhereUniqueInput',
+  definition(t) {
+    t.int('id')
+    t.string('email')
+   
+    t.string('cidade')
+    t.string('SobreNome')
+    t.int('idade')
+    t.string('telefone')
+    t.string('genero')
+    t.string('senha')   
+    
+  },
+})
+
+const  ProfissionalWhereUniqueInput = inputObjectType({
+  name: 'ProfissionalWhereUniqueInput',
+  definition(t) {
+  t.nonNull.int('id')
+  t.string('imagens')
+  t.nonNull.float('raio')
+  t.nonNull.int('grupo')
+  t.nonNull.string('ambiente')
+  t.nonNull.string('localatendimento')
+  t.nonNull.string('especial')
+  t.nonNull.int('idade')
+  t.nonNull.string('especialidade')   
+  t.nonNull.string('qualificacao')   
+  
+  },
+})
+
+const UsuarioCreateInput = inputObjectType({
+  name: 'UsuarioCreateInput',
+  definition(t) {
+    t.nonNull.string('email')
+    t.string('senha')
+    t.list.nonNull.field('relacionamentosUsuariom', { type: 'ProfissionalCreateInput' })
+  },
+})
+
+
+
+
+const ProfissionalCreateInput = inputObjectType({
+  name: 'ProfissionalCreateInput',
+  definition(t) {
+    t.nonNull.int('id')
+    t.nonNull.string('imagens')
+   
+    t.float('raio')
+    t.int('grupo')
+    t.string('ambiente')
+    t.string('localatendimento')
+    t.string('especial')
+    t.string('idade')
+    t.string('especialidade')   
+    t.string('qualificacao')   
+    
+  },
+})
+
+
+
+const AuthPayload = objectType({
+  name: 'AuthPayload',
+  definition(t) {
+    t.string('token')
+    t.field('usuario', { type: 'Usuario'})
+  },
+})
 
 
 
@@ -535,109 +624,21 @@ const Mutation  = objectType({
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-const UsuarioWhereUniqueInput = inputObjectType({
-  name: 'UsuarioWhereUniqueInput',
-  definition(t) {
-    t.int('id')
-    t.string('email')
-   
-    t.string('cidade')
-    t.string('SobreNome')
-    t.int('idade')
-    t.string('telefone')
-    t.string('genero')
-    t.string('senha')   
-    
-  },
-})
-
-const  ProfissionalWhereUniqueInput = inputObjectType({
-  name: 'ProfissionalWhereUniqueInput',
-  definition(t) {
-  t.nonNull.int('id')
-  t.string('imagens')
-  t.nonNull.float('raio')
-  t.nonNull.int('grupo')
-  t.nonNull.string('ambiente')
-  t.nonNull.string('localatendimento')
-  t.nonNull.string('especial')
-  t.nonNull.int('idade')
-  t.nonNull.string('especialidade')   
-  t.nonNull.string('qualificacao')   
-  
-  },
-})
-
-const UsuarioCreateInput = inputObjectType({
-  name: 'UsuarioCreateInput',
-  definition(t) {
-    t.nonNull.string('email')
-    t.string('senha')
-    t.list.nonNull.field('relacionamentosUsuariom', { type: 'ProfissionalCreateInput' })
-  },
-})
-
-
-
-
-const ProfissionalCreateInput = inputObjectType({
-  name: 'ProfissionalCreateInput',
-  definition(t) {
-    t.nonNull.int('id')
-    t.nonNull.string('imagens')
-   
-    t.float('raio')
-    t.int('grupo')
-    t.string('ambiente')
-    t.string('localatendimento')
-    t.string('especial')
-    t.string('idade')
-    t.string('especialidade')   
-    t.string('qualificacao')   
-    
-  },
-})
-
-
-
-const AuthPayload = objectType({
-  name: 'AuthPayload',
-  definition(t) {
-    t.string('token')
-    t.field('usuario', { type: 'Usuario'})
-  },
-})
-
-
-
-
 export const schema = makeSchema({
-  types: [  Query,
-    Mutation,
-    Profissional,
+  types: [ 
     Usuario,
-    AuthPayload,
-    Cliente,
+    Profissional,
+    imgem_perfil,
     Comentario_Post,
-   Notificacao_Comentario,
-    ProfissionalCreateInput,
-    ProfissionalWhereUniqueInput,
+    Notificacao_Comentario,
+    Cliente,
+    Query,
     UsuarioWhereUniqueInput,
+    ProfissionalWhereUniqueInput,
     UsuarioCreateInput,
+    ProfissionalCreateInput,
+    AuthPayload,
+    Mutation,
     GQLDate,],
   outputs: {
     typegen: path.join(process.cwd(), 'generated/nexus-typegen.ts'),
