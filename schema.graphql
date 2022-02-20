@@ -25,6 +25,7 @@ type Profissional{
   ambiente: String
   especial: String
   idade: Int
+  servico: String
   UsuarioId: Usuario
   especialidade: String
   qualificacao:  String
@@ -128,6 +129,10 @@ type Query{
 }
 
 type Mutation {
-
-  
+  login(email: String!, senha: String): AuthPayload
+  CadastroUsuario(id: Int!,email: String,name:  String!,senha: String,cidade:String!,SobreNome: String!,idade: Int!,telefone: String!,genero: String!): AuthPayload
+  CriarPost( imagens: String!,raio: Float!,  grupo: Int!,  ambiente: String,especial: String!,idade: Int!,servico:String, identificacaoProfissinalId: Int,  especialidade: String!, qualificacao:  String!): Profissional
+  CriarNotificacao_Comentario(  comentario: String, imgem_perfil: String, cliente_id:Int, notificacaoID: Int):Notificacao_Comentario
+  CriarComentario(coteudo:String, nota:Int,createdAt:DateTime,ComentarioProfissinalID: Int,ComentariosClienteID:Int ):Comentario_Post
+  CriarImgem_perfil(imagen:String,identificacao_perfil:Int ):imgem_perfil
 }
