@@ -19,6 +19,8 @@
     "jsx": "preserve",
     "incremental": true
   },
+  "ts-node": { "compilerOptions": { "esModuleInterop": true, "target": "esnext", "module": "commonjs", "strict": true }, "transpileOnly": true },
+  
   "include": [
     "next-env.d.ts",
     "**/*.ts",

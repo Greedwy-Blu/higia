@@ -14,7 +14,7 @@ model Usuario {
 
   id Int @id @default(autoincrement())
 
-  email String @unique
+  email String 
 
   name String?
 
@@ -44,7 +44,7 @@ model Profissional {
 
   servico String
 
-  raio Decimal @default(6.2)
+  raio Int
 
   grupo Int @default(1)
 
@@ -63,8 +63,8 @@ model Profissional {
 
   qualificacao String
 
-  Comentario_PostsProfissionsl Comentario_Post[]
 
+  Comentario_PostsProfissionsl Comentario_Post[]
 }
 
 model Cliente {

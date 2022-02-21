@@ -9,8 +9,7 @@
     "lint": "next lint",
     "generate": "npm -s run generate:prisma && npm -s run generate:nexus",
     "generate:prisma": "prisma generate",
-    "ts-node": "ts-node --compiler-options \"{\\\"module\\\":\\\"commonjs\\\"}\"",
-    "generate:nexus": "ts-node --transpile-only -P nexus.tsconfig.json pages/api/index.ts"
+    "generate:nexus": "ts-node   pages/api/index.ts"
   },
   "dependencies": {
     "@apollo/client": "^3.5.8",
@@ -37,6 +36,7 @@
     "next": "12.0.7",
     "next-images": "^1.8.4",
     "nexus": "^1.2.0",
+    "nexus-plugin-prisma": "^0.35.0",
     "postcss": "^8.4.4",
     "postcss-easy-import": "^3.0.0",
     "postcss-import": "^14.0.2",
