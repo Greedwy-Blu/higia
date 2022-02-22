@@ -17,8 +17,6 @@ type Cliente {
 }
 
 type Comentario_Post {
-  ComentarioProfissinalID: [Profissional]
-  ComentariosClienteID: [Comentario_Post]
   coteudo: String
   id: Int
   nota: Int
@@ -31,20 +29,18 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 scalar DateTime
 
 type Mutation {
-  CadastroUsuario(SobreNome: String, cidade: String, email: String, genero: String, idade: Int, name: String, senha: String, telefone: String): AuthPayload
-  CriarComentario(ComentarioProfissinalID: Int, ComentariosClienteID: Int, coteudo: String, createdAt: String, nota: Int): Comentario_Post
+  CadastroUsuario(SobreNome: String, cidade: String, email: String!, genero: String, idade: Int, name: String, senha: String!, telefone: String): AuthPayload
+  CriarComentario(coteudo: String!, createdAt: String!, nota: Int!): Comentario_Post
   CriarImgem_perfil(identificacao_perfil: Int, imagen: String): imgem_perfil
-  CriarNotificacao_Comentario(cliente_id: Int, comentario: String, imgem_perfil: String, notificacaoID: Int): Notificacao_Comentario
-  CriarPost(ambiente: String, especial: String, especialidade: String, grupo: Int, idade: String, identificacaoProfissionalId: Int, imagens: String, localatendimento: String, qualificacao: String, raio: Float, servico: String): Profissional
-  login(email: String, senha: String!): AuthPayload
+  CriarNotificacao_Comentario(cliente_id: Int!, comentario: String!, imgem_perfil: String!, notificacaoID: Int!): Notificacao_Comentario
+  CriarPost(ambiente: String!, especial: String!, especialidade: String!, grupo: Int!, idade: Int!, identificacaoProfissionalId: Int!, imagens: String!, localatendimento: String!, qualificacao: String!, raio: Int!, servico: String!): Profissional
+  login(email: String!, senha: String!): AuthPayload
 }
 
 type Notificacao_Comentario {
-  cliente_id: [Cliente]
   comentario: String
   id: Int
   imgem_perfil: String
-  notificacaoID: [Comentario_Post]
 }
 
 type Profissional {

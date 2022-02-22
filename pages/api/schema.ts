@@ -1,6 +1,4 @@
 import { DateTimeResolver } from 'graphql-scalars';
-import { NextApiHandler } from 'next';
-import { ApolloServer } from 'apollo-server-micro';
 import {
   intArg,
   makeSchema,
@@ -18,12 +16,11 @@ import {
 } from 'nexus';
 import path from 'path';
 import cors from 'micro-cors';
-import { Context } from './context';
+import { Context, createContext } from './context';
 import { APP_SECRET, getUserId } from './utils';
 import { compare, hash } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 
-import { nexusSchemaPrisma } from "nexus-plugin-prisma/schema";
 import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
@@ -51,12 +48,11 @@ const Cliente = objectType({
 const Comentario_Post = objectType({
   name: "Comentario_Post",
   definition(t) {
-    t.list.field("ComentarioProfissinalID", { type: Profissional })
-    t.list.field("ComentariosClienteID", { type: Comentario_Post })
-    t.string("coteudo")
+      t.string("coteudo")
    t.int("id")
     t.int("nota")
     t.list.field("notificacaoID", { type: Notificacao_Comentario })
+   
   }
 })
 const Mutation = objectType({
@@ -67,22 +63,57 @@ const Mutation = objectType({
       args: {
         SobreNome: stringArg(),
         cidade: stringArg(),
-        email: stringArg(),
+        email: nonNull(stringArg()),
         genero: stringArg(),
         idade: intArg(),
         name: stringArg(),
-        senha: stringArg(),
+        senha: nonNull(stringArg()),
         telefone: stringArg(),
       },
+      resolve: async (_parent, args, context: Context) => {
+        const hashedPassword = await hash(args.senha, 10)
+        
+        const usuarios = await context.prisma.usuario.create({
+         
+          data: {
+            name: args.name,
+            email: args.email,
+            senha: hashedPassword,
+            cidade: args.cidade,
+            SobreNome: args.SobreNome,
+            idade: args.idade,
+            telefone: args.telefone,
+
+          },
+        })
+      
+        return {
+          token: sign({ userId: usuarios.id }, APP_SECRET),
+          usuarios,
+        }
+    
+      }
     })
     t.field("CriarComentario", {
       type: Comentario_Post,
       args: {
-        ComentarioProfissinalID: intArg(),
-        ComentariosClienteID: intArg(),
-        coteudo: stringArg(),
-        createdAt: stringArg(),
-        nota: intArg(),
+         coteudo: nonNull(stringArg()),
+        createdAt: nonNull(stringArg()),
+        nota: nonNull(intArg()),
+      },
+
+      resolve: async (_, args, context: Context) => {
+        const userId = getUserId(context)
+      
+        return context.prisma.comentario_Post.create({
+         data: {
+           coteudo: args.coteudo,
+           nota: args.nota,
+           createdAt: args.createdAt,
+           profissionaisID: { connect:{id: Number(userId) }},
+           clienteID:{connect:{id:  Number(userId)  }}
+         },
+       })
       },
     })
     t.field("CriarImgem_perfil", {
@@ -91,32 +122,74 @@ const Mutation = objectType({
         identificacao_perfil: intArg(),
         imagen: stringArg(),
       },
+      resolve: async (_, args, context: Context) => {
+        return context.prisma.imgem_perfil.create({
+         data: {
+           imagen: args.imagen,
+           UsuarioPerfil: { connect:{id: args.identificacao_perfil || undefined}},
+         },
+       })
+      },
     })
+
     t.field("CriarNotificacao_Comentario", {
       type: Notificacao_Comentario,
       args: {
-        cliente_id: intArg(),
-        comentario: stringArg(),
-        imgem_perfil: stringArg(),
-        notificacaoID: intArg(),
+        cliente_id:nonNull(intArg()),
+        comentario: nonNull(stringArg()),
+        imgem_perfil: nonNull(stringArg()),
+        notificacaoID: nonNull(intArg()),
+      },
+
+      resolve: async (_, args, context: Context) => {
+        return context.prisma.notificacao_Comentario.create({
+         data: {
+           comentario: args.comentario,
+           imgem_perfil: args.imgem_perfil,
+           clientedados: { connect:{id: args.cliente_id }},
+           notificacoes:{connect:{id: args.notificacaoID }}
+         },
+       })
       },
     })
+
     t.field("CriarPost", {
       type: Profissional,
       args: {
-        ambiente: stringArg(),
-        especial: stringArg(),
-        especialidade: stringArg(),
-        grupo: intArg(),
-        idade: stringArg(),
-        identificacaoProfissionalId: intArg(),
-        imagens: stringArg(),
-        localatendimento: stringArg(),
-        qualificacao: stringArg(),
-        raio: floatArg(),
-        servico: stringArg(),
+        ambiente: nonNull(stringArg()),
+        especial: nonNull(stringArg()),
+        especialidade: nonNull(stringArg()),
+        grupo:nonNull(intArg()),
+        idade: nonNull(intArg()),
+        identificacaoProfissionalId:  nonNull(intArg()),
+        imagens: nonNull(stringArg()),
+        localatendimento: nonNull(stringArg()),
+        qualificacao: nonNull(stringArg()),
+        raio: nonNull(intArg()),
+        servico: nonNull(stringArg()),
       },
+
+      resolve: async (_, args, context: Context) => {
+        const userId = getUserId(context)
+        return context.prisma.profissional.create({
+          data: {
+            imagens:args.imagens, 
+            raio: args.raio, 
+            grupo: args.grupo || undefined,  
+            ambiente: args.ambiente, 
+            localatendimento: args.localatendimento, 
+            especial: args.especial, 
+            idade: args.idade  ,
+            especialidade: args.especialidade,
+            qualificacao: args.qualificacao,
+            servico: args.servico,
+            identificacaoProfissionalId: userId,
+          },
+        })
+      }
     })
+
+
     t.field("login", {
       type: AuthPayload,
       args: {
@@ -128,7 +201,7 @@ const Mutation = objectType({
           
         const {...usuario} = await context.prisma.usuario.findUnique({
           where: {
-            email:args.email || undefined ,
+            email:args.email  ,
          
           },
         })
@@ -157,12 +230,10 @@ const Mutation = objectType({
 const Notificacao_Comentario = objectType({
   name: "Notificacao_Comentario",
   definition(t) {
-    t.list.field("cliente_id", { type: Cliente })
-    t.string("comentario")
+     t.string("comentario")
     t.int("id")
     t.string("imgem_perfil")
-    t.list.field("notificacaoID", { type: Comentario_Post })
-  }
+   }
 })
 const Profissional = objectType({
   name: "Profissional",
@@ -311,14 +382,7 @@ export const schema = makeSchema({
     Query,
     Mutation,
     GQLDate,],
-    plugins: [
-      nexusSchemaPrisma({
-        experimentalCRUD: true,
-        outputs: {
-          typegen: path.join(process.cwd(), 'generated/typegen-nexus-plugin-prisma.d.ts'),
-        },
-      }),
-    ],
+   
   outputs: {
     typegen: path.join(process.cwd(), 'generated/nexus-typegen.ts'),
     schema: path.join(process.cwd(), 'generated/schema.graphql'),
@@ -335,12 +399,7 @@ export const schema = makeSchema({
       },
     ],
   },
-})
+}) as any
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-}
 
 

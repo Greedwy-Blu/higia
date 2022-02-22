@@ -22,12 +22,7 @@ declare global {
     date<FieldName extends string>(fieldName: FieldName, ...opts: core.ScalarOutSpread<TypeName, FieldName>): void // "DateTime";
   }
 }
-declare global {
-  interface NexusGenCustomOutputProperties<TypeName extends string> {
-    crud: NexusPrisma<TypeName, 'crud'>
-    model: NexusPrisma<TypeName, 'model'>
-  }
-}
+
 
 declare global {
   interface NexusGen extends NexusGenTypes {}
@@ -91,8 +86,6 @@ export interface NexusGenObjects {
     notificacaoID?: Array<NexusGenRootTypes['Notificacao_Comentario'] | null> | null; // [Notificacao_Comentario]
   }
   Comentario_Post: { // root type
-    ComentarioProfissinalID?: Array<NexusGenRootTypes['Profissional'] | null> | null; // [Profissional]
-    ComentariosClienteID?: Array<NexusGenRootTypes['Comentario_Post'] | null> | null; // [Comentario_Post]
     coteudo?: string | null; // String
     id?: number | null; // Int
     nota?: number | null; // Int
@@ -100,11 +93,9 @@ export interface NexusGenObjects {
   }
   Mutation: {};
   Notificacao_Comentario: { // root type
-    cliente_id?: Array<NexusGenRootTypes['Cliente'] | null> | null; // [Cliente]
     comentario?: string | null; // String
     id?: number | null; // Int
     imgem_perfil?: string | null; // String
-    notificacaoID?: Array<NexusGenRootTypes['Comentario_Post'] | null> | null; // [Comentario_Post]
   }
   Profissional: { // root type
     ComentarioProfissinalID?: Array<NexusGenRootTypes['Comentario_Post'] | null> | null; // [Comentario_Post]
@@ -163,8 +154,6 @@ export interface NexusGenFieldTypes {
     notificacaoID: Array<NexusGenRootTypes['Notificacao_Comentario'] | null> | null; // [Notificacao_Comentario]
   }
   Comentario_Post: { // field return type
-    ComentarioProfissinalID: Array<NexusGenRootTypes['Profissional'] | null> | null; // [Profissional]
-    ComentariosClienteID: Array<NexusGenRootTypes['Comentario_Post'] | null> | null; // [Comentario_Post]
     coteudo: string | null; // String
     id: number | null; // Int
     nota: number | null; // Int
@@ -179,11 +168,9 @@ export interface NexusGenFieldTypes {
     login: NexusGenRootTypes['AuthPayload'] | null; // AuthPayload
   }
   Notificacao_Comentario: { // field return type
-    cliente_id: Array<NexusGenRootTypes['Cliente'] | null> | null; // [Cliente]
     comentario: string | null; // String
     id: number | null; // Int
     imgem_perfil: string | null; // String
-    notificacaoID: Array<NexusGenRootTypes['Comentario_Post'] | null> | null; // [Comentario_Post]
   }
   Profissional: { // field return type
     ComentarioProfissinalID: Array<NexusGenRootTypes['Comentario_Post'] | null> | null; // [Comentario_Post]
@@ -239,8 +226,6 @@ export interface NexusGenFieldTypeNames {
     notificacaoID: 'Notificacao_Comentario'
   }
   Comentario_Post: { // field return type name
-    ComentarioProfissinalID: 'Profissional'
-    ComentariosClienteID: 'Comentario_Post'
     coteudo: 'String'
     id: 'Int'
     nota: 'Int'
@@ -255,11 +240,9 @@ export interface NexusGenFieldTypeNames {
     login: 'AuthPayload'
   }
   Notificacao_Comentario: { // field return type name
-    cliente_id: 'Cliente'
     comentario: 'String'
     id: 'Int'
     imgem_perfil: 'String'
-    notificacaoID: 'Comentario_Post'
   }
   Profissional: { // field return type name
     ComentarioProfissinalID: 'Comentario_Post'
@@ -306,45 +289,43 @@ export interface NexusGenArgTypes {
     CadastroUsuario: { // args
       SobreNome?: string | null; // String
       cidade?: string | null; // String
-      email?: string | null; // String
+      email: string; // String!
       genero?: string | null; // String
       idade?: number | null; // Int
       name?: string | null; // String
-      senha?: string | null; // String
+      senha: string; // String!
       telefone?: string | null; // String
     }
     CriarComentario: { // args
-      ComentarioProfissinalID?: number | null; // Int
-      ComentariosClienteID?: number | null; // Int
-      coteudo?: string | null; // String
-      createdAt?: string | null; // String
-      nota?: number | null; // Int
+      coteudo: string; // String!
+      createdAt: string; // String!
+      nota: number; // Int!
     }
     CriarImgem_perfil: { // args
       identificacao_perfil?: number | null; // Int
       imagen?: string | null; // String
     }
     CriarNotificacao_Comentario: { // args
-      cliente_id?: number | null; // Int
-      comentario?: string | null; // String
-      imgem_perfil?: string | null; // String
-      notificacaoID?: number | null; // Int
+      cliente_id: number; // Int!
+      comentario: string; // String!
+      imgem_perfil: string; // String!
+      notificacaoID: number; // Int!
     }
     CriarPost: { // args
-      ambiente?: string | null; // String
-      especial?: string | null; // String
-      especialidade?: string | null; // String
-      grupo?: number | null; // Int
-      idade?: string | null; // String
-      identificacaoProfissionalId?: number | null; // Int
-      imagens?: string | null; // String
-      localatendimento?: string | null; // String
-      qualificacao?: string | null; // String
-      raio?: number | null; // Float
-      servico?: string | null; // String
+      ambiente: string; // String!
+      especial: string; // String!
+      especialidade: string; // String!
+      grupo: number; // Int!
+      idade: number; // Int!
+      identificacaoProfissionalId: number; // Int!
+      imagens: string; // String!
+      localatendimento: string; // String!
+      qualificacao: string; // String!
+      raio: number; // Int!
+      servico: string; // String!
     }
     login: { // args
-      email?: string | null; // String
+      email: string; // String!
       senha: string; // String!
     }
   }
