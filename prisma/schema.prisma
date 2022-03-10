@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,127 +7,83 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Usuario {
-
-  id Int @id @default(autoincrement())
-
-  email String 
-
-  name String?
-
-  senha String
-
-  cidade String?
-
-  SobreNome String?
-
-  idade Int?
-
-  telefone String?
-
-  genero String?
-
-  Profissionais Profissional[]
-
-  clientes Cliente[]
-
-  usuario_perfil imgem_perfil[]
-}
-
-model Profissional {
-  id Int @id @default(autoincrement())
-
-  imagens String?
-
-  servico String
-
-  raio Int
-
-  grupo Int @default(1)
-
-  ambiente String @db.Char(55)
-
-  localatendimento String @db.Char(55)
-
-  especial String @default("SIM") @db.Char(55)
-
-  idade Int
-
-  identificacaoProfissionalId Int
-  UsuarioId                   Usuario? @relation(fields: [identificacaoProfissionalId], references: [id])
-
-  especialidade String
-
-  qualificacao String
-
-
-  Comentario_PostsProfissionsl Comentario_Post[]
-}
-
-model Cliente {
-  id Int @id @default(autoincrement())
-
-  nivel Int
-
-  medicamentos String
-
-  identificacaoCliente Int
-  UsuarioId            Usuario? @relation(fields: [identificacaoCliente], references: [id])
-
-  Comentario_PostsCliente Comentario_Post[]
-
-  Notificacao_ComentariosCliente Notificacao_Comentario[]
-}
-
-model Notificacao_Comentario {
-
-  id Int @id @default(autoincrement())
-
-  comentario String
-
-
-  notificacaoID Int
-
-  notificacoes Comentario_Post? @relation(fields: [notificacaoID], references: [id])
-
-  imgem_perfil String
-
-  cliente_id Int
-
-  clientedados Cliente? @relation(fields: [cliente_id], references: [id])
-
-}
-
-model Comentario_Post {
-
-  id Int @id @default(autoincrement())
-
-  nota Int
-  
-  coteudo String 
-  
-  ComentarioProfissinalID Int
-
-  profissionaisID Profissional? @relation(fields: [ComentarioProfissinalID], references: [id])
-
-  createdAt DateTime @default(now())
-
-  ComentariosClienteID Int
-
-  clienteID Cliente? @relation(fields: [ComentariosClienteID], references: [id])
-
-  Notificacao_Comentarios Notificacao_Comentario[]
-
-
-
-}
-
 model imgem_perfil {
+  id                    String      @id @default(cuid())
+  identificacao_perfil  String      @unique
+  imagen               String
+  usuario              usuario @relation(fields: [identificacao_perfil], references: [id])
+}
 
-  id                   Int     @id @default(autoincrement())
-  identificacao_perfil Int
-  imagen               String?
+model cliente {
+  id                      String                       @id @default(cuid())
+  nivel                  Int
+  medicamentos           String
+  identificacaoCliente    String 
+  usuario                usuario                  @relation(fields: [identificacaoCliente], references: [id], map: "Cliente_identificacaoCliente_fkey")
+  comentario_post        comentario_post[]
+  notificacao_comentario notificacao_comentario[]
 
-  UsuarioPerfil Usuario? @relation(fields: [identificacao_perfil], references: [id])
+  @@index([identificacaoCliente], map: "Cliente_identificacaoCliente_fkey")
+}
 
+model comentario_post {
+  id                       String                       @id @default(cuid())
+  nota                    Int
+  coteudo                 String
+  ComentarioProfissinalID  String 
+  createdAt               DateTime                 @default(now())
+  ComentariosClienteID     String 
+  profissional            profissional             @relation(fields: [ComentarioProfissinalID], references: [id], map: "Comentario_Post_ComentarioProfissinalID_fkey")
+  cliente                 cliente                  @relation(fields: [ComentariosClienteID], references: [id], map: "Comentario_Post_ComentariosClienteID_fkey")
+  notificacao_comentario  notificacao_comentario[]
+
+  @@index([ComentarioProfissinalID], map: "Comentario_Post_ComentarioProfissinalID_fkey")
+  @@index([ComentariosClienteID], map: "Comentario_Post_ComentariosClienteID_fkey")
+}
+
+model notificacao_comentario {
+  id            String              @id @default(cuid())
+  comentario      String
+  notificacaoID    String 
+  imgem_perfil    String
+  cliente_id       String 
+  cliente         cliente         @relation(fields: [cliente_id], references: [id], map: "Notificacao_Comentario_cliente_id_fkey")
+  comentario_post comentario_post @relation(fields: [notificacaoID], references: [id], map: "Notificacao_Comentario_notificacaoID_fkey")
+
+  @@index([cliente_id], map: "Notificacao_Comentario_cliente_id_fkey")
+  @@index([notificacaoID], map: "Notificacao_Comentario_notificacaoID_fkey")
+}
+
+model profissional {
+  id                           String                @id @default( cuid())
+  imagens                     String?
+  servico                     String
+  raio                        Int
+  grupo                       Int               @default(1)
+  ambiente                    String            @db.Char(55)
+  localatendimento            String            @db.Char(55)
+  especial                    String            @default("SIM") @db.Char(55)
+  idade                       Int
+  identificacaoProfissionalId  String 
+  especialidade               String
+  qualificacao                String
+  usuario                     usuario           @relation(fields: [identificacaoProfissionalId], references: [id], map: "Profissional_identificacaoProfissionalId_fkey")
+  comentario_post             comentario_post[]
+
+  @@index([identificacaoProfissionalId], map: "Profissional_identificacaoProfissionalId_fkey")
+}
+
+model usuario {
+  id           String            @id @default(cuid())
+  email        String    @unique
+  name         String?
+  cidade       String?
+  SobreNome    String?
+  idade        Int?
+  telefone     String?
+  genero       String?
+  senha        String
+  cliente      cliente[]
+  imgem_perfil imgem_perfil?
+  profissional profissional[]
 }
