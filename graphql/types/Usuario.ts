@@ -19,7 +19,7 @@ export const Usuario = objectType({
       t.string("email")
       t.string("genero")
       t.string("id")
-      t.int("idade")
+      t.string("idade")
       t.string("name")
       t.string("senha")
       t.string("telefone")
@@ -77,7 +77,7 @@ export const cadastroUsuarioMutation = extendType({
         cidade: stringArg(),
         email: nonNull(stringArg()),
         genero: stringArg(),
-        idade: intArg(),
+        idade: stringArg(),
         name: stringArg(),
         senha: nonNull(stringArg()),
         telefone: stringArg(),
@@ -106,7 +106,7 @@ export const cadastroUsuarioMutation = extendType({
             SobreNome: args.SobreNome,
             idade: args.idade,
             telefone: args.telefone,
-         
+            genero:args.genero,
 
           
           },

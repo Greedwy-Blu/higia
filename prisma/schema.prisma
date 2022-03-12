@@ -79,7 +79,7 @@ model usuario {
   name         String?
   cidade       String?
   SobreNome    String?
-  idade        Int?
+  idade       String?
   telefone     String?
   genero       String?
   senha        String

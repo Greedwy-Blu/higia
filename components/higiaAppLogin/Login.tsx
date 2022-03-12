@@ -1,8 +1,62 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import {APP_SECRET} from '../../graphql/utils';
 const img = require('../assets/ph15.png');
 
+import Router, { useRouter } from "next/router"
+import  { useState  } from "react"
+import { useForm } from 'react-hook-form';
+import { gql, useMutation,useQuery  } from '@apollo/client';
+import toast, { Toaster } from 'react-hot-toast';
+
+
+const loginMutation = gql`
+
+mutation ($email: String!, $senha: String) {
+  login(email: $email, senha: $senha) {
+    usuario {
+      email
+      senha
+    }
+    token
+  }
+}
+`;
+
+
 const Login: React.FC = () => {
+
+  const [email, setEmail] = useState('');
+    const [senha, setSenha] = useState('');
+    const [login, { data, loading, error }] = useMutation(loginMutation);
+
+
+
+
+    const onSubmit = async () => {
+      try {
+          const response = await login({
+              variables: {
+                  email,
+                  senha,
+              },
+          });
+          console.log('onSubmit ~ response', response);
+          const token = response.data?.login.token;
+
+          if (token) {
+              localStorage.setItem(APP_SECRET, token);
+          
+          }
+
+          // TODO handle failed case
+          // if (!accessToken) {
+
+          // }
+      } catch (err) {
+          console.log('onSubmit ~ err', err);
+      }
+  };
 
 
 
@@ -71,9 +125,7 @@ const Login: React.FC = () => {
                       <button className="h-8  px-6 w-1/3 m-2 bg-emerald-700 shadow text-lg text-center text-white">login</button>
                     </div>
 
-                    <div>
-                      <button className="bg-stone-200 shadow h-8  px-6 w-1/3 m-2 text-lg  text-center">Google login</button>
-                    </div>
+       
                   </div>
                 </div>
 

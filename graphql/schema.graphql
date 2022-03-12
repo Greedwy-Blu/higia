@@ -20,7 +20,7 @@ type Comentario_Post {
 }
 
 type Mutation {
-  CadastroUsuario(SobreNome: String, cidade: String, cliente: clienteCreateInput, email: String!, genero: String, id: String, idade: Int, imgem_perfil: imgemPerfil, name: String, profissional: profissionalCreateInput, senha: String!, telefone: String): AuthPayload!
+  CadastroUsuario(SobreNome: String, cidade: String, cliente: clienteCreateInput, email: String!, genero: String, id: String, idade: String, imgem_perfil: imgemPerfil, name: String, profissional: profissionalCreateInput, senha: String!, telefone: String): AuthPayload!
   login(email: String!, senha: String): AuthPayload
 }
 
@@ -69,7 +69,7 @@ type Usuario {
   email: String
   genero: String
   id: String
-  idade: Int
+  idade: String
   imgem_perfis: [imagem_perfil]
   name: String
   senha: String

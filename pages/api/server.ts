@@ -18,7 +18,6 @@ export default async (req:NextApiRequest, res:NextApiResponse) => {
     'https://studio.apollographql.com',
     
   );
-  res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
  res.setHeader(
     'Access-Control-Allow-Headers',
     'Origin, X-Requested-With,  Content-Type, Authorization, Accept, Accept-Language, X-Authorization'
