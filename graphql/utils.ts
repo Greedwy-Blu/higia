@@ -1,8 +1,5 @@
 import { verify } from 'jsonwebtoken'
 import { Context } from './context'
-import { PrismaClient } from '@prisma/client'
-
-export const prisma = new PrismaClient()
 export const APP_SECRET = 'tentaserlocuameudeusansecoesera43231'
 
 interface Token {

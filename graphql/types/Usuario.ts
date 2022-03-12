@@ -135,15 +135,14 @@ export const cadastroUsuarioMutation = extendType({
           type: AuthPayload,
           args: {
             email: nonNull(stringArg()),
-            senha: stringArg(),
+            senha: nonNull(stringArg()),
           },
     
-          resolve: async (_root,  { email }, ctx) => {
+          resolve: async (_root,  { email,senha }, ctx) => {
               
             const { ...usuario} = await ctx.prisma.usuario.findUnique({
               where: {
                 email
-                
               },
             })
     
@@ -151,7 +150,10 @@ export const cadastroUsuarioMutation = extendType({
             if (!usuario) {
               throw new Error(`No user found for email`)
             }
-            
+             const passwordValid = await compare(senha, usuario.senha)
+            if (!passwordValid) {
+              throw new Error('Invalid password')
+            }
             
             return {
               token: sign({ userId: usuario.id }, APP_SECRET),

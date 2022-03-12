@@ -1,17 +1,15 @@
 
 import * as React from 'react';
-type Props = {
+const TePage: React.FC = () => {
+ 
+   
   
-};
-type State = {
-  
-};
-export class index extends React.Component<Props, State>{
-  render() {
-    return (
-      <div>
-        <h1>bbb</h1>
-      </div>
-    );
-  };
-};
+  return (
+   
+<>
+b
+  </>
+  );
+}
+
+export default TePage;

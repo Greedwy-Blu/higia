@@ -12,7 +12,7 @@ import toast, { Toaster } from 'react-hot-toast';
 
 const loginMutation = gql`
 
-mutation ($email: String!, $senha: String) {
+mutation ($email: String!, $senha: String!) {
   login(email: $email, senha: $senha) {
     usuario {
       email
@@ -29,7 +29,12 @@ const Login: React.FC = () => {
   const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
     const [login, { data, loading, error }] = useMutation(loginMutation);
-
+    const {
+      register,
+      handleSubmit,
+      formState: { errors },
+    } = useForm();
+  
 
 
 
@@ -46,7 +51,7 @@ const Login: React.FC = () => {
 
           if (token) {
               localStorage.setItem(APP_SECRET, token);
-          
+           
           }
 
           // TODO handle failed case
@@ -86,7 +91,8 @@ const Login: React.FC = () => {
 
             <div className="mt-24 md:mt-24 md:col-span-2">
 
-              <form action="#" method="POST">
+              <form    onSubmit={handleSubmit(onSubmit)}
+>
                 <div className="px-4 py-5 bg-white sm:p-6">
                   <div className="grid grid-cols-6 gap-6">
 
@@ -100,7 +106,11 @@ const Login: React.FC = () => {
                         id="email-address"
                         autoComplete="email"
                         className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                      />
+                     
+                        onChange={(e) => {
+                          setEmail(e.target.value);
+                      }}
+                     />
                     </div>
 
                     <div className="col-span-6 sm:col-span-4">
@@ -111,7 +121,9 @@ const Login: React.FC = () => {
                         type="password"
                         name="senha"
                         id="senha"
-
+                        onChange={(e) => {
+                          setSenha(e.target.value);
+                      }}
                         className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                       />
                     </div>
