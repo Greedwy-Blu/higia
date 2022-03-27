@@ -10,7 +10,7 @@ export const Profissional = objectType({
       t.string("especial")
       t.string("especialidade")
       t.int("grupo")
-      t.string("id")
+      t.int("id")
       t.int("idade")
       t.string("imagens")
       t.string("localatendimento")

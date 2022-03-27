@@ -1,0 +1,6 @@
+query Perfil {
+  perfil{
+    id
+   
+  }
+}

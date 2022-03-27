@@ -8,17 +8,17 @@ datasource db {
 }
 
 model imgem_perfil {
-  id                    String      @id @default(cuid())
-  identificacao_perfil  String      @unique
+  id                   Int      @id @default(autoincrement())
+  identificacao_perfil  Int      @unique
   imagen               String
   usuario              usuario @relation(fields: [identificacao_perfil], references: [id])
 }
 
 model cliente {
-  id                      String                       @id @default(cuid())
+  id                   Int      @id @default(autoincrement())
   nivel                  Int
   medicamentos           String
-  identificacaoCliente    String 
+  identificacaoCliente    Int 
   usuario                usuario                  @relation(fields: [identificacaoCliente], references: [id], map: "Cliente_identificacaoCliente_fkey")
   comentario_post        comentario_post[]
   notificacao_comentario notificacao_comentario[]
@@ -27,12 +27,12 @@ model cliente {
 }
 
 model comentario_post {
-  id                       String                       @id @default(cuid())
+  id                      Int      @id @default(autoincrement())
   nota                    Int
   coteudo                 String
-  ComentarioProfissinalID  String 
+  ComentarioProfissinalID  Int 
   createdAt               DateTime                 @default(now())
-  ComentariosClienteID     String 
+  ComentariosClienteID     Int 
   profissional            profissional             @relation(fields: [ComentarioProfissinalID], references: [id], map: "Comentario_Post_ComentarioProfissinalID_fkey")
   cliente                 cliente                  @relation(fields: [ComentariosClienteID], references: [id], map: "Comentario_Post_ComentariosClienteID_fkey")
   notificacao_comentario  notificacao_comentario[]
@@ -42,11 +42,11 @@ model comentario_post {
 }
 
 model notificacao_comentario {
-  id            String              @id @default(cuid())
+  id            Int      @id @default(autoincrement())
   comentario      String
-  notificacaoID    String 
+  notificacaoID    Int 
   imgem_perfil    String
-  cliente_id       String 
+  cliente_id       Int 
   cliente         cliente         @relation(fields: [cliente_id], references: [id], map: "Notificacao_Comentario_cliente_id_fkey")
   comentario_post comentario_post @relation(fields: [notificacaoID], references: [id], map: "Notificacao_Comentario_notificacaoID_fkey")
 
@@ -55,7 +55,7 @@ model notificacao_comentario {
 }
 
 model profissional {
-  id                           String                @id @default( cuid())
+  id                          Int      @id @default(autoincrement())
   imagens                     String?
   servico                     String
   raio                        Int
@@ -64,7 +64,7 @@ model profissional {
   localatendimento            String            @db.Char(55)
   especial                    String            @default("SIM") @db.Char(55)
   idade                       Int
-  identificacaoProfissionalId  String 
+  identificacaoProfissionalId  Int 
   especialidade               String
   qualificacao                String
   usuario                     usuario           @relation(fields: [identificacaoProfissionalId], references: [id], map: "Profissional_identificacaoProfissionalId_fkey")
@@ -74,7 +74,7 @@ model profissional {
 }
 
 model usuario {
-  id           String            @id @default(cuid())
+  id           Int      @id @default(autoincrement())
   email        String    @unique
   name         String?
   cidade       String?

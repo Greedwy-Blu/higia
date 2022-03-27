@@ -11,8 +11,7 @@ import toast, { Toaster } from 'react-hot-toast';
 
 
 const loginMutation = gql`
-
-mutation ($email: String!, $senha: String!) {
+mutation Login($email: String!, $senha: String!) {
   login(email: $email, senha: $senha) {
     usuario {
       email
@@ -51,7 +50,7 @@ const Login: React.FC = () => {
 
           if (token) {
               localStorage.setItem(APP_SECRET, token);
-           
+           Router.push('/AppPrincipal')
           }
 
           // TODO handle failed case
@@ -69,13 +68,13 @@ const Login: React.FC = () => {
 
     <>
 
-      <div className="container mx-auto">
-
-
 
         <div className=" mt-24 sm:mt-24 ">
 
-          <div className="grid   justify-items-start ml-6 mb-6">
+
+
+
+          <div className="grid   justify-items-start ml-36 pl-32 mb-12">
             <div className="">
               <a className="text-2xl">Faça o login no Higia</a>
               <p className="flex whitespace-nowrap tracking-wide mt-3  ">
@@ -87,9 +86,17 @@ const Login: React.FC = () => {
             </div>
           </div>
 
-          <div className="md:grid md:grid-cols-3 md:gap-6">
+         
 
+
+          <div className="md:grid md:grid-cols-3 md:gap-6 ">
+          <div className="grid justify-items-end   text-teal-900">
+          <Image className=" max-h-full  "  src={img} alt="description of image" />
+
+            </div>
+       
             <div className="mt-24 md:mt-24 md:col-span-2">
+
 
               <form    onSubmit={handleSubmit(onSubmit)}
 >
@@ -137,26 +144,28 @@ const Login: React.FC = () => {
                       <button className="h-8  px-6 w-1/3 m-2 bg-emerald-700 shadow text-lg text-center text-white">login</button>
                     </div>
 
-       
                   </div>
-                </div>
 
+
+                  
+
+
+                </div>
+               
+        
+              
               </form>
 
             </div>
-            <div className=" text-teal-900">
-              <p><a className="text-2xl" text-teal-400>Higia</a><br></br>
-                <a>Faça o login e participe dessa experiência</a></p>
-              <Image className="ml-40  shadow-2xl   " width={400} height={600} src={img} alt="description of image" />
+        
 
-            </div>
           </div>
 
         </div>
 
-
-
-      </div>
+       
+              
+       
     </>
   );
 }

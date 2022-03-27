@@ -1,6 +1,9 @@
+
 import { ApolloClient, InMemoryCache,ApolloLink , HttpLink, from} from '@apollo/client';
 import { relayStylePagination } from '@apollo/client/utilities';
+import { setContext } from "apollo-link-context";
 
+import { APP_SECRET } from '../graphql/utils';
 import { onError } from '@apollo/client/link/error';
 
 
@@ -20,17 +23,24 @@ const httpLink = new HttpLink({
   credentials: 'include',
   fetch,
 });
+const authLink = setContext(async (req, { headers }) => {
+  const token = localStorage.getItem(APP_SECRET)
 
+  return {
+    ...headers,
+    headers: {
+      Authorization: token ? `Bearer ${token}` : null
+    }
+  }
+})
+const link = authLink.concat(httpLink as any)
 export const client = new ApolloClient({
   ssrMode: typeof window === "undefined", // Disables forceFetch on the server (so queries are only run once)
-  link: from([errorLink, httpLink]),
-  cache: new InMemoryCache({
-    typePolicies: {
-      Query: {
-        fields: {
-          links: relayStylePagination(),
-        },
-      },
+  link: (link as any),
+  defaultOptions: {
+    watchQuery: {
+      fetchPolicy: 'cache-and-network',
     },
-  }),
+  },
+  cache: new InMemoryCache(),
 });

@@ -1,0 +1,15 @@
+mutation cadastroUsuario($email: String!, $senha: String!, $sobreNome: String, $cidade: String, $genero: String, $idade: String, $name: String, $telefone: String) {
+  CadastroUsuario(email: $email, senha: $senha, SobreNome: $sobreNome, cidade: $cidade, genero: $genero, idade: $idade, name: $name, telefone: $telefone) {
+    usuario {
+    telefone
+    senha
+    name
+    idade
+    genero
+    email
+    cidade
+    SobreNome
+    }
+  token
+  }
+}

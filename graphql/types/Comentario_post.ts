@@ -5,7 +5,7 @@ export const Comentario_Post = objectType({
     name: "Comentario_Post",
     definition(t) {
         t.string("coteudo")
-     t.string("id")
+     t.int("id")
       t.int("nota")
    }
   })

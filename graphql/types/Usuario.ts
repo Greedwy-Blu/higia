@@ -9,7 +9,9 @@ import { imagem_perfil } from './Imagem_perfil';
 import { compare, hash } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 
-import { APP_SECRET, getUserId } from '../utils';
+import { APP_SECRET, getUserId} from '../utils';
+import {Context } from '../context';
+
 
 export const Usuario = objectType({
     name: "Usuario",
@@ -18,7 +20,7 @@ export const Usuario = objectType({
       t.string("cidade")
       t.string("email")
       t.string("genero")
-      t.string("id")
+      t.int("id")
       t.string("idade")
       t.string("name")
       t.string("senha")
@@ -117,7 +119,7 @@ export const cadastroUsuarioMutation = extendType({
         })
       
         return {
-          token: sign({ userId: usuarios.id }, APP_SECRET),
+          token: sign({ userId: usuarios.id }, APP_SECRET,  { expiresIn: '1m' }),
           usuarios,
         }
     
@@ -171,18 +173,16 @@ export const UsuarioQuery = extendType({
   type: 'Query',
   definition(t) {
    
-    t.field("Perfil", { type: Usuario, 
-      args: {
-     
-        id: stringArg(),
-        email: stringArg(),
-      },      resolve: (parent, args, ctx) => {
-        const userId = getUserId(ctx)
- return ctx.prisma.usuario.findUnique({
+    t.nullable.field("perfil", { type: 'Usuario', 
+      resolve: (parent, args,context:Context) => {
+        const userId = getUserId(context)
+        console.log(userId)
+ return context.prisma.usuario.findUnique({
         where: {
-          id:userId,
-          email:args.email,
+        id:  Number(userId),
+      
         },
+       
       }) }, })
 
     t.list.field("TodosUsuario", { type: Usuario, resolve:(_parent, _args, ctx)=>{  return ctx.prisma.usuario.findMany()}, })

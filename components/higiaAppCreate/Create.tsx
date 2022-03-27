@@ -73,7 +73,7 @@ return (
 <Toaster />
 <div className=" justify-end">     
 
-<Image  className=" shadow-2xl  bg-no-repeat bg-right-top" width={400}    height={855} src={img}alt="description of image"/>
+<Image  className="    bg-no-repeat bg-right-top" width={400}  height={755}   src={img}alt="description of image"/>
       
    </div>
   
@@ -100,7 +100,7 @@ return (
 
 </div>
 
-<div className="col-span-2 px-4 "> 
+<div className="col-span-2 px-4  "> 
 
 <label htmlFor="sobrenome" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Sobre nome</label>
   <input type="text" id="sn"  className="  focus:ring-indigo-500 focus:border-indigo-500 block w-100 shadow-sm sm:text-sm border-gray-300 rounded-md"     
@@ -115,10 +115,10 @@ return (
 <div className='flex grid col-span-2 '>
 <div className=" px-4 "> 
 
-<div className="pr-8 px-4 mt-2 mr-8 "> 
+<div className="pr-8 px-4 mt-2 mr-12 "> 
 
 <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">email</label>
-  <input type="text" id="sn"   className=" mr-8 pr-8 focus:ring-indigo-500 focus:border-indigo-500 block w-50 shadow-sm sm:text-sm w-full border-gray-300 rounded-md" 
+  <input type="text" id="sn"   className=" mr-12 pr-12 focus:ring-indigo-500 focus:border-indigo-500 block w-50 shadow-sm sm:text-sm w-full border-gray-300 rounded-md" 
   
   name="email"      
   {...register('email', { required: true })}

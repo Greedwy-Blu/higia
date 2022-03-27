@@ -1,0 +1,5 @@
+query TodosUsuario {
+  TodosUsuario {
+    id
+  }
+}

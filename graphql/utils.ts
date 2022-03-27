@@ -1,20 +1,26 @@
+
 import { verify } from 'jsonwebtoken'
+import { AuthenticationError } from 'apollo-server-micro'
 import { Context } from './context'
-export const APP_SECRET = 'tentaserlocuameudeusansecoesera43231'
+export const APP_SECRET = 'SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
+
 
 interface Token {
   userId: string
 }
 
-
-export const getUserId = (context: Context) => {
-  // const authTokenWithBarer = context.request.request
-  //   ? context.request.request.headers.authorization
-  //   : context.request.connection.context.Authorization;
-  const authTokenWithBarer = context.req.headers.authorization.split(' ')[1];
-  if (authTokenWithBarer) {
-    const token = authTokenWithBarer;
-    const user = verify(token,'tentaserlocuameudeusansecoesera43231') as Token;
-    return user && String(user.userId);
+export function getUserId(context: Context) {
+  const authHeader = context.req.headers.authorization || ""
+  try {
+      if (authHeader) {
+          const token = authHeader.replace("Bearer ", "")
+          console.log(token);
+          const verifiedToken = verify(token, APP_SECRET) as Token
+          return verifiedToken && Number(verifiedToken.userId)
+      }
+  } catch (err) {
+      throw new AuthenticationError(
+          'Authentication token is invalid, please log in',
+      )
   }
-};
+}

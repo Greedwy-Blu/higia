@@ -4,12 +4,17 @@ import { schema } from '../../graphql/schema';
 import {createContext} from '../../graphql/context'
 import { NextApiRequest, NextApiResponse } from 'next';
 
-const apolloServer = new ApolloServer({
-  schema,
-  context: createContext,
-});
+import Cors from 'micro-cors'
+import dotenv from 'dotenv';
 
-const startServer = apolloServer.start();
+
+dotenv.config()
+const microcors = Cors()
+
+
+const apolloServer = new ApolloServer({ schema, context: createContext });
+
+const startServer = apolloServer.start()
 
 export default async (req:NextApiRequest, res:NextApiResponse) => {
   res.setHeader('Access-Control-Allow-Credentials', 'true');

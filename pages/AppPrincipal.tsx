@@ -1,5 +1,6 @@
 import TePage from "../components/higiaAppPrincipal/index";
 
+
 const TeagePage: React.FC = () => {
  
    

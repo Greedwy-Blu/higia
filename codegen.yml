@@ -1,0 +1,12 @@
+overwrite: true
+schema: "graphql/nexus/generated/schema.graphql"
+documents: "graphql/**/*.{gql,graphql}"
+generates:
+  graphql/generated/graphql.ts:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"
+  ./graphql.schema.json:
+    plugins:
+      - "introspection"

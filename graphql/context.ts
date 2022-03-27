@@ -1,21 +1,18 @@
 import { PrismaClient } from '@prisma/client'
+import Cookies from 'js-cookie'
+import { setContext } from 'apollo-link-context'
+import type { NextApiRequest, NextApiResponse } from 'next'
+import {getUserId} from './utils';
+import prisma from "../lib/prisma";
 
-const prisma = new PrismaClient()
-
-export interface Context {
+export type Context = {
   prisma: PrismaClient
-  req: any
-  
+  req: any   // HTTP request carrying the `Authorization` header
+}
 
-  };
-   // HTTP request carrying the `Authorization` header
-
-
-export const createContext = (req:any) => {
- 
+export async function createContext(req: any, res: NextApiRequest): Promise<Context> {
   return {
-    ...req,
-    prisma,
-    
+      prisma,
+      ...req
   }
 }

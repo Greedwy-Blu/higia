@@ -12,7 +12,7 @@ export const profissionalCreateInput = inputObjectType({
       t.string("especial")
       t.string("especialidade")
       t.int("grupo")
-      t.string("id")
+      t.int("id")
       t.string("idade")
       t.string("imagens")
       t.string("localatendimento")
@@ -49,7 +49,7 @@ export const profissionalCreateInput = inputObjectType({
   name: 'clienteCreateInput',
   
   definition(t){
-    t.nonNull.string("id")
+    t.nonNull.int("id")
     t.string("medicamentos")
     t.int("nivel")
    
@@ -64,7 +64,7 @@ export const profissionalCreateInput = inputObjectType({
     name:'imgemPerfil',
     definition(t){
            
-      t.string("id")
+      t.int("id")
       t.string("imagen")
     
     }

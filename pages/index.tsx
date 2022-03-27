@@ -9,11 +9,10 @@ const Home: NextPage = () => {
     <div>
       
    <Navbar/>
-   <Layout>
+  
     <Higiacorpo />
     <HigiaInformacao/>
     
-    </Layout>
     <br></br>
     
     <Footer/>

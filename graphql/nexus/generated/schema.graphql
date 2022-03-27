@@ -8,14 +8,14 @@ type AuthPayload {
 }
 
 type Cliente {
-  id: String
+  id: Int
   medicamentos: String
   nivel: Int
 }
 
 type Comentario_Post {
   coteudo: String
-  id: String
+  id: Int
   nota: Int
 }
 
@@ -26,7 +26,7 @@ type Mutation {
 
 type Notificacao_Comentario {
   comentario: String
-  id: String
+  id: Int
   imgem_perfil: String
 }
 
@@ -35,7 +35,7 @@ type Profissional {
   especial: String
   especialidade: String
   grupo: Int
-  id: String
+  id: Int
   idade: Int
   imagens: String
   localatendimento: String
@@ -57,8 +57,8 @@ input ProfissionalWhereUniqueInput {
 }
 
 type Query {
-  Perfil(email: String, id: String): Usuario
   TodosUsuario: [Usuario]
+  perfil: Usuario
 }
 
 type Usuario {
@@ -68,7 +68,7 @@ type Usuario {
   clientes: [Cliente]
   email: String
   genero: String
-  id: String
+  id: Int
   idade: String
   imgem_perfis: [imagem_perfil]
   name: String
@@ -83,18 +83,18 @@ input UsuarioCreateInput {
 }
 
 input clienteCreateInput {
-  id: String!
+  id: Int!
   medicamentos: String
   nivel: Int
 }
 
 type imagem_perfil {
-  id: String
+  id: Int
   imagen: String
 }
 
 input imgemPerfil {
-  id: String
+  id: Int
   imagen: String
 }
 
@@ -104,7 +104,7 @@ input profissionalCreateInput {
   especial: String
   especialidade: String
   grupo: Int
-  id: String
+  id: Int
   idade: String
   imagens: String
   localatendimento: String

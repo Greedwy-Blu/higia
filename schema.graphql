@@ -1,138 +1,111 @@
 
-scalar DateTime
-
-
-type Usuario{
-id: Int!
-email: String
-name:  String!
-senha: String
-cidade:String!
-SobreNome: String!
-idade: Int!
-telefone: String!
-genero: String!
-Profissionais: [Profissional!]!
-clientes: [Cliente!]!
-usuario_perfil: [imgem_perfil!]!
-}
-
-type Profissional{
-  id: Int
-  imagens: String
-  raio: Float
-  grupo: Int
-  ambiente: String
-  especial: String
-  idade: Int
-  servico: String
-  UsuarioId: Usuario
-  especialidade: String
-  qualificacao:  String
-  Comentario_PostsProfissionsl: [Comentario_Post!]!
-}
-
-type Cliente{
-   id: Int
-   nivel: Int
-   medicamentos: String
-   UsuarioId: Usuario
-   Comentario_PostsProfissionsl: [Comentario_Post!]!
-   Notificacao_ComentariosCliente: [Notificacao_Comentario!]!
-
-}
-
-
-type Notificacao_Comentario{
-  id: Int
-  comentario: String
-  notificacoes: Comentario_Post
-  imgem_perfil: String
-  clientedados: Cliente
-
-
-}
-
-type Comentario_Post{
-    id: Int
-    nota: Int
-    coteudo: String 
-    profissionaisID: Profissional
-    createdAt: DateTime
-     clienteID: Cliente
-     Notificacao_Comentarios: [Notificacao_Comentario!]!
-
-}
-
-type imgem_perfil{
-  id: Int
-   imagen:String
-   UsuarioPerfil: Usuario
-}
-
 
 type AuthPayload {
   token: String
   usuario: Usuario
 }
 
-
-input UsuarioWhereUniqueInput{
-  id: Int!
-email: String
-name:  String!
-senha: String
-cidade:String!
-SobreNome: String!
-idade: Int!
-telefone: String!
-genero: String!
+type Cliente {
+  id: String
+  medicamentos: String
+  nivel: Int
 }
 
-input ProfissionalWhereUniqueInput{
-   id: Int
-  imagens: String
-  raio: Float
-  grupo: Int
-  ambiente: String
-  especial: String
-  idade: Int
-  especialidade: String
-  qualificacao:  String
-}
-
-input UsuarioCreateInput{
-  id: Int!
-email: String
-name:  String!
-senha: String
-relacionamentosUsuario: ProfissionalCreateInput
-}
-
-input ProfissionalCreateInput{
-    id: Int
-  imagens: String
-  raio: Float
-  grupo: Int
-  ambiente: String
-  especial: String
-  idade: Int
-  especialidade: String
-  qualificacao:  String
-}
-
-type Query{
-  TodosUsuario: [Usuario!]!
-  Perfil: Usuario
-  MeusPost(usuarioWhereUniqueInput: UsuarioWhereUniqueInput!):[Profissional]
-  IdPosts(id: Int): Profissional
+type Comentario_Post {
+  coteudo: String
+  id: String
+  nota: Int
 }
 
 type Mutation {
-  login(email: String!, senha: String): AuthPayload
-  CadastroUsuario(id: Int!,email: String,name:  String!,senha: String,cidade:String!,SobreNome: String!,idade: Int!,telefone: String!,genero: String!): AuthPayload
-  CriarPost( imagens: String!,raio: Float!,  grupo: Int!,  ambiente: String,especial: String!,idade: Int!,servico:String, identificacaoProfissinalId: Int,  especialidade: String!, qualificacao:  String!): Profissional
-  CriarNotificacao_Comentario(  comentario: String, imgem_perfil: String, cliente_id:Int, notificacaoID: Int):Notificacao_Comentario
-  CriarComentario(coteudo:String, nota:Int,createdAt:DateTime,ComentarioProfissinalID: Int,ComentariosClienteID:Int ):Comentario_Post
-  CriarImgem_perfil(imagen:String,identificacao_perfil:Int ):imgem_perfil
+  CadastroUsuario(SobreNome: String, cidade: String, cliente: clienteCreateInput, email: String!, genero: String, id: String, idade: String, imgem_perfil: imgemPerfil, name: String, profissional: profissionalCreateInput, senha: String!, telefone: String): AuthPayload!
+  login(email: String!, senha: String!): AuthPayload
+}
+
+type Notificacao_Comentario {
+  comentario: String
+  id: String
+  imgem_perfil: String
+}
+
+type Profissional {
+  ambiente: String
+  especial: String
+  especialidade: String
+  grupo: Int
+  id: String
+  idade: Int
+  imagens: String
+  localatendimento: String
+  qualificacao: String
+  raio: Int
+}
+
+input ProfissionalWhereUniqueInput {
+  ambiente: String
+  especial: String
+  especialidade: String
+  grupo: Int
+  id: Int
+  idade: Int
+  imagens: String
+  localatendimento: String
+  qualificacao: String
+  raio: Int
+}
+
+type Query {
+  TodosUsuario: [Usuario]
+  perfil: Usuario
+}
+
+type Usuario {
+  Profissionais: [Profissional]
+  SobreNome: String
+  cidade: String
+  clientes: [Cliente]
+  email: String
+  genero: String
+  id: String
+  idade: String
+  imgem_perfis: [imagem_perfil]
+  name: String
+  senha: String
+  telefone: String
+}
+
+input UsuarioCreateInput {
+  email: String
+  relacionamentosUsuariom: [profissionalCreateInput]
+  senha: String
+}
+
+input clienteCreateInput {
+  id: String!
+  medicamentos: String
+  nivel: Int
+}
+
+type imagem_perfil {
+  id: String
+  imagen: String
+}
+
+input imgemPerfil {
+  id: String
+  imagen: String
+}
+
+input profissionalCreateInput {
+  UsuarioId: Int
+  ambiente: String
+  especial: String
+  especialidade: String
+  grupo: Int
+  id: String
+  idade: String
+  imagens: String
+  localatendimento: String
+  qualificacao: String
+  raio: Int
 }

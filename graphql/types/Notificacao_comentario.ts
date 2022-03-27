@@ -6,7 +6,7 @@ export const Notificacao_Comentario = objectType({
   name: "Notificacao_Comentario",
   definition(t) {
      t.string("comentario")
-    t.string("id")
+    t.int("id")
     t.string("imgem_perfil")
    }
 })
