@@ -50,7 +50,9 @@ const{data, error } = usePerfilQuery();
           <a href="#sobre" className="block py-2 pr-4 pl-3 my-4 text-teal-800  text-lg font-medium border-b-2  border-emerald-500 p-1 hover:text-emerald-500  active:text-teal-900 " aria-current="page">inicio</a>
         </li>
         <li>
-          <a href="#ComoFunciona" className="block py-2 pr-4 pl-3 my-4 text-teal-800  text-lg font-medium border-b-2  border-transparent hover:border-emerald-500  p-1  hover:text-emerald-500  active:text-teal-900 transition  duration-300 delay-150">Perfil</a>
+        <Link href="/Perfil" passHref>
+          <a  className="block py-2 pr-4 pl-3 my-4 text-teal-800  text-lg font-medium border-b-2  border-transparent hover:border-emerald-500  p-1  hover:text-emerald-500  active:text-teal-900 transition  duration-300 delay-150">Perfil</a>
+       </Link>
         </li>
         <li>
           <a href="#ProdutoOforecido" className="block py-2 pr-4 pl-3  my-4 text-lg font-medium border-b-2   border-transparent hover:border-emerald-500  p-1  text-teal-800  hover:text-emerald-500 active:text-teal-900 transition  duration-300 delay-150">sugestão</a>
