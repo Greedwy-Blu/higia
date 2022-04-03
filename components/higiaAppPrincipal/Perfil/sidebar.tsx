@@ -11,20 +11,36 @@ import { FaBell, FaCameraRetro } from "react-icons/fa";
 
 import { usePerfilQuery } from '../../../graphql/generated/graphql';
 const  imgicon = require('../../assets/zyro-image_2_.ico');
+const  imgicon2 = require('../../assets/ph2.jpg');
 
 
 const PerfilPage:React.FC = ()=>{
 
       const{data, error } = usePerfilQuery();
- const ou =()=>{
-       return <div>{data?.perfil?.id}</div>
+
+ const usuarioPerfil =()=>{
+       return (
+        <div className="flex justify-center mb-80 pb-40">
+  <div className="rounded-md shadow-lg bg-emerald-50 max-w-sm h-50 w-50">
+    <a href="#!" className="overflow-hidden">
+     <Image className="rounded-tl-lg  rounded-r-md bg-gray   object-left  absolute mr-4 mt-1" width={110}    height={100} src={imgicon2} alt=""/></a>
+    <div className="p-6">
+      <h5 className="text-gray-900 text-xl font-medium mb-2">Card title</h5>
+      <p className="text-gray-700 text-base mb-4">
+        Some quick example text to build on the card title and make up the bulk of the cars
+        content.
+      </p>
+      <button type="button" className=" inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Button</button>
+    </div>
+  </div>
+</div>)
  }
       const [show, setShow] = useState(false)
 
       const handleShow = () => {
           (show ? setShow(false) : setShow(true))
       }
-      const [datas, setDatas] = useState([ou(), "hi there", "holla"]);
+      const [datas, setDatas] = useState([usuarioPerfil(), "hi there", "holla"]);
 
       const [showAll, setShowAll] = useState(false);
       const [currentIdx, setCurrentIdx] = useState(0);
@@ -52,9 +68,9 @@ const PerfilPage:React.FC = ()=>{
       return (
       
      //@ts-nocheck
-      <div>
+      <div className="">
   
-<nav className=" flex bg-white px-2 sm:px-4 py-2.5 rounded-none   tracking-wide ">
+<nav className=" flex bg-white px-2 sm:px-4 py-2.5 rounded-none    tracking-wide ">
   
   <a href="#" className="flex justify-start ">
   <Image  className="rounded-full mr-4 border-transparent" width={110}    height={100} src={imgicon}alt="description of image"/>
@@ -96,12 +112,18 @@ const PerfilPage:React.FC = ()=>{
         {showAll && datas.map((el, i) => <p key={`content-${i}`}>{el}</p>)}
       </div>
 
-      {showCurrent ? <div>{datas[currentIdx]}</div> : null}
+
     </div>
 
          
 
-<aside  className="w-64 h-404 max-h-full mt-6" aria-label="Sidebar"  >
+
+   
+
+
+
+<aside  className="w-64 h-400 max-w-full max-h-full inline-flex  " aria-label="Sidebar"  >
+
 <div className="overflow-y-auto py-4 px-3 bg-transparent  ">
 <ul className="space-y-2">
 
@@ -121,8 +143,8 @@ const PerfilPage:React.FC = ()=>{
 <a  onClick={() => setToggleViewMode(!toggleViewMode)} className="flex items-center p-2 pl-11 w-full  text-base font-normal text-gray-900  transition duration-75 group hover:bg-gray-100 border-r-4 border-transparent hover:border-emerald-700 transition duration-75 "><FaCameraRetro className="mr-2 h-7 w-7 text-stone-400"/>post</a>
 </li>
 <li>
-<a href="#"  className="pl-11 w-full  flex items-center p-2 text-base font-normal hover:bg-slate-100 text-gray-900 border-r-4 border-transparent hover:border-emerald-700 transition duration-75  ">
-<span className="flex ml-1 whitespace-nowrap"><GoPerson className="mr-4 h-7 w-7 text-stone-400"/> cliente</span>
+<a href="#" onClick={() => setCurrent(0)} className="pl-11 w-full  flex items-center p-2 text-base font-normal hover:bg-slate-100 text-gray-900 border-r-4 border-transparent hover:border-emerald-700 transition duration-75  ">
+<span  className="flex ml-1 whitespace-nowrap"><GoPerson className="mr-4 h-7 w-7 text-stone-400"/> usuario</span>
 
 </a>
 </li>
@@ -152,6 +174,8 @@ const PerfilPage:React.FC = ()=>{
 </ul>
 </div>
 </aside>
+
+{showCurrent ? <div className="mb-80 pb-40 inline-block pl-40 ml-20 fixed ">{datas[currentIdx]}</div> : null}
 
      </div>
    
