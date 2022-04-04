@@ -1,0 +1,8 @@
+mutation CriarImagem($imagen: String) {
+  criarImagem(imagen: $imagen) {
+    id
+    usuario {
+      id
+    }
+  }
+}

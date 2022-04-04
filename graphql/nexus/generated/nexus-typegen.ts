@@ -133,26 +133,47 @@ export interface NexusGenFieldTypes {
     usuario: NexusGenRootTypes['Usuario'] | null; // Usuario
   }
   Cliente: { // field return type
+    comentario_post: Array<NexusGenRootTypes['Comentario_Post'] | null> | null; // [Comentario_Post]
     id: number | null; // Int
     medicamentos: string | null; // String
     nivel: number | null; // Int
+    notificacao_comentario: Array<NexusGenRootTypes['Notificacao_Comentario'] | null> | null; // [Notificacao_Comentario]
+    usuario: Array<NexusGenRootTypes['Usuario'] | null> | null; // [Usuario]
   }
   Comentario_Post: { // field return type
+    cliente: Array<NexusGenRootTypes['Cliente'] | null> | null; // [Cliente]
     coteudo: string | null; // String
     id: number | null; // Int
     nota: number | null; // Int
+    notificacao_comentario: Array<NexusGenRootTypes['Notificacao_Comentario'] | null> | null; // [Notificacao_Comentario]
+    profissional: Array<NexusGenRootTypes['Profissional'] | null> | null; // [Profissional]
   }
   Mutation: { // field return type
     CadastroUsuario: NexusGenRootTypes['AuthPayload']; // AuthPayload!
+    Cliente: NexusGenRootTypes['Cliente'] | null; // Cliente
+    Profissional: NexusGenRootTypes['Profissional']; // Profissional!
+    comentarioPost: NexusGenRootTypes['Comentario_Post'] | null; // Comentario_Post
+    criarImagem: NexusGenRootTypes['imagem_perfil'] | null; // imagem_perfil
+    delatecomentarioPost: NexusGenRootTypes['Comentario_Post'] | null; // Comentario_Post
+    deleteNotificacao: NexusGenRootTypes['Notificacao_Comentario'] | null; // Notificacao_Comentario
     login: NexusGenRootTypes['AuthPayload'] | null; // AuthPayload
+    notificacaoComentario: NexusGenRootTypes['Notificacao_Comentario'] | null; // Notificacao_Comentario
+    updateCliente: NexusGenRootTypes['Cliente'] | null; // Cliente
+    updateProfissional: NexusGenRootTypes['Profissional'] | null; // Profissional
+    updateUsuario: NexusGenRootTypes['Usuario'] | null; // Usuario
+    updatecomentarioPost: NexusGenRootTypes['Comentario_Post'] | null; // Comentario_Post
+    updateimagem: NexusGenRootTypes['imagem_perfil'] | null; // imagem_perfil
   }
   Notificacao_Comentario: { // field return type
+    cliente: Array<NexusGenRootTypes['Cliente'] | null> | null; // [Cliente]
     comentario: string | null; // String
+    comentario_post: Array<NexusGenRootTypes['Comentario_Post'] | null> | null; // [Comentario_Post]
     id: number | null; // Int
     imgem_perfil: string | null; // String
   }
   Profissional: { // field return type
     ambiente: string | null; // String
+    comentario_post: Array<NexusGenRootTypes['Comentario_Post'] | null> | null; // [Comentario_Post]
     especial: string | null; // String
     especialidade: string | null; // String
     grupo: number | null; // Int
@@ -162,6 +183,7 @@ export interface NexusGenFieldTypes {
     localatendimento: string | null; // String
     qualificacao: string | null; // String
     raio: number | null; // Int
+    usuario: Array<NexusGenRootTypes['Usuario'] | null> | null; // [Usuario]
   }
   Query: { // field return type
     TodosUsuario: Array<NexusGenRootTypes['Usuario'] | null> | null; // [Usuario]
@@ -184,6 +206,7 @@ export interface NexusGenFieldTypes {
   imagem_perfil: { // field return type
     id: number | null; // Int
     imagen: string | null; // String
+    usuario: Array<NexusGenRootTypes['Usuario'] | null> | null; // [Usuario]
   }
 }
 
@@ -193,26 +216,47 @@ export interface NexusGenFieldTypeNames {
     usuario: 'Usuario'
   }
   Cliente: { // field return type name
+    comentario_post: 'Comentario_Post'
     id: 'Int'
     medicamentos: 'String'
     nivel: 'Int'
+    notificacao_comentario: 'Notificacao_Comentario'
+    usuario: 'Usuario'
   }
   Comentario_Post: { // field return type name
+    cliente: 'Cliente'
     coteudo: 'String'
     id: 'Int'
     nota: 'Int'
+    notificacao_comentario: 'Notificacao_Comentario'
+    profissional: 'Profissional'
   }
   Mutation: { // field return type name
     CadastroUsuario: 'AuthPayload'
+    Cliente: 'Cliente'
+    Profissional: 'Profissional'
+    comentarioPost: 'Comentario_Post'
+    criarImagem: 'imagem_perfil'
+    delatecomentarioPost: 'Comentario_Post'
+    deleteNotificacao: 'Notificacao_Comentario'
     login: 'AuthPayload'
+    notificacaoComentario: 'Notificacao_Comentario'
+    updateCliente: 'Cliente'
+    updateProfissional: 'Profissional'
+    updateUsuario: 'Usuario'
+    updatecomentarioPost: 'Comentario_Post'
+    updateimagem: 'imagem_perfil'
   }
   Notificacao_Comentario: { // field return type name
+    cliente: 'Cliente'
     comentario: 'String'
+    comentario_post: 'Comentario_Post'
     id: 'Int'
     imgem_perfil: 'String'
   }
   Profissional: { // field return type name
     ambiente: 'String'
+    comentario_post: 'Comentario_Post'
     especial: 'String'
     especialidade: 'String'
     grupo: 'Int'
@@ -222,6 +266,7 @@ export interface NexusGenFieldTypeNames {
     localatendimento: 'String'
     qualificacao: 'String'
     raio: 'Int'
+    usuario: 'Usuario'
   }
   Query: { // field return type name
     TodosUsuario: 'Usuario'
@@ -244,6 +289,7 @@ export interface NexusGenFieldTypeNames {
   imagem_perfil: { // field return type name
     id: 'Int'
     imagen: 'String'
+    usuario: 'Usuario'
   }
 }
 
@@ -263,9 +309,57 @@ export interface NexusGenArgTypes {
       senha: string; // String!
       telefone?: string | null; // String
     }
+    Cliente: { // args
+      medicamentos?: string | null; // String
+      nivel?: number | null; // Int
+    }
+    Profissional: { // args
+      ambiente?: string | null; // String
+      especial?: string | null; // String
+      especialidade?: string | null; // String
+      grupo?: number | null; // Int
+      id?: number | null; // Int
+      idade?: number | null; // Int
+      imagens?: string | null; // String
+      localatendimento?: string | null; // String
+      qualificacao?: string | null; // String
+      raio?: number | null; // Int
+    }
+    comentarioPost: { // args
+      coteudo?: string | null; // String
+      nota?: number | null; // Int
+    }
+    criarImagem: { // args
+      imagen?: string | null; // String
+    }
+    delatecomentarioPost: { // args
+      id?: number | null; // Int
+    }
+    deleteNotificacao: { // args
+      id?: number | null; // Int
+    }
     login: { // args
       email: string; // String!
       senha: string; // String!
+    }
+    notificacaoComentario: { // args
+      comentario?: string | null; // String
+      imagem_perfil?: string | null; // String
+    }
+    updateCliente: { // args
+      id?: number | null; // Int
+    }
+    updateProfissional: { // args
+      id?: number | null; // Int
+    }
+    updateUsuario: { // args
+      id?: number | null; // Int
+    }
+    updatecomentarioPost: { // args
+      id?: number | null; // Int
+    }
+    updateimagem: { // args
+      id?: number | null; // Int
     }
   }
 }

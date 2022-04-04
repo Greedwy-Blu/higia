@@ -1,0 +1,5 @@
+mutation UpdateProfissional($updateProfissionalId: Int) {
+  updateProfissional(id: $updateProfissionalId) {
+    id
+  }
+}

@@ -1,0 +1,5 @@
+mutation UpdatecomentarioPost($updatecomentarioPostId: Int) {
+  updatecomentarioPost(id: $updatecomentarioPostId) {
+    id
+  }
+}

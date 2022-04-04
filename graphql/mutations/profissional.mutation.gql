@@ -1,0 +1,12 @@
+mutation Profissional($ambiente: String, $especial: String, $especialidade: String, $grupo: Int, $idade: Int, $imagens: String, $localatendimento: String, $qualificacao: String, $raio: Int) {
+  Profissional(ambiente: $ambiente, especial: $especial, especialidade: $especialidade, grupo: $grupo, idade: $idade, imagens: $imagens, localatendimento: $localatendimento, qualificacao: $qualificacao, raio: $raio) {
+    id
+    usuario {
+      id
+    }
+    especialidade
+    comentario_post {
+      id
+    }
+  }
+}

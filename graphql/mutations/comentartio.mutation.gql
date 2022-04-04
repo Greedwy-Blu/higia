@@ -1,0 +1,5 @@
+mutation ComentarioPost($coteudo: String, $nota: Int) {
+  comentarioPost(coteudo: $coteudo, nota: $nota) {
+    id
+  }
+}

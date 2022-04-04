@@ -8,30 +8,51 @@ type AuthPayload {
 }
 
 type Cliente {
+  comentario_post: [Comentario_Post]
   id: Int
   medicamentos: String
   nivel: Int
+  notificacao_comentario: [Notificacao_Comentario]
+  usuario: [Usuario]
 }
 
 type Comentario_Post {
+  cliente: [Cliente]
   coteudo: String
   id: Int
   nota: Int
+  notificacao_comentario: [Notificacao_Comentario]
+  profissional: [Profissional]
 }
 
 type Mutation {
   CadastroUsuario(SobreNome: String, cidade: String, cliente: clienteCreateInput, email: String!, genero: String, id: String, idade: String, imgem_perfil: imgemPerfil, name: String, profissional: profissionalCreateInput, senha: String!, telefone: String): AuthPayload!
+  Cliente(medicamentos: String, nivel: Int): Cliente
+  Profissional(ambiente: String, especial: String, especialidade: String, grupo: Int, id: Int, idade: Int, imagens: String, localatendimento: String, qualificacao: String, raio: Int): Profissional!
+  comentarioPost(coteudo: String, nota: Int): Comentario_Post
+  criarImagem(imagen: String): imagem_perfil
+  delatecomentarioPost(id: Int): Comentario_Post
+  deleteNotificacao(id: Int): Notificacao_Comentario
   login(email: String!, senha: String!): AuthPayload
+  notificacaoComentario(comentario: String, imagem_perfil: String): Notificacao_Comentario
+  updateCliente(id: Int): Cliente
+  updateProfissional(id: Int): Profissional
+  updateUsuario(id: Int): Usuario
+  updatecomentarioPost(id: Int): Comentario_Post
+  updateimagem(id: Int): imagem_perfil
 }
 
 type Notificacao_Comentario {
+  cliente: [Cliente]
   comentario: String
+  comentario_post: [Comentario_Post]
   id: Int
   imgem_perfil: String
 }
 
 type Profissional {
   ambiente: String
+  comentario_post: [Comentario_Post]
   especial: String
   especialidade: String
   grupo: Int
@@ -41,6 +62,7 @@ type Profissional {
   localatendimento: String
   qualificacao: String
   raio: Int
+  usuario: [Usuario]
 }
 
 input ProfissionalWhereUniqueInput {
@@ -91,6 +113,7 @@ input clienteCreateInput {
 type imagem_perfil {
   id: Int
   imagen: String
+  usuario: [Usuario]
 }
 
 input imgemPerfil {

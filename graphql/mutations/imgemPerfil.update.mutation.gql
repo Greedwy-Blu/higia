@@ -1,0 +1,5 @@
+mutation Updateimagem($updateimagemId: Int) {
+  updateimagem(id: $updateimagemId) {
+    id
+  }
+}

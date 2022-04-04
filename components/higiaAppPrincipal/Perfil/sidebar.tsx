@@ -21,7 +21,7 @@ const PerfilPage:React.FC = ()=>{
  const usuarioPerfil =()=>{
        return (
         <div className="flex justify-center mb-80 pb-40">
-  <div className="rounded-md shadow-lg bg-emerald-50 max-w-sm h-50 w-50">
+  <div className="rounded-md shadow-lg bg-zinc-50 max-w-sm h-50 w-50">
     <a href="#!" className="overflow-hidden">
      <Image className="rounded-tl-lg  rounded-r-md bg-gray   object-left  absolute mr-4 mt-1" width={110}    height={100} src={imgicon2} alt=""/></a>
     <div className="p-6">
@@ -30,7 +30,7 @@ const PerfilPage:React.FC = ()=>{
         Some quick example text to build on the card title and make up the bulk of the cars
         content.
       </p>
-      <button type="button" className=" inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Button</button>
+      <button type="button" className=" inline-block px-6 py-2.5 bg-teal-900 text-white font-medium text-xs leading-tight uppercase rounded shadow-md  hover:shadow-lg focus:bg-teal-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-teal-800 active:shadow-lg transition duration-150 ease-in-out">Button</button>
     </div>
   </div>
 </div>)

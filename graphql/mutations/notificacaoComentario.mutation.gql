@@ -1,0 +1,11 @@
+mutation NotificacaoComentario($comentario: String, $imagemPerfil: String) {
+  notificacaoComentario(comentario: $comentario, imagem_perfil: $imagemPerfil) {
+    id
+    comentario_post {
+      id
+    }
+    cliente {
+      id
+    }
+  }
+}

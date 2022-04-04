@@ -1,0 +1,5 @@
+mutation DeleteNotificacao($deleteNotificacaoId: Int) {
+  deleteNotificacao(id: $deleteNotificacaoId) {
+    id
+  }
+}

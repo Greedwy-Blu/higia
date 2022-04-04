@@ -1,0 +1,15 @@
+mutation ClienteMutation($medicamentos: String, $nivel: Int) {
+  Cliente(medicamentos: $medicamentos, nivel: $nivel) {
+    id
+    medicamentos
+    usuario {
+      id
+    }
+    comentario_post {
+      id
+    }
+    notificacao_comentario {
+      id
+    }
+  }
+}

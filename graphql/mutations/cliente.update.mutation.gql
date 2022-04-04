@@ -1,0 +1,7 @@
+mutation updateClienteMutation($updateClienteId: Int) {
+  updateCliente(id: $updateClienteId) {
+    id
+    medicamentos
+    nivel
+  }
+}

@@ -4,8 +4,10 @@ import { extendType } from 'nexus';
 import { Cliente } from './Cliente';
 import { profissionalCreateInput,clienteCreateInput,imgemPerfilInput } from './input';
 import {AuthPayload} from './AuthPayload'
+
 import { Profissional } from './Profissional';
 import { imagem_perfil } from './Imagem_perfil';
+
 import { compare, hash } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 
@@ -86,6 +88,7 @@ export const cadastroUsuarioMutation = extendType({
         id: stringArg(),
         profissional: arg({
           type: profissionalCreateInput,
+
       }),
       cliente: arg({
         type: clienteCreateInput,
@@ -158,7 +161,7 @@ export const cadastroUsuarioMutation = extendType({
             }
             
             return {
-              token: sign({ userId: usuario.id }, APP_SECRET),
+              token: sign({ userId: usuario.id }, APP_SECRET,  { expiresIn: '30m' }),
               usuario:usuario,
             }
           },
@@ -187,4 +190,29 @@ export const UsuarioQuery = extendType({
 
     t.list.field("TodosUsuario", { type: Usuario, resolve:(_parent, _args, ctx)=>{  return ctx.prisma.usuario.findMany()}, })
   }
+})
+
+
+      
+export const  updateUsuarioMutation =extendType({
+  type:'Mutation',
+  definition(t){
+     t.field("updateUsuario",{
+        type:  Usuario,
+           args:{
+             
+              id: intArg()
+           },
+           resolve: async (_root, args, ctx) => {
+              const updatesUsuarioMutation = await ctx.prisma.usuario.update({
+       
+              where:{
+                  id:args.id
+
+           },
+        })
+           }
+     
+  })
+}
 })

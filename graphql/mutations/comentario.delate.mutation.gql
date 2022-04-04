@@ -1,0 +1,5 @@
+mutation DelatecomentarioPost($delatecomentarioPostId: Int) {
+  delatecomentarioPost(id: $delatecomentarioPostId) {
+    id
+  }
+}
