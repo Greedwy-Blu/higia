@@ -25,3 +25,10 @@ export function getUserId(context: Context) {
       )
   }
 }
+
+
+export function Test(context: Context){
+
+  const teste = getUserId(context)
+  return teste
+}

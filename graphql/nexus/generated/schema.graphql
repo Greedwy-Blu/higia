@@ -81,6 +81,7 @@ input ProfissionalWhereUniqueInput {
 type Query {
   TodosUsuario: [Usuario]
   perfil: Usuario
+  test: [Usuario]
 }
 
 type Usuario {

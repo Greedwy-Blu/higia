@@ -187,6 +187,11 @@ export const UsuarioQuery = extendType({
         },
        
       }) }, })
+      t.list.field("test", { type: 'Usuario', 
+      resolve: (parent, args,context:Context) => {
+        const userId = getUserId(context)
+        console.log(userId)
+ return context.prisma.$queryRaw`SELECT * FROM usuario WHERE id = ${userId}` }, })
 
     t.list.field("TodosUsuario", { type: Usuario, resolve:(_parent, _args, ctx)=>{  return ctx.prisma.usuario.findMany()}, })
   }

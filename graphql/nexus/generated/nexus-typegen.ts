@@ -188,6 +188,7 @@ export interface NexusGenFieldTypes {
   Query: { // field return type
     TodosUsuario: Array<NexusGenRootTypes['Usuario'] | null> | null; // [Usuario]
     perfil: NexusGenRootTypes['Usuario'] | null; // Usuario
+    test: Array<NexusGenRootTypes['Usuario'] | null> | null; // [Usuario]
   }
   Usuario: { // field return type
     Profissionais: Array<NexusGenRootTypes['Profissional'] | null> | null; // [Profissional]
@@ -271,6 +272,7 @@ export interface NexusGenFieldTypeNames {
   Query: { // field return type name
     TodosUsuario: 'Usuario'
     perfil: 'Usuario'
+    test: 'Usuario'
   }
   Usuario: { // field return type name
     Profissionais: 'Profissional'
