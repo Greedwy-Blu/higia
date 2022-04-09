@@ -46,10 +46,10 @@ mutation ($ambiente: String, $especial: String, $especialidade: String, $grupo: 
 
 `
 const PerfilPage:React.FC = ()=>{
-
   const [medicamentos, setMedicamentos] = useState('');
   const [nivel, setNivel] = useState('');
-  const [show, setShow] = useState(false)
+  
+ const [show, setShow] = useState(false)
 
   const [showAll, setShowAll] = useState(false);
   const [currentIdx, setCurrentIdx] = useState(0);
@@ -63,13 +63,13 @@ const PerfilPage:React.FC = ()=>{
     handleSubmit,
     formState: { errors },
   } = useForm();
-
   const {
     register: register2,
     formState: { errors: errors2 },
     handleSubmit: handleSubmit2,
   } = useForm();
 
+ 
   const onSubmit = async (data) => {
     const { medicamentos, nivel  } =data;
     
@@ -85,23 +85,23 @@ const PerfilPage:React.FC = ()=>{
       console.error(error);
     }
   };
-
+ 
   
-  const [ Profissional, { data:profissionalMutationData, loading:p,error:m}] = useMutation(profissionalMutation);
+  const [ Profissional, { data:profissionalMutationData, loading:p,error:epm}] = useMutation(profissionalMutation);
 
-  const onSubmit2 = async (data) => {
-    const { ambiente, especial,especialidade,grupo,idade,imagens,localatendimento,qualificacao,raio  } =data;
+  const onSubmit2 = async (profissionalMutationData) => {
+    const { ambiente, especial,especialidade,grupo,idade,imagens,localatendimento,qualificacao,raio  } = profissionalMutationData;
     
   const variables ={ambiente, especial,especialidade,grupo,idade,imagens,localatendimento,qualificacao,raio };
     try {
       toast.promise(Profissional({ variables }), {
         loading: 'criando',
         success: 'criado com sucesso!🎉',
-        error: `Something went wrong 😥 Please try again - ${error} `,
+        error: `Something went wrong 😥 Please try again - ${epm} `,
       });
     
-    } catch (error) {
-      console.error(error);
+    } catch (epm) {
+      console.error(epm);
     }
   };
 
@@ -194,14 +194,14 @@ const cliente = () =>{
 const profissional = () =>{
   return(
 <div className="flex justify-center mb-40 pb-40">
-
-<div className="grid grid-cols-3 gap-6 ">
 <Toaster />
+<div className="grid grid-cols-3 gap-6 ">
+
 
   
      <form 
      
-     onSubmit={handleSubmit(onSubmit2)}
+     onSubmit={handleSubmit2(onSubmit2)}
 
      
      >
@@ -215,7 +215,7 @@ const profissional = () =>{
                       type="text"
                      id="name"
                        className=" focus:ring-indigo-500 focus:border-indigo-500 block w-290 shadow-sm sm:text-sm border-gray-300 rounded-md"
-                       {...register('ambiente', { required: true })}
+                       {...register2('ambiente', { required: true })}
                        name="ambiente"
                     />
 
@@ -227,7 +227,7 @@ const profissional = () =>{
 <label htmlFor="sobrenome" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Sobre nome</label>
   <input type="text" id="sn"  className="  focus:ring-indigo-500 focus:border-indigo-500 block w-100 shadow-sm sm:text-sm border-gray-300 rounded-md"     
               name="especial"         
-              {...register('especial', { required: true })}
+              {...register2('especial', { required: true })}
                     
                        />
 
@@ -241,7 +241,7 @@ const profissional = () =>{
   <input type="text" id="sn"   className=" mr-12 pr-12 focus:ring-indigo-500 focus:border-indigo-500 block w-90 shadow-sm sm:text-sm w-full border-gray-300 rounded-md" 
   
   name="especial"      
-  {...register('especial', { required: true })}
+  {...register2('especial', { required: true })}
                 
   />
 
@@ -250,7 +250,7 @@ const profissional = () =>{
   <input type="text" id="cidade" className="  focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"  
   name="especialidade"    
  
-  {...register('especialidade', { required: true })}
+  {...register2('especialidade', { required: true })}
            
 />
 
@@ -264,7 +264,7 @@ const profissional = () =>{
   
   name="grupo"    
  
-  {...register('grupo', { required: true })}
+  {...register2('grupo', { required: true })}
   />
 
 
@@ -280,7 +280,7 @@ const profissional = () =>{
   
   name="idade"     
  
-  {...register('idade', { required: true })}
+  {...register2('idade', { required: true })}
 
   />
 
@@ -299,7 +299,7 @@ const profissional = () =>{
   
   name="imagens"      
  
-  {...register('imagens', { required: true })}
+  {...register2('imagens', { required: true })}
 
 
   />
@@ -316,7 +316,7 @@ const profissional = () =>{
   
   name="localatendimento"      
  
-  {...register('localatendimento', { required: true })}
+  {...register2('localatendimento', { required: true })}
 
 
   />
@@ -332,7 +332,7 @@ const profissional = () =>{
   
   name="qualificacao"      
  
-  {...register('qualificacao', { required: true })}
+  {...register2('qualificacao', { required: true })}
 
 
   />
@@ -363,7 +363,7 @@ const profissional = () =>{
 
     name="raio"         
 
-    {...register('raio', { required: true })}
+    {...register2('raio', { required: true })}
 >
       <option selected>gênero</option>
       <option value="masculino">masculino</option>
