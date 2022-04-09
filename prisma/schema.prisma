@@ -16,7 +16,7 @@ model imgem_perfil {
 
 model cliente {
   id                   Int      @id @default(autoincrement())
-  nivel                  Int
+  nivel                   String
   medicamentos           String
   identificacaoCliente    Int 
   usuario                usuario                  @relation(fields: [identificacaoCliente], references: [id], map: "Cliente_identificacaoCliente_fkey")
@@ -58,12 +58,12 @@ model profissional {
   id                          Int      @id @default(autoincrement())
   imagens                     String?
   servico                     String
-  raio                        Int
-  grupo                       Int               @default(1)
+  raio                       String
+  grupo                      String               
   ambiente                    String            @db.Char(55)
   localatendimento            String            @db.Char(55)
   especial                    String            @default("SIM") @db.Char(55)
-  idade                       Int
+  idade                       String
   identificacaoProfissionalId  Int 
   especialidade               String
   qualificacao                String

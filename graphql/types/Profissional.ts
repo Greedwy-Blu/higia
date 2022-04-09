@@ -14,13 +14,13 @@ export const Profissional = objectType({
       t.string("ambiente")
       t.string("especial")
       t.string("especialidade")
-      t.int("grupo")
+      t.string("grupo")
       t.int("id")
-      t.int("idade")
+      t.string("idade")
       t.string("imagens")
       t.string("localatendimento")
       t.string("qualificacao")
-      t.int("raio")
+      t.string("raio")
       t.list.field('usuario', {
         type: Usuario,
         async resolve(_parent, _args, ctx) {
@@ -60,12 +60,12 @@ export const Profissional = objectType({
           ambiente: stringArg(),
           especial: stringArg(),
           especialidade: stringArg(),
-          grupo: intArg(),
-          idade: intArg(),
+          grupo: stringArg(),
+          idade: stringArg(),
           imagens: stringArg(),
           localatendimento: stringArg(),
           qualificacao: stringArg(),
-          raio: intArg(),
+          raio: stringArg(),
         id:intArg(),
   
         },

@@ -1,4 +1,4 @@
-mutation ClienteMutation($medicamentos: String, $nivel: Int) {
+mutation ClienteMutation($medicamentos: String, $nivel: String) {
   Cliente(medicamentos: $medicamentos, nivel: $nivel) {
     id
     medicamentos

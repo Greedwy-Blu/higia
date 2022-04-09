@@ -21,19 +21,26 @@ import Link from 'next/link';
 import Image from 'next/image';
 const  imgicon = require('../assets/zyro-image_2_.ico');
 import styles from '../geral.module.scss';
+import WithAuth from '../Hoc/WithAuth';
   const TePage: NextPage = ()=>{
 
-const{data, error } = usePerfilQuery();
+const{data, error,loading } = usePerfilQuery();
 
 
 
 
-
+if(loading) return <p>Loading...</p>;
+if(!data?.perfil){
+    return(
+        <div>
+        <div>Porfavor faça o login</div>
+        </div>
+    )
+} 
 
 
   return (
     <React.Fragment>
- 
 <nav className=" flex bg-white px-2 sm:px-4 py-2.5 rounded-none   tracking-wide ">
   
   <a href="#" className="flex justify-start ">
@@ -75,6 +82,7 @@ const{data, error } = usePerfilQuery();
 				</div>
         </form>
 <div className="text-center mt-24"><p className="text-emerald-900 text-4xl">Explore as novidades de varios profissionais</p></div>
+ 
   </React.Fragment>
    
   );

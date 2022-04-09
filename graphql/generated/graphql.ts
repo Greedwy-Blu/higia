@@ -26,7 +26,7 @@ export type Cliente = {
   comentario_post?: Maybe<Array<Maybe<Comentario_Post>>>;
   id?: Maybe<Scalars['Int']>;
   medicamentos?: Maybe<Scalars['String']>;
-  nivel?: Maybe<Scalars['Int']>;
+  nivel?: Maybe<Scalars['String']>;
   notificacao_comentario?: Maybe<Array<Maybe<Notificacao_Comentario>>>;
   usuario?: Maybe<Array<Maybe<Usuario>>>;
 };
@@ -78,7 +78,7 @@ export type MutationCadastroUsuarioArgs = {
 
 export type MutationClienteArgs = {
   medicamentos?: InputMaybe<Scalars['String']>;
-  nivel?: InputMaybe<Scalars['Int']>;
+  nivel?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -86,13 +86,13 @@ export type MutationProfissionalArgs = {
   ambiente?: InputMaybe<Scalars['String']>;
   especial?: InputMaybe<Scalars['String']>;
   especialidade?: InputMaybe<Scalars['String']>;
-  grupo?: InputMaybe<Scalars['Int']>;
+  grupo?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['Int']>;
-  idade?: InputMaybe<Scalars['Int']>;
+  idade?: InputMaybe<Scalars['String']>;
   imagens?: InputMaybe<Scalars['String']>;
   localatendimento?: InputMaybe<Scalars['String']>;
   qualificacao?: InputMaybe<Scalars['String']>;
-  raio?: InputMaybe<Scalars['Int']>;
+  raio?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -168,13 +168,13 @@ export type Profissional = {
   comentario_post?: Maybe<Array<Maybe<Comentario_Post>>>;
   especial?: Maybe<Scalars['String']>;
   especialidade?: Maybe<Scalars['String']>;
-  grupo?: Maybe<Scalars['Int']>;
+  grupo?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
-  idade?: Maybe<Scalars['Int']>;
+  idade?: Maybe<Scalars['String']>;
   imagens?: Maybe<Scalars['String']>;
   localatendimento?: Maybe<Scalars['String']>;
   qualificacao?: Maybe<Scalars['String']>;
-  raio?: Maybe<Scalars['Int']>;
+  raio?: Maybe<Scalars['String']>;
   usuario?: Maybe<Array<Maybe<Usuario>>>;
 };
 
@@ -195,6 +195,7 @@ export type Query = {
   __typename?: 'Query';
   TodosUsuario?: Maybe<Array<Maybe<Usuario>>>;
   perfil?: Maybe<Usuario>;
+  test?: Maybe<Array<Maybe<Usuario>>>;
 };
 
 export type Usuario = {
@@ -267,7 +268,7 @@ export type CadastroUsuarioMutation = { __typename?: 'Mutation', CadastroUsuario
 
 export type ClienteMutationMutationVariables = Exact<{
   medicamentos?: InputMaybe<Scalars['String']>;
-  nivel?: InputMaybe<Scalars['Int']>;
+  nivel?: InputMaybe<Scalars['String']>;
 }>;
 
 
@@ -278,7 +279,7 @@ export type UpdateClienteMutationMutationVariables = Exact<{
 }>;
 
 
-export type UpdateClienteMutationMutation = { __typename?: 'Mutation', updateCliente?: { __typename?: 'Cliente', id?: number | null, medicamentos?: string | null, nivel?: number | null } | null };
+export type UpdateClienteMutationMutation = { __typename?: 'Mutation', updateCliente?: { __typename?: 'Cliente', id?: number | null, medicamentos?: string | null, nivel?: string | null } | null };
 
 export type DelatecomentarioPostMutationVariables = Exact<{
   delatecomentarioPostId?: InputMaybe<Scalars['Int']>;
@@ -343,12 +344,12 @@ export type ProfissionalMutationVariables = Exact<{
   ambiente?: InputMaybe<Scalars['String']>;
   especial?: InputMaybe<Scalars['String']>;
   especialidade?: InputMaybe<Scalars['String']>;
-  grupo?: InputMaybe<Scalars['Int']>;
-  idade?: InputMaybe<Scalars['Int']>;
+  grupo?: InputMaybe<Scalars['String']>;
+  idade?: InputMaybe<Scalars['String']>;
   imagens?: InputMaybe<Scalars['String']>;
   localatendimento?: InputMaybe<Scalars['String']>;
   qualificacao?: InputMaybe<Scalars['String']>;
-  raio?: InputMaybe<Scalars['Int']>;
+  raio?: InputMaybe<Scalars['String']>;
 }>;
 
 
@@ -432,7 +433,7 @@ export type CadastroUsuarioMutationHookResult = ReturnType<typeof useCadastroUsu
 export type CadastroUsuarioMutationResult = Apollo.MutationResult<CadastroUsuarioMutation>;
 export type CadastroUsuarioMutationOptions = Apollo.BaseMutationOptions<CadastroUsuarioMutation, CadastroUsuarioMutationVariables>;
 export const ClienteMutationDocument = gql`
-    mutation ClienteMutation($medicamentos: String, $nivel: Int) {
+    mutation ClienteMutation($medicamentos: String, $nivel: String) {
   Cliente(medicamentos: $medicamentos, nivel: $nivel) {
     id
     medicamentos
@@ -798,7 +799,7 @@ export type NotificacaoComentarioMutationHookResult = ReturnType<typeof useNotif
 export type NotificacaoComentarioMutationResult = Apollo.MutationResult<NotificacaoComentarioMutation>;
 export type NotificacaoComentarioMutationOptions = Apollo.BaseMutationOptions<NotificacaoComentarioMutation, NotificacaoComentarioMutationVariables>;
 export const ProfissionalDocument = gql`
-    mutation Profissional($ambiente: String, $especial: String, $especialidade: String, $grupo: Int, $idade: Int, $imagens: String, $localatendimento: String, $qualificacao: String, $raio: Int) {
+    mutation Profissional($ambiente: String, $especial: String, $especialidade: String, $grupo: String, $idade: String, $imagens: String, $localatendimento: String, $qualificacao: String, $raio: String) {
   Profissional(
     ambiente: $ambiente
     especial: $especial

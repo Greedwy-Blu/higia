@@ -9,7 +9,8 @@ import { GoGear, GoPerson } from "react-icons/go";
 import { BsFillPersonBadgeFill, BsArrowBarLeft } from "react-icons/bs";
 import { FaBell, FaCameraRetro } from "react-icons/fa";
 
-import { usePerfilQuery, usePerfilQuery } from '../../../graphql/generated/graphql';
+import Router, { useRouter } from "next/router"
+import { usePerfilQuery } from '../../../graphql/generated/graphql';
 const  imgicon = require('../../assets/zyro-image_2_.ico');
 const  imgicon2 = require('../../assets/ph2.jpg');
 
@@ -19,13 +20,31 @@ import { Context } from '../../../graphql/context';
 
 import toast, { Toaster } from 'react-hot-toast';
 import { useForm } from 'react-hook-form';
+import WithAuth from '../../Hoc/WithAuth'
+
 
 const clienteMutation = gql`
-mutation ClienteMutation($medicamentos: String, $nivel: Int) {
+mutation ($medicamentos: String, $nivel: String) {
   Cliente(medicamentos: $medicamentos, nivel: $nivel) {
     id
   }
 }`
+
+const profissionalMutation = gql`
+mutation ($ambiente: String, $especial: String, $especialidade: String, $grupo: String, $idade: String, $imagens: String, $localatendimento: String, $qualificacao: String, $raio: String) {
+  Profissional(ambiente: $ambiente, especial: $especial, especialidade: $especialidade, grupo: $grupo, idade: $idade, imagens: $imagens, localatendimento: $localatendimento, qualificacao: $qualificacao, raio: $raio) {
+    id
+    usuario {
+      id
+    }
+    especialidade
+    comentario_post {
+      id
+    }
+  }
+}
+
+`
 const PerfilPage:React.FC = ()=>{
 
   const [medicamentos, setMedicamentos] = useState('');
@@ -37,12 +56,18 @@ const PerfilPage:React.FC = ()=>{
   const [showCurrent, setShowCurrent] = useState(false);
 
 
-  const [ ClienteMutation, { data:ClienteMutationData, loading}] =
-  useMutation(clienteMutation);
+  const [ Cliente, { data:ClienteMutationData, loading,error}] = useMutation(clienteMutation);
+  const {client,  data } = usePerfilQuery()
   const {
     register,
     handleSubmit,
     formState: { errors },
+  } = useForm();
+
+  const {
+    register: register2,
+    formState: { errors: errors2 },
+    handleSubmit: handleSubmit2,
   } = useForm();
 
   const onSubmit = async (data) => {
@@ -50,10 +75,10 @@ const PerfilPage:React.FC = ()=>{
     
   const variables ={medicamentos, nivel};
     try {
-      toast.promise(ClienteMutation({ variables }), {
+      toast.promise(Cliente({ variables }), {
         loading: 'criando um novo usuario',
         success: 'criado com sucesso!🎉',
-        error: `Something went wrong 😥 Please try again -  `,
+        error: `Something went wrong 😥 Please try again - ${error} `,
       });
     
     } catch (error) {
@@ -61,7 +86,25 @@ const PerfilPage:React.FC = ()=>{
     }
   };
 
-const {data, error} = usePerfilQuery()
+  
+  const [ Profissional, { data:profissionalMutationData, loading:p,error:m}] = useMutation(profissionalMutation);
+
+  const onSubmit2 = async (data) => {
+    const { ambiente, especial,especialidade,grupo,idade,imagens,localatendimento,qualificacao,raio  } =data;
+    
+  const variables ={ambiente, especial,especialidade,grupo,idade,imagens,localatendimento,qualificacao,raio };
+    try {
+      toast.promise(Profissional({ variables }), {
+        loading: 'criando',
+        success: 'criado com sucesso!🎉',
+        error: `Something went wrong 😥 Please try again - ${error} `,
+      });
+    
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const handleShow = () => {
     (show ? setShow(false) : setShow(true))
 }
@@ -126,25 +169,235 @@ const contentClassname = toggleViewMode
 
 
 const cliente = () =>{
-<div className="flex justify-center mb-80 pb-40">
 
-<form>
-  <div className="relative z-0 mb-6 w-full group">
-      <input type="email" name="floating_email" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-      <label  className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Email address</label>
+  return(
+<div className="flex justify-center mb-40 pb-40 ml-24">
+<Toaster />
+<form    onSubmit={handleSubmit(onSubmit)}
+  className="grid justify-items-center">
+<div className="mb-6">
+    <label  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Medicamentos</label>
+    <input type="text" id="medicamentos" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@flowbite.com"  name="medicamentos"      {...register('medicamentos', { required: true })}/>
   </div>
-  <div className="relative z-0 mb-6 w-full group">
-      <input type="password" name="floating_password" id="floating_password" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-      <label  className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Password</label>
+  <div className="mb-6">
+    <label  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Nivel</label>
+    <input type="text" id="nivel" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" name="nivel"    {...register('nivel', { required: true })}/>
   </div>
-  <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Register new account</button>
+
+<button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Register</button>
 
   </form>
 
-</div>
+</div>)
 }
 
-const [datas, setDatas] = useState([usuarioPerfil(), notificacao(),cliente()]);
+const profissional = () =>{
+  return(
+<div className="flex justify-center mb-40 pb-40">
+
+<div className="grid grid-cols-3 gap-6 ">
+<Toaster />
+
+  
+     <form 
+     
+     onSubmit={handleSubmit(onSubmit2)}
+
+     
+     >
+       <div className="flex  mt-8  ">
+<div className="col-span-2  px-4 mt-2 w-100"> 
+
+<label htmlFor="email-address" className="block text-sm font-medium text-gray-700">
+                     Nome
+                    </label>
+                    <input
+                      type="text"
+                     id="name"
+                       className=" focus:ring-indigo-500 focus:border-indigo-500 block w-290 shadow-sm sm:text-sm border-gray-300 rounded-md"
+                       {...register('ambiente', { required: true })}
+                       name="ambiente"
+                    />
+
+
+</div>
+
+<div className="col-span-2 px-4  "> 
+
+<label htmlFor="sobrenome" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Sobre nome</label>
+  <input type="text" id="sn"  className="  focus:ring-indigo-500 focus:border-indigo-500 block w-100 shadow-sm sm:text-sm border-gray-300 rounded-md"     
+              name="especial"         
+              {...register('especial', { required: true })}
+                    
+                       />
+
+
+</div>
+</div>
+<div className='flex grid col-span-2 '>
+<div className=" px-4"> 
+ 
+<label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">email</label>
+  <input type="text" id="sn"   className=" mr-12 pr-12 focus:ring-indigo-500 focus:border-indigo-500 block w-90 shadow-sm sm:text-sm w-full border-gray-300 rounded-md" 
+  
+  name="especial"      
+  {...register('especial', { required: true })}
+                
+  />
+
+
+<label htmlFor="cidade" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 pt-2">cidade</label>
+  <input type="text" id="cidade" className="  focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"  
+  name="especialidade"    
+ 
+  {...register('especialidade', { required: true })}
+           
+/>
+
+
+</div>
+
+<div className=" px-4 "> 
+
+<label htmlFor="senha" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 pt-2">senha</label>
+  <input type="text" id="senha"  className="  focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"      
+  
+  name="grupo"    
+ 
+  {...register('grupo', { required: true })}
+  />
+
+
+</div>
+
+
+
+<div className=" px-4 "> 
+
+<label htmlFor="idade" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 pt-2">idade</label>
+  <input type="number" id="idade" className="  focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"    
+  
+  
+  name="idade"     
+ 
+  {...register('idade', { required: true })}
+
+  />
+
+
+</div>
+
+
+<div className='flex'>
+
+
+<div className=" px-4 col-span-2"> 
+
+<label htmlFor="celular" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 pt-2">telefone</label>
+  <input type="text" id="celular"  className="  focus:ring-indigo-500 focus:border-indigo-500 block w-600 shadow-sm sm:text-sm border-gray-300 rounded-md"   
+  
+  
+  name="imagens"      
+ 
+  {...register('imagens', { required: true })}
+
+
+  />
+
+
+</div>
+
+
+<div className=" px-4 col-span-2"> 
+
+<label htmlFor="celular" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 pt-2">telefone</label>
+  <input type="text" id="celular"  className="  focus:ring-indigo-500 focus:border-indigo-500 block w-600 shadow-sm sm:text-sm border-gray-300 rounded-md"   
+  
+  
+  name="localatendimento"      
+ 
+  {...register('localatendimento', { required: true })}
+
+
+  />
+
+
+</div>
+
+<div className=" px-4 col-span-2"> 
+
+<label htmlFor="celular" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 pt-2">telefone</label>
+  <input type="text" id="celular"  className="  focus:ring-indigo-500 focus:border-indigo-500 block w-600 shadow-sm sm:text-sm border-gray-300 rounded-md"   
+  
+  
+  name="qualificacao"      
+ 
+  {...register('qualificacao', { required: true })}
+
+
+  />
+
+
+</div>
+
+<div className="px-4  col-span-2">
+<div className="mb-3 xl:w-96">
+<label htmlFor="genêro"  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 pt-2">gênero</label>
+
+  <select  className="form-select appearance-none
+    block
+    w-full
+    px-3
+    py-1.5
+    text-base
+    font-normal
+    text-gray-700
+    bg-white bg-clip-padding bg-no-repeat
+    border border-solid border-gray-300
+    rounded
+    transition
+    ease-in-out
+    m-0
+    focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example"     
+
+
+    name="raio"         
+
+    {...register('raio', { required: true })}
+>
+      <option selected>gênero</option>
+      <option value="masculino">masculino</option>
+      <option value="feminino">feminino</option>
+      <option value="não-binário">não-binário</option>
+      <option value="transgênero">transgênero</option>
+  </select>
+</div>
+</div>
+
+
+</div>
+</div>
+
+<div className="  justify-items-center ml-48 mt-16">
+<input  type="submit" value="cadastro" className="h-12  px-12 w-2/3 m-2 bg-emerald-700 shadow text-lg text-center text-white" />
+</div>
+
+</form>
+     </div>
+     
+</div>
+  )
+}
+
+
+function Logout(){
+
+  client.resetStore()
+  localStorage.removeItem(APP_SECRET)
+Router.push('/Login')
+}
+
+const [datas, setDatas] = useState([usuarioPerfil(), notificacao(),cliente(), profissional()]);
 
      
     
@@ -227,18 +480,19 @@ const [datas, setDatas] = useState([usuarioPerfil(), notificacao(),cliente()]);
 
 
 <li className="mb-3">
-<a onClick={() => setCurrent(2)} className="mb-3 mr-2 flex items-center p-2 text-base font-normal hover:bg-slate-100 text-gray-900 border-r-4 border-transparent hover:border-emerald-500 transition duration-75  ">
-<span className="flex ml-1 whitespace-nowrap"><GoPerson className="mr-4 h-7 w-7 text-stone-400"/>Cadastro cliente</span>
+<a  className="mb-3 mr-2 flex items-center p-2 text-base font-normal hover:bg-slate-100 text-gray-900 border-r-4 border-transparent hover:border-emerald-500 transition duration-75  ">
+<span onClick={() => setCurrent(2)} className="flex ml-1 whitespace-nowrap"><GoPerson className="mr-4 h-7 w-7 text-stone-400"/>Cadastro cliente</span>
 </a>
 </li>
 <li className="mb-4">
-<a href="#" className="flex items-center p-2 text-base font-normal hover:bg-slate-100 text-gray-900 border-r-4 border-transparent hover:border-emerald-500 transition duration-75">
+<a onClick={() => setCurrent(3)} className="flex items-center p-2 text-base font-normal hover:bg-slate-100 text-gray-900 border-r-4 border-transparent hover:border-emerald-500 transition duration-75">
 <span className="flex ml-1 whitespace-nowrap"><BsFillPersonBadgeFill className="mr-4 h-7 w-7 text-stone-400"/>Cadastro profissional</span>
 </a>
 </li>
 <li className="mb-3 mt-4">
-<a href="#" className="flex items-center p-2 text-base font-normal  hover:bg-slate-100 text-gray-900  border-r-4 border-transparent hover:border-emerald-500 transition duration-75">
-<span className="flex ml-1 whitespace-nowrap"><BsArrowBarLeft className="mr-4 h-7 w-7 text-stone-400"/>  logout</span>
+<a  className="flex items-center p-2 text-base font-normal  hover:bg-slate-100 text-gray-900  border-r-4 border-transparent hover:border-emerald-500 transition duration-75">
+<span             onClick={() =>  Logout()   }
+ className="flex ml-1 whitespace-nowrap"><BsArrowBarLeft className="mr-4 h-7 w-7 text-stone-400"/>  logout</span>
 </a>
 </li>
 

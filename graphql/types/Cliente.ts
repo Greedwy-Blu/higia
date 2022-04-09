@@ -13,7 +13,7 @@ export const Cliente = objectType({
     definition(t) {
        t.int("id")
       t.string("medicamentos")
-      t.int("nivel")
+      t.string("nivel")
       t.list.field('usuario', {
          type: Usuario,
          async resolve(_parent, _args, ctx) {
@@ -64,7 +64,7 @@ export const  ClienteMutation = extendType({
          type: Cliente,
             args:{
                medicamentos: stringArg(),
-               nivel: intArg()
+               nivel: stringArg()
             },
             resolve: async (_root, args, context:Context) => {
                const userId = getUserId(context)

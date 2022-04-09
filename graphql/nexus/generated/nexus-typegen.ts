@@ -74,7 +74,7 @@ export interface NexusGenObjects {
   Cliente: { // root type
     id?: number | null; // Int
     medicamentos?: string | null; // String
-    nivel?: number | null; // Int
+    nivel?: string | null; // String
   }
   Comentario_Post: { // root type
     coteudo?: string | null; // String
@@ -91,13 +91,13 @@ export interface NexusGenObjects {
     ambiente?: string | null; // String
     especial?: string | null; // String
     especialidade?: string | null; // String
-    grupo?: number | null; // Int
+    grupo?: string | null; // String
     id?: number | null; // Int
-    idade?: number | null; // Int
+    idade?: string | null; // String
     imagens?: string | null; // String
     localatendimento?: string | null; // String
     qualificacao?: string | null; // String
-    raio?: number | null; // Int
+    raio?: string | null; // String
   }
   Query: {};
   Usuario: { // root type
@@ -136,7 +136,7 @@ export interface NexusGenFieldTypes {
     comentario_post: Array<NexusGenRootTypes['Comentario_Post'] | null> | null; // [Comentario_Post]
     id: number | null; // Int
     medicamentos: string | null; // String
-    nivel: number | null; // Int
+    nivel: string | null; // String
     notificacao_comentario: Array<NexusGenRootTypes['Notificacao_Comentario'] | null> | null; // [Notificacao_Comentario]
     usuario: Array<NexusGenRootTypes['Usuario'] | null> | null; // [Usuario]
   }
@@ -176,13 +176,13 @@ export interface NexusGenFieldTypes {
     comentario_post: Array<NexusGenRootTypes['Comentario_Post'] | null> | null; // [Comentario_Post]
     especial: string | null; // String
     especialidade: string | null; // String
-    grupo: number | null; // Int
+    grupo: string | null; // String
     id: number | null; // Int
-    idade: number | null; // Int
+    idade: string | null; // String
     imagens: string | null; // String
     localatendimento: string | null; // String
     qualificacao: string | null; // String
-    raio: number | null; // Int
+    raio: string | null; // String
     usuario: Array<NexusGenRootTypes['Usuario'] | null> | null; // [Usuario]
   }
   Query: { // field return type
@@ -220,7 +220,7 @@ export interface NexusGenFieldTypeNames {
     comentario_post: 'Comentario_Post'
     id: 'Int'
     medicamentos: 'String'
-    nivel: 'Int'
+    nivel: 'String'
     notificacao_comentario: 'Notificacao_Comentario'
     usuario: 'Usuario'
   }
@@ -260,13 +260,13 @@ export interface NexusGenFieldTypeNames {
     comentario_post: 'Comentario_Post'
     especial: 'String'
     especialidade: 'String'
-    grupo: 'Int'
+    grupo: 'String'
     id: 'Int'
-    idade: 'Int'
+    idade: 'String'
     imagens: 'String'
     localatendimento: 'String'
     qualificacao: 'String'
-    raio: 'Int'
+    raio: 'String'
     usuario: 'Usuario'
   }
   Query: { // field return type name
@@ -313,19 +313,19 @@ export interface NexusGenArgTypes {
     }
     Cliente: { // args
       medicamentos?: string | null; // String
-      nivel?: number | null; // Int
+      nivel?: string | null; // String
     }
     Profissional: { // args
       ambiente?: string | null; // String
       especial?: string | null; // String
       especialidade?: string | null; // String
-      grupo?: number | null; // Int
+      grupo?: string | null; // String
       id?: number | null; // Int
-      idade?: number | null; // Int
+      idade?: string | null; // String
       imagens?: string | null; // String
       localatendimento?: string | null; // String
       qualificacao?: string | null; // String
-      raio?: number | null; // Int
+      raio?: string | null; // String
     }
     comentarioPost: { // args
       coteudo?: string | null; // String
