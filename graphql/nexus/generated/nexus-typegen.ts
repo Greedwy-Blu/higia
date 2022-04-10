@@ -98,6 +98,7 @@ export interface NexusGenObjects {
     localatendimento?: string | null; // String
     qualificacao?: string | null; // String
     raio?: string | null; // String
+    servico?: string | null; // String
   }
   Query: {};
   Usuario: { // root type
@@ -183,6 +184,7 @@ export interface NexusGenFieldTypes {
     localatendimento: string | null; // String
     qualificacao: string | null; // String
     raio: string | null; // String
+    servico: string | null; // String
     usuario: Array<NexusGenRootTypes['Usuario'] | null> | null; // [Usuario]
   }
   Query: { // field return type
@@ -267,6 +269,7 @@ export interface NexusGenFieldTypeNames {
     localatendimento: 'String'
     qualificacao: 'String'
     raio: 'String'
+    servico: 'String'
     usuario: 'Usuario'
   }
   Query: { // field return type name

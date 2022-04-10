@@ -46,8 +46,6 @@ mutation ($ambiente: String, $especial: String, $especialidade: String, $grupo: 
 
 `
 const PerfilPage:React.FC = ()=>{
-  const [medicamentos, setMedicamentos] = useState('');
-  const [nivel, setNivel] = useState('');
   
  const [show, setShow] = useState(false)
 
@@ -63,15 +61,10 @@ const PerfilPage:React.FC = ()=>{
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const {
-    register: register2,
-    formState: { errors: errors2 },
-    handleSubmit: handleSubmit2,
-  } = useForm();
-
+  
  
-  const onSubmit = async (data) => {
-    const { medicamentos, nivel  } =data;
+  const onSubmit = async (ClienteMutationData) => {
+    const { medicamentos, nivel  } =ClienteMutationData;
     
   const variables ={medicamentos, nivel};
     try {
@@ -81,13 +74,18 @@ const PerfilPage:React.FC = ()=>{
         error: `Something went wrong 😥 Please try again - ${error} `,
       });
     
-    } catch (error) {
-      console.error(error);
-    }
+    } catch (err) {
+      console.log('onSubmit ~ err', err);
+  }
   };
  
   
   const [ Profissional, { data:profissionalMutationData, loading:p,error:epm}] = useMutation(profissionalMutation);
+  const {
+    register: register2,
+    formState: { errors: errors2 },
+    handleSubmit: handleSubmit2,
+  } = useForm();
 
   const onSubmit2 = async (profissionalMutationData) => {
     const { ambiente, especial,especialidade,grupo,idade,imagens,localatendimento,qualificacao,raio  } = profissionalMutationData;
@@ -100,9 +98,9 @@ const PerfilPage:React.FC = ()=>{
         error: `Something went wrong 😥 Please try again - ${epm} `,
       });
     
-    } catch (epm) {
-      console.error(epm);
-    }
+    }catch (err) {
+      console.log('onSubmit ~ err', err);
+  }
   };
 
   const handleShow = () => {
@@ -214,10 +212,9 @@ const profissional = () =>{
                     <input
                       type="text"
                      id="name"
-                       className=" focus:ring-indigo-500 focus:border-indigo-500 block w-290 shadow-sm sm:text-sm border-gray-300 rounded-md"
-                       {...register2('ambiente', { required: true })}
-                       name="ambiente"
-                    />
+                      className=" focus:ring-indigo-500 focus:border-indigo-500 block w-290 shadow-sm sm:text-sm border-gray-300 rounded-md"
+                       name="ambiente"        {...register2('ambiente', { required: true })}
+                         />
 
 
 </div>
@@ -240,8 +237,8 @@ const profissional = () =>{
 <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">email</label>
   <input type="text" id="sn"   className=" mr-12 pr-12 focus:ring-indigo-500 focus:border-indigo-500 block w-90 shadow-sm sm:text-sm w-full border-gray-300 rounded-md" 
   
-  name="especial"      
-  {...register2('especial', { required: true })}
+  name="localatendimento"      
+  {...register2('localatendimento', { required: true })}
                 
   />
 
@@ -275,7 +272,7 @@ const profissional = () =>{
 <div className=" px-4 "> 
 
 <label htmlFor="idade" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 pt-2">idade</label>
-  <input type="number" id="idade" className="  focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"    
+  <input type="text" id="idade" className="  focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"    
   
   
   name="idade"     
@@ -308,21 +305,6 @@ const profissional = () =>{
 </div>
 
 
-<div className=" px-4 col-span-2"> 
-
-<label htmlFor="celular" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 pt-2">telefone</label>
-  <input type="text" id="celular"  className="  focus:ring-indigo-500 focus:border-indigo-500 block w-600 shadow-sm sm:text-sm border-gray-300 rounded-md"   
-  
-  
-  name="localatendimento"      
- 
-  {...register2('localatendimento', { required: true })}
-
-
-  />
-
-
-</div>
 
 <div className=" px-4 col-span-2"> 
 

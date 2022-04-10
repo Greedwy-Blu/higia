@@ -62,6 +62,7 @@ type Profissional {
   localatendimento: String
   qualificacao: String
   raio: String
+  servico: String
   usuario: [Usuario]
 }
 
