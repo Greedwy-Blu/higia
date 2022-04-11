@@ -1,5 +1,5 @@
 
-import { enumType, intArg, objectType, stringArg } from 'nexus';
+import { enumType, intArg, objectType, stringArg, nonNull } from 'nexus';
 import { extendType } from 'nexus';
 
 import { APP_SECRET, getUserId} from '../utils';
@@ -55,25 +55,25 @@ export const Profissional = objectType({
   export const ProfissionalMutation = extendType({
     type: 'Mutation',
     definition(t) {
-      t.nonNull.field("Profissional", {
+      t.field("Profissional", {
         type: Profissional,
         args: {
-          ambiente: stringArg(),
-          especial: stringArg(),
-          especialidade: stringArg(),
-          grupo: stringArg(),
-          idade: stringArg(),
-          imagens: stringArg(),
-          localatendimento: stringArg(),
-          qualificacao: stringArg(),
-          raio: stringArg(),
-        id:intArg(),
+          ambiente:  nonNull(stringArg()),
+          especial: nonNull(stringArg()),
+          especialidade: nonNull(stringArg()),
+          grupo: nonNull(stringArg()),
+          idade:  nonNull(stringArg()),
+          imagens:  nonNull(stringArg()),
+          qualificacao:nonNull(stringArg()),
+          localatendimento:  nonNull(stringArg()),
+          servico: nonNull(stringArg()),
+          raio:nonNull(stringArg())
   
         },
         resolve: async (_root, args, context:Context) => {
           const userId = getUserId(context)
       
-          const Profissionais = await context.prisma.profissional.create({
+          const Profissional = await context.prisma.profissional.create({
            
             data: {
               ambiente: args.ambiente,
@@ -84,10 +84,12 @@ export const Profissional = objectType({
               raio: args.raio,
               imagens: args.imagens,
               qualificacao:args.qualificacao,
+              servico:args.servico,
               localatendimento:args.localatendimento,
-              identificacaoProfissionalId: Number(userId)
-            },
-  
+              
+ identificacaoProfissionalId: Number(userId)
+       
+               },
            
             
           
@@ -107,7 +109,16 @@ export const Profissional = objectType({
      t.field("updateProfissional",{
         type:  Profissional,
            args:{
-             
+            ambiente: stringArg(),
+            especial: stringArg(),
+            especialidade: stringArg(),
+            grupo: stringArg(),
+            idade: stringArg(),
+            imagens: stringArg(),
+            localatendimento: stringArg(),
+            qualificacao: stringArg(),
+            servico: stringArg(),
+            raio: stringArg(),
               id: intArg()
            },
            resolve: async (_root, args, ctx) => {
@@ -117,6 +128,18 @@ export const Profissional = objectType({
                   id:args.id
 
            },
+           data:{
+            ambiente: args.ambiente,
+            especial: args.especial,
+            especialidade: args.especialidade,
+            grupo: args.grupo,
+            idade: args.idade,
+            raio: args.raio,
+            imagens: args.imagens,
+            qualificacao:args.qualificacao,
+            servico:args.servico,
+            localatendimento:args.localatendimento,
+           }
         })
            }
      

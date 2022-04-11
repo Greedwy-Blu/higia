@@ -1,5 +1,6 @@
-mutation UpdateProfissional($updateProfissionalId: Int) {
-  updateProfissional(id: $updateProfissionalId) {
+mutation UpdateProfissional($ambiente: String, $especial: String, $grupo: String, $especialidade: String, $idade: String, $imagens: String, $localatendimento: String, $qualificacao: String, $servico: String, $raio: String, $updateProfissionalId: Int) {
+  updateProfissional(ambiente: $ambiente, especial: $especial, grupo: $grupo, especialidade: $especialidade, idade: $idade, imagens: $imagens, localatendimento: $localatendimento, qualificacao: $qualificacao, servico: $servico, raio: $raio, id: $updateProfissionalId) 
+   {
     id
   }
 }

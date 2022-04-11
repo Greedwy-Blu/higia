@@ -28,7 +28,7 @@ type Comentario_Post {
 type Mutation {
   CadastroUsuario(SobreNome: String, cidade: String, cliente: clienteCreateInput, email: String!, genero: String, id: String, idade: String, imgem_perfil: imgemPerfil, name: String, profissional: profissionalCreateInput, senha: String!, telefone: String): AuthPayload!
   Cliente(medicamentos: String, nivel: String): Cliente
-  Profissional(ambiente: String, especial: String, especialidade: String, grupo: String, id: Int, idade: String, imagens: String, localatendimento: String, qualificacao: String, raio: String): Profissional!
+  Profissional(ambiente: String!, especial: String!, especialidade: String!, grupo: String!, idade: String!, imagens: String!, localatendimento: String!, qualificacao: String!, raio: String!, servico: String!): Profissional
   comentarioPost(coteudo: String, nota: Int): Comentario_Post
   criarImagem(imagen: String): imagem_perfil
   delatecomentarioPost(id: Int): Comentario_Post
@@ -36,7 +36,7 @@ type Mutation {
   login(email: String!, senha: String!): AuthPayload
   notificacaoComentario(comentario: String, imagem_perfil: String): Notificacao_Comentario
   updateCliente(id: Int): Cliente
-  updateProfissional(id: Int): Profissional
+  updateProfissional(ambiente: String, especial: String, especialidade: String, grupo: String, id: Int, idade: String, imagens: String, localatendimento: String, qualificacao: String, raio: String, servico: String): Profissional
   updateUsuario(id: Int): Usuario
   updatecomentarioPost(id: Int): Comentario_Post
   updateimagem(id: Int): imagem_perfil

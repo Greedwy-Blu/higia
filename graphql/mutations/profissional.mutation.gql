@@ -1,12 +1,7 @@
-mutation Profissional($ambiente: String, $especial: String, $especialidade: String, $grupo: String, $idade: String, $imagens: String, $localatendimento: String, $qualificacao: String, $raio: String) {
-  Profissional(ambiente: $ambiente, especial: $especial, especialidade: $especialidade, grupo: $grupo, idade: $idade, imagens: $imagens, localatendimento: $localatendimento, qualificacao: $qualificacao, raio: $raio) {
+mutation profissionalMutation($ambiente: String!, $especial: String!, $servico: String!, $especialidade: String!, $grupo: String!, $idade: String!, $imagens: String!, $localatendimento: String!, $qualificacao: String!, $raio: String!) {
+  Profissional(ambiente: $ambiente, especial: $especial, servico: $servico, especialidade: $especialidade, grupo: $grupo, idade: $idade, imagens: $imagens, localatendimento: $localatendimento, qualificacao: $qualificacao, raio: $raio) {
     id
-    usuario {
-      id
-    }
-    especialidade
-    comentario_post {
-      id
-    }
+  
+   
   }
 }

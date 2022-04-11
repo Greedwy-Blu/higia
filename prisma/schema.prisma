@@ -70,6 +70,8 @@ model profissional {
   usuario                     usuario           @relation(fields: [identificacaoProfissionalId], references: [id], map: "Profissional_identificacaoProfissionalId_fkey")
   comentario_post             comentario_post[]
 
+
+
   @@index([identificacaoProfissionalId], map: "Profissional_identificacaoProfissionalId_fkey")
 }
 

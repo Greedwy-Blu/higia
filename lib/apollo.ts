@@ -36,7 +36,7 @@ const authLink = setContext(async (req, { headers }) => {
 const link = authLink.concat(httpLink as any)
 export const client = new ApolloClient({
   ssrMode: typeof window === "undefined", // Disables forceFetch on the server (so queries are only run once)
-  link: (link as any),
+  link: errorLink.concat(link as any),
   defaultOptions: {
     watchQuery: {
       fetchPolicy: 'cache-and-network',

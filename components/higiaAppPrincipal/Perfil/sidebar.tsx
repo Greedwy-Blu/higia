@@ -11,6 +11,8 @@ import { FaBell, FaCameraRetro } from "react-icons/fa";
 
 import Router, { useRouter } from "next/router"
 import { usePerfilQuery } from '../../../graphql/generated/graphql';
+
+import { useProfissionalMutationMutation } from '../../../graphql/generated/graphql';
 const  imgicon = require('../../assets/zyro-image_2_.ico');
 const  imgicon2 = require('../../assets/ph2.jpg');
 
@@ -30,38 +32,39 @@ mutation ($medicamentos: String, $nivel: String) {
   }
 }`
 
-const profissionalMutation = gql`
-mutation ($ambiente: String, $especial: String, $especialidade: String, $grupo: String, $idade: String, $imagens: String, $localatendimento: String, $qualificacao: String, $raio: String) {
-  Profissional(ambiente: $ambiente, especial: $especial, especialidade: $especialidade, grupo: $grupo, idade: $idade, imagens: $imagens, localatendimento: $localatendimento, qualificacao: $qualificacao, raio: $raio) {
-    id
-    usuario {
-      id
-    }
-    especialidade
-    comentario_post {
-      id
-    }
-  }
-}
-
-`
 const PerfilPage:React.FC = ()=>{
   
  const [show, setShow] = useState(false)
+
+ const [idade, setIdade] = useState('')
+ const [grupo, setGrupo] = useState('')
+ 
+ const [servico, setServico] = useState('')
+ const [raio, setRaio] = useState('')
+
+ const [imagens, setImagens] = useState('')
+ const [especial, setEspecial] = useState('')
+
+ const [especialidade, setEspecialidade] = useState('')
+ const [qualificacao, setQualificaccao] = useState('')
+ const [localatendimento, setLocalatendimento] = useState('')
+ const [ambiente, setAmbiente] = useState('')
+
 
   const [showAll, setShowAll] = useState(false);
   const [currentIdx, setCurrentIdx] = useState(0);
   const [showCurrent, setShowCurrent] = useState(false);
 
-
   const [ Cliente, { data:ClienteMutationData, loading,error}] = useMutation(clienteMutation);
-  const {client,  data } = usePerfilQuery()
+  const {client,  data: PerfilQuery  } = usePerfilQuery()
+  
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
   
+ 
  
   const onSubmit = async (ClienteMutationData) => {
     const { medicamentos, nivel  } =ClienteMutationData;
@@ -79,29 +82,32 @@ const PerfilPage:React.FC = ()=>{
   }
   };
  
-  
-  const [ Profissional, { data:profissionalMutationData, loading:p,error:epm}] = useMutation(profissionalMutation);
+  const [Profissional, {  data, loading:p  }] = useProfissionalMutationMutation()
+ 
   const {
     register: register2,
-    formState: { errors: errors2 },
-    handleSubmit: handleSubmit2,
+    handleSubmit:handleSubmit2,
+    formState: { errors:errors2 },
   } = useForm();
-
-  const onSubmit2 = async (profissionalMutationData) => {
-    const { ambiente, especial,especialidade,grupo,idade,imagens,localatendimento,qualificacao,raio  } = profissionalMutationData;
+  
+  const onSubmit2 = async (data) => {
+    const { ambiente, especial, especialidade,grupo, idade,  raio,imagens,qualificacao,localatendimento, servico} = data;
+    const  variables ={ambiente, especial, especialidade,grupo, idade,  raio,imagens,qualificacao,localatendimento, servico};
+  
+    try{
     
-  const variables ={ambiente, especial,especialidade,grupo,idade,imagens,localatendimento,qualificacao,raio };
-    try {
-      toast.promise(Profissional({ variables }), {
-        loading: 'criando',
-        success: 'criado com sucesso!🎉',
-        error: `Something went wrong 😥 Please try again - ${epm} `,
-      });
-    
-    }catch (err) {
-      console.log('onSubmit ~ err', err);
+   
+  toast.promise(Profissional({
+    variables
+}), {
+    loading: 'Loading',
+    success: 'Got the data',
+    error: 'Error when fetching',
+  });
+   }catch(err){
+     console.log(err)
+   }
   }
-  };
 
   const handleShow = () => {
     (show ? setShow(false) : setShow(true))
@@ -125,8 +131,6 @@ const setCurrent = index => {
   setCurrentIdx(index);
   toggleCurrent();
 };
-const [toggleViewMode, setToggleViewMode] = useState(false);
-const contentClassname = toggleViewMode
 
  const usuarioPerfil =()=>{
        return (
@@ -200,165 +204,179 @@ const profissional = () =>{
      <form 
      
      onSubmit={handleSubmit2(onSubmit2)}
-
+  
      
-     >
-       <div className="flex  mt-8  ">
-<div className="col-span-2  px-4 mt-2 w-100"> 
-
-<label htmlFor="email-address" className="block text-sm font-medium text-gray-700">
-                     Nome
-                    </label>
-                    <input
-                      type="text"
-                     id="name"
-                      className=" focus:ring-indigo-500 focus:border-indigo-500 block w-290 shadow-sm sm:text-sm border-gray-300 rounded-md"
-                       name="ambiente"        {...register2('ambiente', { required: true })}
-                         />
-
-
-</div>
-
-<div className="col-span-2 px-4  "> 
-
-<label htmlFor="sobrenome" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Sobre nome</label>
-  <input type="text" id="sn"  className="  focus:ring-indigo-500 focus:border-indigo-500 block w-100 shadow-sm sm:text-sm border-gray-300 rounded-md"     
-              name="especial"         
-              {...register2('especial', { required: true })}
-                    
-                       />
-
-
-</div>
-</div>
-<div className='flex grid col-span-2 '>
-<div className=" px-4"> 
- 
-<label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">email</label>
-  <input type="text" id="sn"   className=" mr-12 pr-12 focus:ring-indigo-500 focus:border-indigo-500 block w-90 shadow-sm sm:text-sm w-full border-gray-300 rounded-md" 
-  
-  name="localatendimento"      
-  {...register2('localatendimento', { required: true })}
+     > <div className="flex  mt-8  ">
+     <div className="col-span-2  px-4 mt-2 w-100"> 
+     
+     <label htmlFor="email-address" className="block text-sm font-medium text-gray-700">
+                          Nome
+                         </label>
+                         <input
+                           type="text"
+                          id="name"
+                           className=" focus:ring-indigo-500 focus:border-indigo-500 block w-290 shadow-sm sm:text-sm border-gray-300 rounded-md"
+                            name="ambiente"        {...register2('ambiente', { required: true })}
+                              />
+     
+     
+     </div>
+     
+     <div className="col-span-2 px-4  "> 
+     
+     <label htmlFor="sobrenome" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Sobre nome</label>
+       <input type="text" id="sn"  className="  focus:ring-indigo-500 focus:border-indigo-500 block w-100 shadow-sm sm:text-sm border-gray-300 rounded-md"     
+                   name="especial"         
+                   {...register2('especial', { required: true })}
+                         
+                            />
+     
+     
+     </div>
+     </div>
+     <div className='flex grid col-span-2 '>
+     <div className=" px-4"> 
+      
+     <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">email</label>
+       <input type="text" id="sn"   className=" mr-12 pr-12 focus:ring-indigo-500 focus:border-indigo-500 block w-90 shadow-sm sm:text-sm w-full border-gray-300 rounded-md" 
+       
+       name="localatendimento"      
+       {...register2('localatendimento', { required: true })}
+                     
+       />
+     
+     
+     <label htmlFor="cidade" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 pt-2">cidade</label>
+       <input type="text" id="cidade" className="  focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"  
+       name="especialidade"    
+      
+       {...register2('especialidade', { required: true })}
                 
-  />
+     />
+     
+     
+     </div>
+     
+     <div className=" px-4 "> 
+     
+     <label htmlFor="senha" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 pt-2">senha</label>
+       <input type="text" id="senha"  className="  focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"      
+       
+       name="grupo"    
+      
+       {...register2('grupo', { required: true })}
+       />
+     
+     
+     </div>
+     
+     
+     
+     <div className=" px-4 "> 
+     
+     <label htmlFor="idade" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 pt-2">idade</label>
+       <input type="text" id="idade" className="  focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"    
+       
+       
+       name="idade"     
+      
+       {...register2('idade', { required: true })}
+     
+       />
+     
+     
+     </div>
+     
+     
+     <div className='flex'>
+     
+     
+     <div className=" px-4 col-span-2"> 
+     
+     <label htmlFor="celular" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 pt-2">telefone</label>
+       <input type="text" id="celular"  className="  focus:ring-indigo-500 focus:border-indigo-500 block w-600 shadow-sm sm:text-sm border-gray-300 rounded-md"   
+       
+       
+       name="imagens"      
+      
+       {...register2('imagens', { required: true })}
+     
+     
+       />
+     
+     
+     </div>
+     <div className=" px-4 col-span-2"> 
+     
+     <label htmlFor="celular" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 pt-2">telefone</label>
+       <input type="text" id="celular"  className="  focus:ring-indigo-500 focus:border-indigo-500 block w-600 shadow-sm sm:text-sm border-gray-300 rounded-md"   
+       
+       
+       name="servico"      
+      
+       {...register2('servico', { required: true })}
+     
+     
+       />
+     
+     
+     </div>
+     
+     
+     
+     <div className=" px-4 col-span-2"> 
+     
+     <label htmlFor="celular" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 pt-2">telefone</label>
+       <input type="text" id="celular"  className="  focus:ring-indigo-500 focus:border-indigo-500 block w-600 shadow-sm sm:text-sm border-gray-300 rounded-md"   
+       
+       
+       name="qualificacao"      
+      
+       {...register2('qualificacao', { required: true })}
+     
+     
+       />
+     
+     
+     </div>
+     
+     <div className="px-4  col-span-2">
+     <div className="mb-3 xl:w-96">
+     <label htmlFor="genêro"  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 pt-2">gênero</label>
+     
+       <select  className="form-select appearance-none
+         block
+         w-full
+         px-3
+         py-1.5
+         text-base
+         font-normal
+         text-gray-700
+         bg-white bg-clip-padding bg-no-repeat
+         border border-solid border-gray-300
+         rounded
+         transition
+         ease-in-out
+         m-0
+         focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example"     
+     
+     
+         name="raio"         
+     
+         {...register2('raio', { required: true })}
+     >
+           <option selected>gênero</option>
+           <option value="masculino">masculino</option>
+           <option value="feminino">feminino</option>
+           <option value="não-binário">não-binário</option>
+           <option value="transgênero">transgênero</option>
+       </select>
+     </div>
+     </div>
+     </div>
+     </div>
 
 
-<label htmlFor="cidade" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 pt-2">cidade</label>
-  <input type="text" id="cidade" className="  focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"  
-  name="especialidade"    
- 
-  {...register2('especialidade', { required: true })}
-           
-/>
-
-
-</div>
-
-<div className=" px-4 "> 
-
-<label htmlFor="senha" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 pt-2">senha</label>
-  <input type="text" id="senha"  className="  focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"      
-  
-  name="grupo"    
- 
-  {...register2('grupo', { required: true })}
-  />
-
-
-</div>
-
-
-
-<div className=" px-4 "> 
-
-<label htmlFor="idade" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 pt-2">idade</label>
-  <input type="text" id="idade" className="  focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"    
-  
-  
-  name="idade"     
- 
-  {...register2('idade', { required: true })}
-
-  />
-
-
-</div>
-
-
-<div className='flex'>
-
-
-<div className=" px-4 col-span-2"> 
-
-<label htmlFor="celular" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 pt-2">telefone</label>
-  <input type="text" id="celular"  className="  focus:ring-indigo-500 focus:border-indigo-500 block w-600 shadow-sm sm:text-sm border-gray-300 rounded-md"   
-  
-  
-  name="imagens"      
- 
-  {...register2('imagens', { required: true })}
-
-
-  />
-
-
-</div>
-
-
-
-<div className=" px-4 col-span-2"> 
-
-<label htmlFor="celular" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 pt-2">telefone</label>
-  <input type="text" id="celular"  className="  focus:ring-indigo-500 focus:border-indigo-500 block w-600 shadow-sm sm:text-sm border-gray-300 rounded-md"   
-  
-  
-  name="qualificacao"      
- 
-  {...register2('qualificacao', { required: true })}
-
-
-  />
-
-
-</div>
-
-<div className="px-4  col-span-2">
-<div className="mb-3 xl:w-96">
-<label htmlFor="genêro"  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 pt-2">gênero</label>
-
-  <select  className="form-select appearance-none
-    block
-    w-full
-    px-3
-    py-1.5
-    text-base
-    font-normal
-    text-gray-700
-    bg-white bg-clip-padding bg-no-repeat
-    border border-solid border-gray-300
-    rounded
-    transition
-    ease-in-out
-    m-0
-    focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example"     
-
-
-    name="raio"         
-
-    {...register2('raio', { required: true })}
->
-      <option selected>gênero</option>
-      <option value="masculino">masculino</option>
-      <option value="feminino">feminino</option>
-      <option value="não-binário">não-binário</option>
-      <option value="transgênero">transgênero</option>
-  </select>
-</div>
-</div>
-
-
-</div>
-</div>
 
 <div className="  justify-items-center ml-48 mt-16">
 <input  type="submit" value="cadastro" className="h-12  px-12 w-2/3 m-2 bg-emerald-700 shadow text-lg text-center text-white" />
@@ -446,7 +464,7 @@ const [datas, setDatas] = useState([usuarioPerfil(), notificacao(),cliente(), pr
 <a onClick={() => setCurrent(1)} className="flex items-center p-2 pl-11 w-full text-base font-normal text-gray-900  transition duration-75 group hover:bg-gray-100 border-r-4 border-transparent hover:border-emerald-700 transition duration-75"><FaBell className="mr-2 h-7 w-7 text-stone-400"/>notificação</a>
 </li>
 <li>
-<a  onClick={() => setToggleViewMode(!toggleViewMode)} className="flex items-center p-2 pl-11 w-full  text-base font-normal text-gray-900  transition duration-75 group hover:bg-gray-100 border-r-4 border-transparent hover:border-emerald-700 transition duration-75 "><FaCameraRetro className="mr-2 h-7 w-7 text-stone-400"/>post</a>
+<a   className="flex items-center p-2 pl-11 w-full  text-base font-normal text-gray-900  transition duration-75 group hover:bg-gray-100 border-r-4 border-transparent hover:border-emerald-700 transition duration-75 "><FaCameraRetro className="mr-2 h-7 w-7 text-stone-400"/>post</a>
 </li>
 <li>
 <a  onClick={() => setCurrent(0)} className="pl-11 w-full  flex items-center p-2 text-base font-normal hover:bg-slate-100 text-gray-900 border-r-4 border-transparent hover:border-emerald-700 transition duration-75  ">

@@ -45,7 +45,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   CadastroUsuario: AuthPayload;
   Cliente?: Maybe<Cliente>;
-  Profissional: Profissional;
+  Profissional?: Maybe<Profissional>;
   comentarioPost?: Maybe<Comentario_Post>;
   criarImagem?: Maybe<Imagem_Perfil>;
   delatecomentarioPost?: Maybe<Comentario_Post>;
@@ -83,16 +83,16 @@ export type MutationClienteArgs = {
 
 
 export type MutationProfissionalArgs = {
-  ambiente?: InputMaybe<Scalars['String']>;
-  especial?: InputMaybe<Scalars['String']>;
-  especialidade?: InputMaybe<Scalars['String']>;
-  grupo?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['Int']>;
-  idade?: InputMaybe<Scalars['String']>;
-  imagens?: InputMaybe<Scalars['String']>;
-  localatendimento?: InputMaybe<Scalars['String']>;
-  qualificacao?: InputMaybe<Scalars['String']>;
-  raio?: InputMaybe<Scalars['String']>;
+  ambiente: Scalars['String'];
+  especial: Scalars['String'];
+  especialidade: Scalars['String'];
+  grupo: Scalars['String'];
+  idade: Scalars['String'];
+  imagens: Scalars['String'];
+  localatendimento: Scalars['String'];
+  qualificacao: Scalars['String'];
+  raio: Scalars['String'];
+  servico: Scalars['String'];
 };
 
 
@@ -135,7 +135,17 @@ export type MutationUpdateClienteArgs = {
 
 
 export type MutationUpdateProfissionalArgs = {
+  ambiente?: InputMaybe<Scalars['String']>;
+  especial?: InputMaybe<Scalars['String']>;
+  especialidade?: InputMaybe<Scalars['String']>;
+  grupo?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['Int']>;
+  idade?: InputMaybe<Scalars['String']>;
+  imagens?: InputMaybe<Scalars['String']>;
+  localatendimento?: InputMaybe<Scalars['String']>;
+  qualificacao?: InputMaybe<Scalars['String']>;
+  raio?: InputMaybe<Scalars['String']>;
+  servico?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -175,6 +185,7 @@ export type Profissional = {
   localatendimento?: Maybe<Scalars['String']>;
   qualificacao?: Maybe<Scalars['String']>;
   raio?: Maybe<Scalars['String']>;
+  servico?: Maybe<Scalars['String']>;
   usuario?: Maybe<Array<Maybe<Usuario>>>;
 };
 
@@ -340,22 +351,33 @@ export type NotificacaoComentarioMutationVariables = Exact<{
 
 export type NotificacaoComentarioMutation = { __typename?: 'Mutation', notificacaoComentario?: { __typename?: 'Notificacao_Comentario', id?: number | null, comentario_post?: Array<{ __typename?: 'Comentario_Post', id?: number | null } | null> | null, cliente?: Array<{ __typename?: 'Cliente', id?: number | null } | null> | null } | null };
 
-export type ProfissionalMutationVariables = Exact<{
+export type ProfissionalMutationMutationVariables = Exact<{
+  ambiente: Scalars['String'];
+  especial: Scalars['String'];
+  servico: Scalars['String'];
+  especialidade: Scalars['String'];
+  grupo: Scalars['String'];
+  idade: Scalars['String'];
+  imagens: Scalars['String'];
+  localatendimento: Scalars['String'];
+  qualificacao: Scalars['String'];
+  raio: Scalars['String'];
+}>;
+
+
+export type ProfissionalMutationMutation = { __typename?: 'Mutation', Profissional?: { __typename?: 'Profissional', id?: number | null } | null };
+
+export type UpdateProfissionalMutationVariables = Exact<{
   ambiente?: InputMaybe<Scalars['String']>;
   especial?: InputMaybe<Scalars['String']>;
-  especialidade?: InputMaybe<Scalars['String']>;
   grupo?: InputMaybe<Scalars['String']>;
+  especialidade?: InputMaybe<Scalars['String']>;
   idade?: InputMaybe<Scalars['String']>;
   imagens?: InputMaybe<Scalars['String']>;
   localatendimento?: InputMaybe<Scalars['String']>;
   qualificacao?: InputMaybe<Scalars['String']>;
+  servico?: InputMaybe<Scalars['String']>;
   raio?: InputMaybe<Scalars['String']>;
-}>;
-
-
-export type ProfissionalMutation = { __typename?: 'Mutation', Profissional: { __typename?: 'Profissional', id?: number | null, especialidade?: string | null, usuario?: Array<{ __typename?: 'Usuario', id?: number | null } | null> | null, comentario_post?: Array<{ __typename?: 'Comentario_Post', id?: number | null } | null> | null } };
-
-export type UpdateProfissionalMutationVariables = Exact<{
   updateProfissionalId?: InputMaybe<Scalars['Int']>;
 }>;
 
@@ -798,11 +820,12 @@ export function useNotificacaoComentarioMutation(baseOptions?: Apollo.MutationHo
 export type NotificacaoComentarioMutationHookResult = ReturnType<typeof useNotificacaoComentarioMutation>;
 export type NotificacaoComentarioMutationResult = Apollo.MutationResult<NotificacaoComentarioMutation>;
 export type NotificacaoComentarioMutationOptions = Apollo.BaseMutationOptions<NotificacaoComentarioMutation, NotificacaoComentarioMutationVariables>;
-export const ProfissionalDocument = gql`
-    mutation Profissional($ambiente: String, $especial: String, $especialidade: String, $grupo: String, $idade: String, $imagens: String, $localatendimento: String, $qualificacao: String, $raio: String) {
+export const ProfissionalMutationDocument = gql`
+    mutation profissionalMutation($ambiente: String!, $especial: String!, $servico: String!, $especialidade: String!, $grupo: String!, $idade: String!, $imagens: String!, $localatendimento: String!, $qualificacao: String!, $raio: String!) {
   Profissional(
     ambiente: $ambiente
     especial: $especial
+    servico: $servico
     especialidade: $especialidade
     grupo: $grupo
     idade: $idade
@@ -812,33 +835,27 @@ export const ProfissionalDocument = gql`
     raio: $raio
   ) {
     id
-    usuario {
-      id
-    }
-    especialidade
-    comentario_post {
-      id
-    }
   }
 }
     `;
-export type ProfissionalMutationFn = Apollo.MutationFunction<ProfissionalMutation, ProfissionalMutationVariables>;
+export type ProfissionalMutationMutationFn = Apollo.MutationFunction<ProfissionalMutationMutation, ProfissionalMutationMutationVariables>;
 
 /**
- * __useProfissionalMutation__
+ * __useProfissionalMutationMutation__
  *
- * To run a mutation, you first call `useProfissionalMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useProfissionalMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useProfissionalMutationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useProfissionalMutationMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [profissionalMutation, { data, loading, error }] = useProfissionalMutation({
+ * const [profissionalMutationMutation, { data, loading, error }] = useProfissionalMutationMutation({
  *   variables: {
  *      ambiente: // value for 'ambiente'
  *      especial: // value for 'especial'
+ *      servico: // value for 'servico'
  *      especialidade: // value for 'especialidade'
  *      grupo: // value for 'grupo'
  *      idade: // value for 'idade'
@@ -849,16 +866,28 @@ export type ProfissionalMutationFn = Apollo.MutationFunction<ProfissionalMutatio
  *   },
  * });
  */
-export function useProfissionalMutation(baseOptions?: Apollo.MutationHookOptions<ProfissionalMutation, ProfissionalMutationVariables>) {
+export function useProfissionalMutationMutation(baseOptions?: Apollo.MutationHookOptions<ProfissionalMutationMutation, ProfissionalMutationMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<ProfissionalMutation, ProfissionalMutationVariables>(ProfissionalDocument, options);
+        return Apollo.useMutation<ProfissionalMutationMutation, ProfissionalMutationMutationVariables>(ProfissionalMutationDocument, options);
       }
-export type ProfissionalMutationHookResult = ReturnType<typeof useProfissionalMutation>;
-export type ProfissionalMutationResult = Apollo.MutationResult<ProfissionalMutation>;
-export type ProfissionalMutationOptions = Apollo.BaseMutationOptions<ProfissionalMutation, ProfissionalMutationVariables>;
+export type ProfissionalMutationMutationHookResult = ReturnType<typeof useProfissionalMutationMutation>;
+export type ProfissionalMutationMutationResult = Apollo.MutationResult<ProfissionalMutationMutation>;
+export type ProfissionalMutationMutationOptions = Apollo.BaseMutationOptions<ProfissionalMutationMutation, ProfissionalMutationMutationVariables>;
 export const UpdateProfissionalDocument = gql`
-    mutation UpdateProfissional($updateProfissionalId: Int) {
-  updateProfissional(id: $updateProfissionalId) {
+    mutation UpdateProfissional($ambiente: String, $especial: String, $grupo: String, $especialidade: String, $idade: String, $imagens: String, $localatendimento: String, $qualificacao: String, $servico: String, $raio: String, $updateProfissionalId: Int) {
+  updateProfissional(
+    ambiente: $ambiente
+    especial: $especial
+    grupo: $grupo
+    especialidade: $especialidade
+    idade: $idade
+    imagens: $imagens
+    localatendimento: $localatendimento
+    qualificacao: $qualificacao
+    servico: $servico
+    raio: $raio
+    id: $updateProfissionalId
+  ) {
     id
   }
 }
@@ -878,6 +907,16 @@ export type UpdateProfissionalMutationFn = Apollo.MutationFunction<UpdateProfiss
  * @example
  * const [updateProfissionalMutation, { data, loading, error }] = useUpdateProfissionalMutation({
  *   variables: {
+ *      ambiente: // value for 'ambiente'
+ *      especial: // value for 'especial'
+ *      grupo: // value for 'grupo'
+ *      especialidade: // value for 'especialidade'
+ *      idade: // value for 'idade'
+ *      imagens: // value for 'imagens'
+ *      localatendimento: // value for 'localatendimento'
+ *      qualificacao: // value for 'qualificacao'
+ *      servico: // value for 'servico'
+ *      raio: // value for 'raio'
  *      updateProfissionalId: // value for 'updateProfissionalId'
  *   },
  * });

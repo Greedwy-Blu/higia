@@ -152,7 +152,7 @@ export interface NexusGenFieldTypes {
   Mutation: { // field return type
     CadastroUsuario: NexusGenRootTypes['AuthPayload']; // AuthPayload!
     Cliente: NexusGenRootTypes['Cliente'] | null; // Cliente
-    Profissional: NexusGenRootTypes['Profissional']; // Profissional!
+    Profissional: NexusGenRootTypes['Profissional'] | null; // Profissional
     comentarioPost: NexusGenRootTypes['Comentario_Post'] | null; // Comentario_Post
     criarImagem: NexusGenRootTypes['imagem_perfil'] | null; // imagem_perfil
     delatecomentarioPost: NexusGenRootTypes['Comentario_Post'] | null; // Comentario_Post
@@ -319,16 +319,16 @@ export interface NexusGenArgTypes {
       nivel?: string | null; // String
     }
     Profissional: { // args
-      ambiente?: string | null; // String
-      especial?: string | null; // String
-      especialidade?: string | null; // String
-      grupo?: string | null; // String
-      id?: number | null; // Int
-      idade?: string | null; // String
-      imagens?: string | null; // String
-      localatendimento?: string | null; // String
-      qualificacao?: string | null; // String
-      raio?: string | null; // String
+      ambiente: string; // String!
+      especial: string; // String!
+      especialidade: string; // String!
+      grupo: string; // String!
+      idade: string; // String!
+      imagens: string; // String!
+      localatendimento: string; // String!
+      qualificacao: string; // String!
+      raio: string; // String!
+      servico: string; // String!
     }
     comentarioPost: { // args
       coteudo?: string | null; // String
@@ -355,7 +355,17 @@ export interface NexusGenArgTypes {
       id?: number | null; // Int
     }
     updateProfissional: { // args
+      ambiente?: string | null; // String
+      especial?: string | null; // String
+      especialidade?: string | null; // String
+      grupo?: string | null; // String
       id?: number | null; // Int
+      idade?: string | null; // String
+      imagens?: string | null; // String
+      localatendimento?: string | null; // String
+      qualificacao?: string | null; // String
+      raio?: string | null; // String
+      servico?: string | null; // String
     }
     updateUsuario: { // args
       id?: number | null; // Int
