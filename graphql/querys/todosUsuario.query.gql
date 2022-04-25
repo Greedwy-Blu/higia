@@ -1,5 +1,16 @@
 query TodosUsuario {
   TodosUsuario {
     id
+    SobreNome
+    email
+    cidade
+    genero
+    idade
+    profissional {
+      id
+    }
+    name
+    telefone
+  senha
   }
-}
+  }

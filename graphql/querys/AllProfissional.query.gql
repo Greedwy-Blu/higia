@@ -1,0 +1,15 @@
+query TodosProfissionalquery {
+  todosPro {
+    ambiente
+    especialidade
+  especial
+    grupo
+    id
+  servico
+    idade
+    imagens
+    localatendimento
+    qualificacao
+    raio
+  }
+}

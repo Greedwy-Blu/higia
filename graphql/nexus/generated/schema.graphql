@@ -58,6 +58,7 @@ type Profissional {
   grupo: String
   id: Int
   idade: String
+  identificacaoProfissionalId: Int
   imagens: String
   localatendimento: String
   qualificacao: String
@@ -82,20 +83,20 @@ input ProfissionalWhereUniqueInput {
 type Query {
   TodosUsuario: [Usuario]
   perfil: Usuario
-  test: [Usuario]
+  todosPro: Profissional
 }
 
 type Usuario {
-  Profissionais: [Profissional]
   SobreNome: String
   cidade: String
-  clientes: [Cliente]
+  cliente: [Cliente]
   email: String
   genero: String
   id: Int
   idade: String
   imgem_perfis: [imagem_perfil]
   name: String
+  profissional: [Profissional]
   senha: String
   telefone: String
 }

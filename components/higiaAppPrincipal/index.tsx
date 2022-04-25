@@ -30,13 +30,7 @@ const{data, error,loading } = usePerfilQuery();
 
 
 if(loading) return <p>Loading...</p>;
-if(!data?.perfil){
-    return(
-        <div>
-        <div>Porfavor faça o login</div>
-        </div>
-    )
-} 
+
 
 
   return (

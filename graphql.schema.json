@@ -1255,6 +1255,18 @@
             "deprecationReason": null
           },
           {
+            "name": "identificacaoProfissionalId",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "imagens",
             "description": null,
             "args": [],
@@ -1501,17 +1513,13 @@
             "deprecationReason": null
           },
           {
-            "name": "test",
+            "name": "todosPro",
             "description": null,
             "args": [],
             "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Usuario",
-                "ofType": null
-              }
+              "kind": "OBJECT",
+              "name": "Profissional",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -1538,22 +1546,6 @@
         "description": null,
         "fields": [
           {
-            "name": "Profissionais",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Profissional",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "SobreNome",
             "description": null,
             "args": [],
@@ -1578,7 +1570,7 @@
             "deprecationReason": null
           },
           {
-            "name": "clientes",
+            "name": "cliente",
             "description": null,
             "args": [],
             "type": {
@@ -1665,6 +1657,22 @@
               "kind": "SCALAR",
               "name": "String",
               "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "profissional",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Profissional",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null

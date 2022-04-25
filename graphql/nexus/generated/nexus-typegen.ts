@@ -94,6 +94,7 @@ export interface NexusGenObjects {
     grupo?: string | null; // String
     id?: number | null; // Int
     idade?: string | null; // String
+    identificacaoProfissionalId?: number | null; // Int
     imagens?: string | null; // String
     localatendimento?: string | null; // String
     qualificacao?: string | null; // String
@@ -180,6 +181,7 @@ export interface NexusGenFieldTypes {
     grupo: string | null; // String
     id: number | null; // Int
     idade: string | null; // String
+    identificacaoProfissionalId: number | null; // Int
     imagens: string | null; // String
     localatendimento: string | null; // String
     qualificacao: string | null; // String
@@ -190,19 +192,19 @@ export interface NexusGenFieldTypes {
   Query: { // field return type
     TodosUsuario: Array<NexusGenRootTypes['Usuario'] | null> | null; // [Usuario]
     perfil: NexusGenRootTypes['Usuario'] | null; // Usuario
-    test: Array<NexusGenRootTypes['Usuario'] | null> | null; // [Usuario]
+    todosPro: NexusGenRootTypes['Profissional'] | null; // Profissional
   }
   Usuario: { // field return type
-    Profissionais: Array<NexusGenRootTypes['Profissional'] | null> | null; // [Profissional]
     SobreNome: string | null; // String
     cidade: string | null; // String
-    clientes: Array<NexusGenRootTypes['Cliente'] | null> | null; // [Cliente]
+    cliente: Array<NexusGenRootTypes['Cliente'] | null> | null; // [Cliente]
     email: string | null; // String
     genero: string | null; // String
     id: number | null; // Int
     idade: string | null; // String
     imgem_perfis: Array<NexusGenRootTypes['imagem_perfil'] | null> | null; // [imagem_perfil]
     name: string | null; // String
+    profissional: Array<NexusGenRootTypes['Profissional'] | null> | null; // [Profissional]
     senha: string | null; // String
     telefone: string | null; // String
   }
@@ -265,6 +267,7 @@ export interface NexusGenFieldTypeNames {
     grupo: 'String'
     id: 'Int'
     idade: 'String'
+    identificacaoProfissionalId: 'Int'
     imagens: 'String'
     localatendimento: 'String'
     qualificacao: 'String'
@@ -275,19 +278,19 @@ export interface NexusGenFieldTypeNames {
   Query: { // field return type name
     TodosUsuario: 'Usuario'
     perfil: 'Usuario'
-    test: 'Usuario'
+    todosPro: 'Profissional'
   }
   Usuario: { // field return type name
-    Profissionais: 'Profissional'
     SobreNome: 'String'
     cidade: 'String'
-    clientes: 'Cliente'
+    cliente: 'Cliente'
     email: 'String'
     genero: 'String'
     id: 'Int'
     idade: 'String'
     imgem_perfis: 'imagem_perfil'
     name: 'String'
+    profissional: 'Profissional'
     senha: 'String'
     telefone: 'String'
   }

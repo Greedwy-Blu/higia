@@ -1,6 +1,29 @@
 query Perfil {
   perfil{
-    id
-   
+    
+
+        id
+       telefone
+    senha
+    name
+    idade
+    genero
+    email
+    cidade
+    SobreNome
+ profissional{
+     identificacaoProfissionalId
+     id
+    ambiente
+    especial
+    especialidade
+    grupo
+    servico
+    idade
+    imagens
+    localatendimento
+    qualificacao
+    raio
+    }
   }
 }

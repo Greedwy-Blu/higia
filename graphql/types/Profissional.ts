@@ -1,7 +1,7 @@
 
 import { enumType, intArg, objectType, stringArg, nonNull } from 'nexus';
 import { extendType } from 'nexus';
-
+import {profissional} from '@prisma/client'
 import { APP_SECRET, getUserId} from '../utils';
 import {Context } from '../context';
 import { Comentario_Post } from './Comentario_post';
@@ -17,6 +17,8 @@ export const Profissional = objectType({
       t.string("grupo")
       t.string("servico")
       t.int("id")
+      t.int("identificacaoProfissionalId")
+     
       t.string("idade")
       t.string("imagens")
       t.string("localatendimento")
@@ -103,6 +105,19 @@ export const Profissional = objectType({
       })
 
       
+
+    
+export const ProfissionalQuery = extendType({
+  type: 'Query',
+  definition(t) {
+   
+      t.nullable.field("todosPro", { type: Profissional, resolve:(_parent, _args, ctx)=>{  return ctx.prisma.profissional.findMany()}, })
+  
+     
+  }
+})
+
+
  export const  updateProfissionalMutation = extendType({
   type:'Mutation',
   definition(t){

@@ -12,14 +12,14 @@ import { FaBell, FaCameraRetro } from "react-icons/fa";
 import Router, { useRouter } from "next/router"
 import { usePerfilQuery } from '../../../graphql/generated/graphql';
 
+import { useTodosUsuarioQuery } from '../../../graphql/generated/graphql';
+
 import { useProfissionalMutationMutation } from '../../../graphql/generated/graphql';
 const  imgicon = require('../../assets/zyro-image_2_.ico');
 const  imgicon2 = require('../../assets/ph2.jpg');
 
-import { gql, useMutation } from '@apollo/client';
+import { gql, useMutation, useQuery } from '@apollo/client';
 import { APP_SECRET, getUserId} from '../../../graphql/utils';
-import { Context } from '../../../graphql/context';
-
 import toast, { Toaster } from 'react-hot-toast';
 import { useForm } from 'react-hook-form';
 import WithAuth from '../../Hoc/WithAuth'
@@ -31,6 +31,8 @@ mutation ($medicamentos: String, $nivel: String) {
     id
   }
 }`
+
+
 
 const PerfilPage:React.FC = ()=>{
   
@@ -56,7 +58,8 @@ const PerfilPage:React.FC = ()=>{
   const [showCurrent, setShowCurrent] = useState(false);
 
   const [ Cliente, { data:ClienteMutationData, loading,error}] = useMutation(clienteMutation);
-  const {client,  data: PerfilQuery  } = usePerfilQuery()
+ const {data:TodosUsuario} = useTodosUsuarioQuery()
+  const {client,  data: PerfilQuery  } = usePerfilQuery();
   
   const {
     register,
@@ -64,7 +67,6 @@ const PerfilPage:React.FC = ()=>{
     formState: { errors },
   } = useForm();
   
- 
  
   const onSubmit = async (ClienteMutationData) => {
     const { medicamentos, nivel  } =ClienteMutationData;
@@ -143,7 +145,12 @@ const setCurrent = index => {
       <p className="text-gray-700 text-base mb-4">
         Some quick example text to build on the card title and make up the bulk of the cars
         content.
+        
+<div>{PerfilQuery?.perfil?.id}</div>
       </p>
+       
+<div>{PerfilQuery?.perfil?.id}</div>
+
       <button type="button" className=" inline-block px-6 py-2.5 bg-teal-900 text-white font-medium text-xs leading-tight uppercase rounded shadow-md  hover:shadow-lg focus:bg-teal-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-teal-800 active:shadow-lg transition duration-150 ease-in-out">Button</button>
     </div>
   </div>
@@ -402,10 +409,21 @@ const [datas, setDatas] = useState([usuarioPerfil(), notificacao(),cliente(), pr
      
     
       return (
-      
      //@ts-nocheck
       <div className="">
-  
+    <div>{TodosUsuario?.TodosUsuario?.map((t) => (
+    <div key={t?.id}>
+      {t?.id}
+      {t?.profissional?.map((b) => (
+          <div key={b?.id}>
+          <p>{b?.id}</p>
+          </div>
+          ))}
+    </div>
+  ))
+  }</div>
+      
+<div>{PerfilQuery?.perfil?.profissional?.id}</div>
 <nav className=" flex bg-white px-2 sm:px-4 py-2.5 rounded-none    tracking-wide ">
   
   <a href="#" className="flex justify-start ">
@@ -438,8 +456,6 @@ const [datas, setDatas] = useState([usuarioPerfil(), notificacao(),cliente(), pr
   
   </nav>
  
-
-         
 
 
    

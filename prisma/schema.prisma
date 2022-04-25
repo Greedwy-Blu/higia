@@ -64,7 +64,7 @@ model profissional {
   localatendimento            String            @db.Char(55)
   especial                    String            @default("SIM") @db.Char(55)
   idade                       String
-  identificacaoProfissionalId  Int 
+  identificacaoProfissionalId  Int  
   especialidade               String
   qualificacao                String
   usuario                     usuario           @relation(fields: [identificacaoProfissionalId], references: [id], map: "Profissional_identificacaoProfissionalId_fkey")

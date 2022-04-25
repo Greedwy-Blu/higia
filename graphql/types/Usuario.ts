@@ -27,25 +27,25 @@ export const Usuario = objectType({
       t.string("name")
       t.string("senha")
       t.string("telefone")
-      t.list.field('clientes', {
+      t.list.field('cliente', {
         type: Cliente,
         async resolve(_parent, _args, ctx) {
           return await ctx.prisma.usuario
             .findUnique({
               where: {
-                id: _parent.id,
+                id: Number(_parent.id),
               },
             })
             .cliente();
         },
       });
-      t.list.field('Profissionais', {
+      t.list.field('profissional', {
         type: Profissional,
         async resolve(_parent, _args, ctx) {
           return await ctx.prisma.usuario
             .findUnique({
               where: {
-                id: _parent.id,
+                id: Number(_parent.id),
               },
             })
             .profissional();
@@ -58,7 +58,7 @@ export const Usuario = objectType({
           return await ctx.prisma.usuario
             .findUnique({
               where: {
-                id: _parent.id,
+                id:Number(_parent.id),
               },
             }).imgem_perfil();
            
@@ -149,6 +149,9 @@ export const cadastroUsuarioMutation = extendType({
               where: {
                 email
               },
+              include:{
+                profissional:{select:{id:true}}
+                }
             })
     
     
@@ -177,23 +180,28 @@ export const UsuarioQuery = extendType({
   definition(t) {
    
     t.nullable.field("perfil", { type: 'Usuario', 
-      resolve: (parent, args,context:Context) => {
+      resolve:async (parent, args,context:Context) => {
         const userId = getUserId(context)
         console.log(userId)
- return context.prisma.usuario.findUnique({
+        return await  context.prisma.usuario.findUnique({
         where: {
         id:  Number(userId),
       
         },
+        include: {
+          profissional: true,
+        },
        
-      }) }, })
-      t.list.field("test", { type: 'Usuario', 
-      resolve: (parent, args,context:Context) => {
-        const userId = getUserId(context)
+      }) 
+    
+     
+    }, })
+      t.list.field("TodosUsuario", { type: Usuario, resolve:(_parent, _args, context:Context)=>{         const userId = getUserId(context)
         console.log(userId)
- return context.prisma.$queryRaw`SELECT * FROM usuario WHERE id = ${userId}` }, })
-
-    t.list.field("TodosUsuario", { type: Usuario, resolve:(_parent, _args, ctx)=>{  return ctx.prisma.usuario.findMany()}, })
+          return context.prisma.usuario.findMany({where: {
+            id:  Number(userId),
+          
+            },})}, })
   }
 })
 

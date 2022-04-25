@@ -181,6 +181,7 @@ export type Profissional = {
   grupo?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
   idade?: Maybe<Scalars['String']>;
+  identificacaoProfissionalId?: Maybe<Scalars['Int']>;
   imagens?: Maybe<Scalars['String']>;
   localatendimento?: Maybe<Scalars['String']>;
   qualificacao?: Maybe<Scalars['String']>;
@@ -206,21 +207,21 @@ export type Query = {
   __typename?: 'Query';
   TodosUsuario?: Maybe<Array<Maybe<Usuario>>>;
   perfil?: Maybe<Usuario>;
-  test?: Maybe<Array<Maybe<Usuario>>>;
+  todosPro?: Maybe<Profissional>;
 };
 
 export type Usuario = {
   __typename?: 'Usuario';
-  Profissionais?: Maybe<Array<Maybe<Profissional>>>;
   SobreNome?: Maybe<Scalars['String']>;
   cidade?: Maybe<Scalars['String']>;
-  clientes?: Maybe<Array<Maybe<Cliente>>>;
+  cliente?: Maybe<Array<Maybe<Cliente>>>;
   email?: Maybe<Scalars['String']>;
   genero?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
   idade?: Maybe<Scalars['String']>;
   imgem_perfis?: Maybe<Array<Maybe<Imagem_Perfil>>>;
   name?: Maybe<Scalars['String']>;
+  profissional?: Maybe<Array<Maybe<Profissional>>>;
   senha?: Maybe<Scalars['String']>;
   telefone?: Maybe<Scalars['String']>;
 };
@@ -384,15 +385,27 @@ export type UpdateProfissionalMutationVariables = Exact<{
 
 export type UpdateProfissionalMutation = { __typename?: 'Mutation', updateProfissional?: { __typename?: 'Profissional', id?: number | null } | null };
 
+export type TodosProfissionalqueryQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type TodosProfissionalqueryQuery = { __typename?: 'Query', todosPro?: { __typename?: 'Profissional', ambiente?: string | null, especialidade?: string | null, especial?: string | null, grupo?: string | null, id?: number | null, servico?: string | null, idade?: string | null, imagens?: string | null, localatendimento?: string | null, qualificacao?: string | null, raio?: string | null } | null };
+
 export type PerfilQueryVariables = Exact<{ [key: string]: never; }>;
 
-
-export type PerfilQuery = { __typename?: 'Query', perfil?: { __typename?: 'Usuario', id?: number | null } | null };
+export type PerfilQuery = { __typename?: 'Query' } & {
+  perfil?: Maybe<
+    { __typename?: 'Usuario' } & Pick<Usuario, 'id'> & {
+        profissional?: Maybe<
+          { __typename?: 'Profissional' } & Pick<Profissional, 'id'>
+        >
+      }
+  >
+}
 
 export type TodosUsuarioQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type TodosUsuarioQuery = { __typename?: 'Query', TodosUsuario?: Array<{ __typename?: 'Usuario', id?: number | null } | null> | null };
+export type TodosUsuarioQuery = { __typename?: 'Query', TodosUsuario?: Array<{ __typename?: 'Usuario', id?: number | null, SobreNome?: string | null, email?: string | null, cidade?: string | null, genero?: string | null, idade?: string | null, name?: string | null, telefone?: string | null, senha?: string | null, profissional?: Array<{ __typename?: 'Profissional', id?: number | null } | null> | null } | null> | null };
 
 
 export const CadastroUsuarioDocument = gql`
@@ -928,10 +941,76 @@ export function useUpdateProfissionalMutation(baseOptions?: Apollo.MutationHookO
 export type UpdateProfissionalMutationHookResult = ReturnType<typeof useUpdateProfissionalMutation>;
 export type UpdateProfissionalMutationResult = Apollo.MutationResult<UpdateProfissionalMutation>;
 export type UpdateProfissionalMutationOptions = Apollo.BaseMutationOptions<UpdateProfissionalMutation, UpdateProfissionalMutationVariables>;
+export const TodosProfissionalqueryDocument = gql`
+    query TodosProfissionalquery {
+  todosPro {
+    ambiente
+    especialidade
+    especial
+    grupo
+    id
+    servico
+    idade
+    imagens
+    localatendimento
+    qualificacao
+    raio
+  }
+}
+    `;
+
+/**
+ * __useTodosProfissionalqueryQuery__
+ *
+ * To run a query within a React component, call `useTodosProfissionalqueryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTodosProfissionalqueryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTodosProfissionalqueryQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useTodosProfissionalqueryQuery(baseOptions?: Apollo.QueryHookOptions<TodosProfissionalqueryQuery, TodosProfissionalqueryQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<TodosProfissionalqueryQuery, TodosProfissionalqueryQueryVariables>(TodosProfissionalqueryDocument, options);
+      }
+export function useTodosProfissionalqueryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TodosProfissionalqueryQuery, TodosProfissionalqueryQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<TodosProfissionalqueryQuery, TodosProfissionalqueryQueryVariables>(TodosProfissionalqueryDocument, options);
+        }
+export type TodosProfissionalqueryQueryHookResult = ReturnType<typeof useTodosProfissionalqueryQuery>;
+export type TodosProfissionalqueryLazyQueryHookResult = ReturnType<typeof useTodosProfissionalqueryLazyQuery>;
+export type TodosProfissionalqueryQueryResult = Apollo.QueryResult<TodosProfissionalqueryQuery, TodosProfissionalqueryQueryVariables>;
 export const PerfilDocument = gql`
     query Perfil {
   perfil {
     id
+    telefone
+    senha
+    name
+    idade
+    genero
+    email
+    cidade
+    SobreNome
+    profissional {
+      identificacaoProfissionalId
+      id
+      ambiente
+      especial
+      especialidade
+      grupo
+      servico
+      idade
+      imagens
+      localatendimento
+      qualificacao
+      raio
+    }
   }
 }
     `;
@@ -966,6 +1045,17 @@ export const TodosUsuarioDocument = gql`
     query TodosUsuario {
   TodosUsuario {
     id
+    SobreNome
+    email
+    cidade
+    genero
+    idade
+    profissional {
+      id
+    }
+    name
+    telefone
+    senha
   }
 }
     `;
