@@ -134,254 +134,259 @@ const setCurrent = index => {
   toggleCurrent();
 };
 
- const usuarioPerfil =()=>{
-       return (
-        <div className="flex justify-center mb-80 pb-40">
-  <div className="rounded-md shadow-lg bg-zinc-50 max-w-sm h-50 w-50">
-    <a href="#!" className="overflow-hidden">
-     <Image className="rounded-tl-lg  rounded-r-md bg-gray   object-left  absolute mr-4 mt-1" width={110}    height={100} src={imgicon2} alt=""/></a>
-    <div className="p-6">
-      <h5 className="text-gray-900 text-xl font-medium mb-2">Card title</h5>
-      <p className="text-gray-700 text-base mb-4">
-        Some quick example text to build on the card title and make up the bulk of the cars
-        content.
-        
-<div>{PerfilQuery?.perfil?.id}</div>
-      </p>
-       
-<div>{PerfilQuery?.perfil?.id}</div>
 
-      <button type="button" className=" inline-block px-6 py-2.5 bg-teal-900 text-white font-medium text-xs leading-tight uppercase rounded shadow-md  hover:shadow-lg focus:bg-teal-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-teal-800 active:shadow-lg transition duration-150 ease-in-out">Button</button>
-    </div>
-  </div>
+
+const usuarioPerfil =()=>{
+  return (
+   <div className="flex justify-center mb-80 pb-40 ">
+<div className="rounded-md shadow-lg bg-zinc-50 max-w-sm h-50 max-w-md">
+<a href="#!" className="overflow-hidden">
+<Image className="rounded-tl-lg  rounded-r-md bg-gray   object-left  absolute mr-4 mt-1" width={110}    height={100} src={imgicon2} alt=""/></a>
+<div className="p-6">
+ <h5 className="text-gray-900 text-xl font-medium mb-2">Card title</h5>
+ <p className="text-gray-700 text-base mb-4">
+ <div className="flex">
+<div className="w-32 mx-2">{PerfilQuery?.perfil?.name}</div>
+<div className="w-32 mx-2">{PerfilQuery?.perfil?.SobreNome}</div>
+
+ </div>
+<div>{PerfilQuery?.perfil?.id}</div>
+ </p>
+  
+<div>{PerfilQuery?.perfil?.id}</div>
+<div className="grid justify-items-center ">
+ <button type="button" className=" inline-block px-6 py-2.5 bg-teal-900 text-white font-medium text-xs leading-tight uppercase rounded shadow-md  hover:shadow-lg focus:bg-teal-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-teal-800 active:shadow-lg transition duration-150 ease-in-out">Button</button>
+</div>
+</div>
+</div>
 </div>)
- }
+}
 
 
- const notificacao = () =>{
-   return(
-     <div className="flex justify-center mb-80 pb-40 mt-4 -mb-3">
-      <div id="alert-1" className="flex p-4 mb-4 bg-blue-100 rounded-lg dark:bg-blue-200" role="alert">
-  <svg className="flex-shrink-0 w-5 h-5 text-blue-700 dark:text-blue-800" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
-  <div className="ml-3 text-sm font-medium text-blue-700 dark:text-blue-800">
-    A simple info alert with an <a href="#" className="font-semibold underline hover:text-blue-800 dark:hover:text-blue-900">example link</a>. Give it a click if you like.
-  </div>
-  <button type="button" className="ml-auto -mx-1.5 -my-1.5 bg-blue-100 text-blue-500 rounded-lg focus:ring-2 focus:ring-blue-400 p-1.5 hover:bg-blue-200 inline-flex h-8 w-8 dark:bg-blue-200 dark:text-blue-600 dark:hover:bg-blue-300" data-dismiss-target="#alert-1" aria-label="Close">
-    <span className="sr-only">Close</span>
-    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-  </button>
+const notificacao = () =>{
+return(
+<div className="flex justify-center mb-80 pb-40 mt-4 -mb-3">
+ <div id="alert-1" className="flex p-4 mb-4 bg-blue-100 rounded-lg dark:bg-blue-200" role="alert">
+<svg className="flex-shrink-0 w-5 h-5 text-blue-700 dark:text-blue-800" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+<div className="ml-3 text-sm font-medium text-blue-700 dark:text-blue-800">
+A simple info alert with an <a href="#" className="font-semibold underline hover:text-blue-800 dark:hover:text-blue-900">example link</a>. Give it a click if you like.
+</div>
+<button type="button" className="ml-auto -mx-1.5 -my-1.5 bg-blue-100 text-blue-500 rounded-lg focus:ring-2 focus:ring-blue-400 p-1.5 hover:bg-blue-200 inline-flex h-8 w-8 dark:bg-blue-200 dark:text-blue-600 dark:hover:bg-blue-300" data-dismiss-target="#alert-1" aria-label="Close">
+<span className="sr-only">Close</span>
+<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+</button>
 </div>
 
-     </div>
-   )
- }
+</div>
+)
+}
 
 
 const cliente = () =>{
 
-  return(
+return(
 <div className="flex justify-center mb-40 pb-40 ml-24">
 <Toaster />
 <form    onSubmit={handleSubmit(onSubmit)}
-  className="grid justify-items-center">
+className="grid justify-items-center">
 <div className="mb-6">
-    <label  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Medicamentos</label>
-    <input type="text" id="medicamentos" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@flowbite.com"  name="medicamentos"      {...register('medicamentos', { required: true })}/>
-  </div>
-  <div className="mb-6">
-    <label  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Nivel</label>
-    <input type="text" id="nivel" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" name="nivel"    {...register('nivel', { required: true })}/>
-  </div>
+<label  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Medicamentos</label>
+<input type="text" id="medicamentos" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@flowbite.com"  name="medicamentos"      {...register('medicamentos', { required: true })}/>
+</div>
+<div className="mb-6">
+<label  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Nivel</label>
+<input type="text" id="nivel" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" name="nivel"    {...register('nivel', { required: true })}/>
+</div>
 
 <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Register</button>
 
-  </form>
+</form>
 
 </div>)
 }
 
 const profissional = () =>{
-  return(
+return(
 <div className="flex justify-center mb-40 pb-40">
 <Toaster />
 <div className="grid grid-cols-3 gap-6 ">
 
 
+
+<form 
+
+onSubmit={handleSubmit2(onSubmit2)}
+
+
+> <div className="flex  mt-8  ">
+<div className="col-span-2  px-4 mt-2 w-100"> 
+
+<label htmlFor="email-address" className="block text-sm font-medium text-gray-700">
+                     Nome
+                    </label>
+                    <input
+                      type="text"
+                     id="name"
+                      className=" focus:ring-indigo-500 focus:border-indigo-500 block w-290 shadow-sm sm:text-sm border-gray-300 rounded-md"
+                       name="ambiente"        {...register2('ambiente', { required: true })}
+                         />
+
+
+</div>
+
+<div className="col-span-2 px-4  "> 
+
+<label htmlFor="sobrenome" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Sobre nome</label>
+  <input type="text" id="sn"  className="  focus:ring-indigo-500 focus:border-indigo-500 block w-100 shadow-sm sm:text-sm border-gray-300 rounded-md"     
+              name="especial"         
+              {...register2('especial', { required: true })}
+                    
+                       />
+
+
+</div>
+</div>
+<div className='flex grid col-span-2 '>
+<div className=" px-4"> 
+ 
+<label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">email</label>
+  <input type="text" id="sn"   className=" mr-12 pr-12 focus:ring-indigo-500 focus:border-indigo-500 block w-90 shadow-sm sm:text-sm w-full border-gray-300 rounded-md" 
   
-     <form 
-     
-     onSubmit={handleSubmit2(onSubmit2)}
-  
-     
-     > <div className="flex  mt-8  ">
-     <div className="col-span-2  px-4 mt-2 w-100"> 
-     
-     <label htmlFor="email-address" className="block text-sm font-medium text-gray-700">
-                          Nome
-                         </label>
-                         <input
-                           type="text"
-                          id="name"
-                           className=" focus:ring-indigo-500 focus:border-indigo-500 block w-290 shadow-sm sm:text-sm border-gray-300 rounded-md"
-                            name="ambiente"        {...register2('ambiente', { required: true })}
-                              />
-     
-     
-     </div>
-     
-     <div className="col-span-2 px-4  "> 
-     
-     <label htmlFor="sobrenome" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Sobre nome</label>
-       <input type="text" id="sn"  className="  focus:ring-indigo-500 focus:border-indigo-500 block w-100 shadow-sm sm:text-sm border-gray-300 rounded-md"     
-                   name="especial"         
-                   {...register2('especial', { required: true })}
-                         
-                            />
-     
-     
-     </div>
-     </div>
-     <div className='flex grid col-span-2 '>
-     <div className=" px-4"> 
-      
-     <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">email</label>
-       <input type="text" id="sn"   className=" mr-12 pr-12 focus:ring-indigo-500 focus:border-indigo-500 block w-90 shadow-sm sm:text-sm w-full border-gray-300 rounded-md" 
-       
-       name="localatendimento"      
-       {...register2('localatendimento', { required: true })}
-                     
-       />
-     
-     
-     <label htmlFor="cidade" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 pt-2">cidade</label>
-       <input type="text" id="cidade" className="  focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"  
-       name="especialidade"    
-      
-       {...register2('especialidade', { required: true })}
+  name="localatendimento"      
+  {...register2('localatendimento', { required: true })}
                 
-     />
-     
-     
-     </div>
-     
-     <div className=" px-4 "> 
-     
-     <label htmlFor="senha" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 pt-2">senha</label>
-       <input type="text" id="senha"  className="  focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"      
-       
-       name="grupo"    
-      
-       {...register2('grupo', { required: true })}
-       />
-     
-     
-     </div>
-     
-     
-     
-     <div className=" px-4 "> 
-     
-     <label htmlFor="idade" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 pt-2">idade</label>
-       <input type="text" id="idade" className="  focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"    
-       
-       
-       name="idade"     
-      
-       {...register2('idade', { required: true })}
-     
-       />
-     
-     
-     </div>
-     
-     
-     <div className='flex'>
-     
-     
-     <div className=" px-4 col-span-2"> 
-     
-     <label htmlFor="celular" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 pt-2">telefone</label>
-       <input type="text" id="celular"  className="  focus:ring-indigo-500 focus:border-indigo-500 block w-600 shadow-sm sm:text-sm border-gray-300 rounded-md"   
-       
-       
-       name="imagens"      
-      
-       {...register2('imagens', { required: true })}
-     
-     
-       />
-     
-     
-     </div>
-     <div className=" px-4 col-span-2"> 
-     
-     <label htmlFor="celular" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 pt-2">telefone</label>
-       <input type="text" id="celular"  className="  focus:ring-indigo-500 focus:border-indigo-500 block w-600 shadow-sm sm:text-sm border-gray-300 rounded-md"   
-       
-       
-       name="servico"      
-      
-       {...register2('servico', { required: true })}
-     
-     
-       />
-     
-     
-     </div>
-     
-     
-     
-     <div className=" px-4 col-span-2"> 
-     
-     <label htmlFor="celular" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 pt-2">telefone</label>
-       <input type="text" id="celular"  className="  focus:ring-indigo-500 focus:border-indigo-500 block w-600 shadow-sm sm:text-sm border-gray-300 rounded-md"   
-       
-       
-       name="qualificacao"      
-      
-       {...register2('qualificacao', { required: true })}
-     
-     
-       />
-     
-     
-     </div>
-     
-     <div className="px-4  col-span-2">
-     <div className="mb-3 xl:w-96">
-     <label htmlFor="genêro"  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 pt-2">gênero</label>
-     
-       <select  className="form-select appearance-none
-         block
-         w-full
-         px-3
-         py-1.5
-         text-base
-         font-normal
-         text-gray-700
-         bg-white bg-clip-padding bg-no-repeat
-         border border-solid border-gray-300
-         rounded
-         transition
-         ease-in-out
-         m-0
-         focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example"     
-     
-     
-         name="raio"         
-     
-         {...register2('raio', { required: true })}
-     >
-           <option selected>gênero</option>
-           <option value="masculino">masculino</option>
-           <option value="feminino">feminino</option>
-           <option value="não-binário">não-binário</option>
-           <option value="transgênero">transgênero</option>
-       </select>
-     </div>
-     </div>
-     </div>
-     </div>
+  />
+
+
+<label htmlFor="cidade" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 pt-2">cidade</label>
+  <input type="text" id="cidade" className="  focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"  
+  name="especialidade"    
+ 
+  {...register2('especialidade', { required: true })}
+           
+/>
+
+
+</div>
+
+<div className=" px-4 "> 
+
+<label htmlFor="senha" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 pt-2">senha</label>
+  <input type="text" id="senha"  className="  focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"      
+  
+  name="grupo"    
+ 
+  {...register2('grupo', { required: true })}
+  />
+
+
+</div>
+
+
+
+<div className=" px-4 "> 
+
+<label htmlFor="idade" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 pt-2">idade</label>
+  <input type="text" id="idade" className="  focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"    
+  
+  
+  name="idade"     
+ 
+  {...register2('idade', { required: true })}
+
+  />
+
+
+</div>
+
+
+<div className='flex'>
+
+
+<div className=" px-4 col-span-2"> 
+
+<label htmlFor="celular" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 pt-2">telefone</label>
+  <input type="text" id="celular"  className="  focus:ring-indigo-500 focus:border-indigo-500 block w-600 shadow-sm sm:text-sm border-gray-300 rounded-md"   
+  
+  
+  name="imagens"      
+ 
+  {...register2('imagens', { required: true })}
+
+
+  />
+
+
+</div>
+<div className=" px-4 col-span-2"> 
+
+<label htmlFor="celular" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 pt-2">telefone</label>
+  <input type="text" id="celular"  className="  focus:ring-indigo-500 focus:border-indigo-500 block w-600 shadow-sm sm:text-sm border-gray-300 rounded-md"   
+  
+  
+  name="servico"      
+ 
+  {...register2('servico', { required: true })}
+
+
+  />
+
+
+</div>
+
+
+
+<div className=" px-4 col-span-2"> 
+
+<label htmlFor="celular" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 pt-2">telefone</label>
+  <input type="text" id="celular"  className="  focus:ring-indigo-500 focus:border-indigo-500 block w-600 shadow-sm sm:text-sm border-gray-300 rounded-md"   
+  
+  
+  name="qualificacao"      
+ 
+  {...register2('qualificacao', { required: true })}
+
+
+  />
+
+
+</div>
+
+<div className="px-4  col-span-2">
+<div className="mb-3 xl:w-96">
+<label htmlFor="genêro"  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 pt-2">gênero</label>
+
+  <select  className="form-select appearance-none
+    block
+    w-full
+    px-3
+    py-1.5
+    text-base
+    font-normal
+    text-gray-700
+    bg-white bg-clip-padding bg-no-repeat
+    border border-solid border-gray-300
+    rounded
+    transition
+    ease-in-out
+    m-0
+    focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example"     
+
+
+    name="raio"         
+
+    {...register2('raio', { required: true })}
+>
+      <option selected>gênero</option>
+      <option value="masculino">masculino</option>
+      <option value="feminino">feminino</option>
+      <option value="não-binário">não-binário</option>
+      <option value="transgênero">transgênero</option>
+  </select>
+</div>
+</div>
+</div>
+</div>
 
 
 
@@ -390,12 +395,21 @@ const profissional = () =>{
 </div>
 
 </form>
-     </div>
-     
 </div>
-  )
+
+</div>
+)
 }
 
+
+{(() => {
+  
+
+ 
+
+})()}
+
+ 
 
 function Logout(){
 
@@ -404,10 +418,9 @@ function Logout(){
 Router.push('/Login')
 }
 
+       
 const [datas, setDatas] = useState([usuarioPerfil(), notificacao(),cliente(), profissional()]);
-
-     
-    
+  
       return (
      //@ts-nocheck
       <div className="">
@@ -422,6 +435,24 @@ const [datas, setDatas] = useState([usuarioPerfil(), notificacao(),cliente(), pr
     </div>
   ))
   }</div>
+
+{(() => {
+    return (
+     <div>   
+       {TodosUsuario?.TodosUsuario?.map((t) => (
+          <div key={t?.id}>
+            {t?.id}
+            {t?.profissional?.map((b) => (
+                <div key={b?.id}>
+                <p>{b?.id}</p>
+                </div>
+                ))}
+          </div>
+        ))
+        }
+        </div>
+    )
+      })()}
       
 <div>{PerfilQuery?.perfil?.profissional?.id}</div>
 <nav className=" flex bg-white px-2 sm:px-4 py-2.5 rounded-none    tracking-wide ">

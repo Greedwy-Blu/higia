@@ -392,15 +392,8 @@ export type TodosProfissionalqueryQuery = { __typename?: 'Query', todosPro?: { _
 
 export type PerfilQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type PerfilQuery = { __typename?: 'Query' } & {
-  perfil?: Maybe<
-    { __typename?: 'Usuario' } & Pick<Usuario, 'id'> & {
-        profissional?: Maybe<
-          { __typename?: 'Profissional' } & Pick<Profissional, 'id'>
-        >
-      }
-  >
-}
+
+export type PerfilQuery = { __typename?: 'Query', perfil?: { __typename?: 'Usuario', id?: number | null, telefone?: string | null, senha?: string | null, name?: string | null, idade?: string | null, genero?: string | null, email?: string | null, cidade?: string | null, SobreNome?: string | null, profissional?: Array<{ __typename?: 'Profissional', identificacaoProfissionalId?: number | null, id?: number | null, ambiente?: string | null, especial?: string | null, especialidade?: string | null, grupo?: string | null, servico?: string | null, idade?: string | null, imagens?: string | null, localatendimento?: string | null, qualificacao?: string | null, raio?: string | null } | null> | null } | null };
 
 export type TodosUsuarioQueryVariables = Exact<{ [key: string]: never; }>;
 
