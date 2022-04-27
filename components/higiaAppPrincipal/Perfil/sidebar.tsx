@@ -16,25 +16,16 @@ import { useTodosUsuarioQuery } from '../../../graphql/generated/graphql';
 
 import { useProfissionalMutationMutation } from '../../../graphql/generated/graphql';
 const  imgicon = require('../../assets/zyro-image_2_.ico');
-const  imgicon2 = require('../../assets/ph2.jpg');
 
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { APP_SECRET, getUserId} from '../../../graphql/utils';
 import toast, { Toaster } from 'react-hot-toast';
 import { useForm } from 'react-hook-form';
-import WithAuth from '../../Hoc/WithAuth'
 import { UsuarioPerfil } from './usuarioPerfil';
 import { Notificacao } from './notifica';
 import { Cliente } from './clienteCadastro';
 import { Profissional } from './profissionalCadastro';
 
-
-const clienteMutation = gql`
-mutation ($medicamentos: String, $nivel: String) {
-  Cliente(medicamentos: $medicamentos, nivel: $nivel) {
-    id
-  }
-}`
 
 
 
