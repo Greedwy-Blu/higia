@@ -23,6 +23,10 @@ import { APP_SECRET, getUserId} from '../../../graphql/utils';
 import toast, { Toaster } from 'react-hot-toast';
 import { useForm } from 'react-hook-form';
 import WithAuth from '../../Hoc/WithAuth'
+import { UsuarioPerfil } from './usuarioPerfil';
+import { Notificacao } from './notifica';
+import { Cliente } from './clienteCadastro';
+import { Profissional } from './profissionalCadastro';
 
 
 const clienteMutation = gql`
@@ -38,78 +42,13 @@ const PerfilPage:React.FC = ()=>{
   
  const [show, setShow] = useState(false)
 
- const [idade, setIdade] = useState('')
- const [grupo, setGrupo] = useState('')
- 
- const [servico, setServico] = useState('')
- const [raio, setRaio] = useState('')
-
- const [imagens, setImagens] = useState('')
- const [especial, setEspecial] = useState('')
-
- const [especialidade, setEspecialidade] = useState('')
- const [qualificacao, setQualificaccao] = useState('')
- const [localatendimento, setLocalatendimento] = useState('')
- const [ambiente, setAmbiente] = useState('')
-
 
   const [showAll, setShowAll] = useState(false);
   const [currentIdx, setCurrentIdx] = useState(0);
   const [showCurrent, setShowCurrent] = useState(false);
 
-  const [ Cliente, { data:ClienteMutationData, loading,error}] = useMutation(clienteMutation);
  const {data:TodosUsuario} = useTodosUsuarioQuery()
   const {client,  data: PerfilQuery  } = usePerfilQuery();
-  
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-  
- 
-  const onSubmit = async (ClienteMutationData) => {
-    const { medicamentos, nivel  } =ClienteMutationData;
-    
-  const variables ={medicamentos, nivel};
-    try {
-      toast.promise(Cliente({ variables }), {
-        loading: 'criando um novo usuario',
-        success: 'criado com sucesso!🎉',
-        error: `Something went wrong 😥 Please try again - ${error} `,
-      });
-    
-    } catch (err) {
-      console.log('onSubmit ~ err', err);
-  }
-  };
- 
-  const [Profissional, {  data, loading:p  }] = useProfissionalMutationMutation()
- 
-  const {
-    register: register2,
-    handleSubmit:handleSubmit2,
-    formState: { errors:errors2 },
-  } = useForm();
-  
-  const onSubmit2 = async (data) => {
-    const { ambiente, especial, especialidade,grupo, idade,  raio,imagens,qualificacao,localatendimento, servico} = data;
-    const  variables ={ambiente, especial, especialidade,grupo, idade,  raio,imagens,qualificacao,localatendimento, servico};
-  
-    try{
-    
-   
-  toast.promise(Profissional({
-    variables
-}), {
-    loading: 'Loading',
-    success: 'Got the data',
-    error: 'Error when fetching',
-  });
-   }catch(err){
-     console.log(err)
-   }
-  }
 
   const handleShow = () => {
     (show ? setShow(false) : setShow(true))
@@ -136,277 +75,6 @@ const setCurrent = index => {
 
 
 
-const usuarioPerfil =()=>{
-  return (
-   <div className="flex justify-center mb-80 pb-40 ">
-<div className="rounded-md shadow-lg bg-zinc-50 h-50 max-w-4xl">
-<a href="#!" className="overflow-hidden">
-<Image className="rounded-tl-lg  rounded-r-md bg-gray   object-left  absolute mr-4 mt-1" width={110}    height={100} src={imgicon2} alt=""/></a>
-<div className="p-6">
- <h5 className="text-zinc-900 text-xl font-medium mb-2">Perfil</h5>
- <p className="text-zinc-400 text-base mb-4 mr-4 space-x-4">
- <div className="flex text-lg">
-<div className="flex-auto w-42 space-x-4 mx-2"><span  className="text-zinc-700  text-center ml-4 mr-2"><a>Nome:</a></span>{PerfilQuery?.perfil?.name}</div>
-<div className="flex-auto w-42  space-x-4 mx-2"><span className="text-zinc-700  text-center ml-4 mr-2"><a>SobreNome:</a></span>{PerfilQuery?.perfil?.SobreNome}</div>
-<div className="flex-auto w-42 space-x-4 mx-2"><span  className="text-zinc-700 text-center ml-12 mr-2"><a>Idade:</a></span>{PerfilQuery?.perfil?.idade}</div>
-
- </div>
-<div>{PerfilQuery?.perfil?.id}</div>
-<div className="flex text-lg">
-<div className="flex-auto w-42 space-x-4 mx-2 ml-2"><span  className="text-zinc-700  text-center mr-2"><a>Telefone:</a></span>{PerfilQuery?.perfil?.telefone}</div>
-<div className="flex-auto w-42 space-x-4 mx-2 ml-2"><span className="text-zinc-700  text-center ml-3 mr-3"><a>Cidade:</a></span>{PerfilQuery?.perfil?.cidade}</div>
-<div className="flex-auto w-42 space-x-4 mx-2 ml-2 mr-2"><span  className="text-zinc-700 text-center ml-2 mr-2"><a className="ml-2">Genero:</a></span>{PerfilQuery?.perfil?.genero}</div>
-
-</div>
- </p>
-  
-<div className="grid justify-items-center ">
- <button type="button" className=" inline-block px-6 py-2.5 bg-teal-900 text-white font-medium text-xs leading-tight uppercase rounded shadow-md  hover:shadow-lg focus:bg-teal-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-teal-800 active:shadow-lg transition duration-150 ease-in-out">Atualizar conta</button>
-</div>
-</div>
-</div>
-</div>)
-}
-
-
-const notificacao = () =>{
-return(
-<div className="flex justify-center mb-80 pb-40 mt-4 -mb-3">
- <div id="alert-1" className="flex p-4 mb-4 bg-blue-100 rounded-lg dark:bg-blue-200" role="alert">
-<svg className="flex-shrink-0 w-5 h-5 text-blue-700 dark:text-blue-800" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
-<div className="ml-3 text-sm font-medium text-blue-700 dark:text-blue-800">
-A simple info alert with an <a href="#" className="font-semibold underline hover:text-blue-800 dark:hover:text-blue-900">example link</a>. Give it a click if you like.
-</div>
-<button type="button" className="ml-auto -mx-1.5 -my-1.5 bg-blue-100 text-blue-500 rounded-lg focus:ring-2 focus:ring-blue-400 p-1.5 hover:bg-blue-200 inline-flex h-8 w-8 dark:bg-blue-200 dark:text-blue-600 dark:hover:bg-blue-300" data-dismiss-target="#alert-1" aria-label="Close">
-<span className="sr-only">Close</span>
-<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-</button>
-</div>
-
-</div>
-)
-}
-
-
-const cliente = () =>{
-
-return(
-<div className="flex justify-center mb-40 pb-40 ml-24">
-<Toaster />
-<form    onSubmit={handleSubmit(onSubmit)}
-className="grid justify-items-center">
-<div className="mb-6">
-<label  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Medicamentos</label>
-<input type="text" id="medicamentos" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@flowbite.com"  name="medicamentos"      {...register('medicamentos', { required: true })}/>
-</div>
-<div className="mb-6">
-<label  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Nivel</label>
-<input type="text" id="nivel" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" name="nivel"    {...register('nivel', { required: true })}/>
-</div>
-
-<button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Register</button>
-
-</form>
-
-</div>)
-}
-
-const profissional = () =>{
-return(
-<div className="flex justify-center mb-40 pb-40">
-<Toaster />
-<div className="grid grid-cols-3 gap-6 ">
-
-
-
-<form 
-
-onSubmit={handleSubmit2(onSubmit2)}
-
-
-> <div className="flex  mt-8  ">
-<div className="col-span-2  px-4 mt-2 w-100"> 
-
-<label htmlFor="email-address" className="block text-sm font-medium text-gray-700">
-                     Nome
-                    </label>
-                    <input
-                      type="text"
-                     id="name"
-                      className=" focus:ring-indigo-500 focus:border-indigo-500 block w-290 shadow-sm sm:text-sm border-gray-300 rounded-md"
-                       name="ambiente"        {...register2('ambiente', { required: true })}
-                         />
-
-
-</div>
-
-<div className="col-span-2 px-4  "> 
-
-<label htmlFor="sobrenome" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Sobre nome</label>
-  <input type="text" id="sn"  className="  focus:ring-indigo-500 focus:border-indigo-500 block w-100 shadow-sm sm:text-sm border-gray-300 rounded-md"     
-              name="especial"         
-              {...register2('especial', { required: true })}
-                    
-                       />
-
-
-</div>
-</div>
-<div className='flex grid col-span-2 '>
-<div className=" px-4"> 
- 
-<label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">email</label>
-  <input type="text" id="sn"   className=" mr-12 pr-12 focus:ring-indigo-500 focus:border-indigo-500 block w-90 shadow-sm sm:text-sm w-full border-gray-300 rounded-md" 
-  
-  name="localatendimento"      
-  {...register2('localatendimento', { required: true })}
-                
-  />
-
-
-<label htmlFor="cidade" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 pt-2">cidade</label>
-  <input type="text" id="cidade" className="  focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"  
-  name="especialidade"    
- 
-  {...register2('especialidade', { required: true })}
-           
-/>
-
-
-</div>
-
-<div className=" px-4 "> 
-
-<label htmlFor="senha" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 pt-2">senha</label>
-  <input type="text" id="senha"  className="  focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"      
-  
-  name="grupo"    
- 
-  {...register2('grupo', { required: true })}
-  />
-
-
-</div>
-
-
-
-<div className=" px-4 "> 
-
-<label htmlFor="idade" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 pt-2">idade</label>
-  <input type="text" id="idade" className="  focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"    
-  
-  
-  name="idade"     
- 
-  {...register2('idade', { required: true })}
-
-  />
-
-
-</div>
-
-
-<div className='flex'>
-
-
-<div className=" px-4 col-span-2"> 
-
-<label htmlFor="celular" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 pt-2">telefone</label>
-  <input type="text" id="celular"  className="  focus:ring-indigo-500 focus:border-indigo-500 block w-600 shadow-sm sm:text-sm border-gray-300 rounded-md"   
-  
-  
-  name="imagens"      
- 
-  {...register2('imagens', { required: true })}
-
-
-  />
-
-
-</div>
-<div className=" px-4 col-span-2"> 
-
-<label htmlFor="celular" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 pt-2">telefone</label>
-  <input type="text" id="celular"  className="  focus:ring-indigo-500 focus:border-indigo-500 block w-600 shadow-sm sm:text-sm border-gray-300 rounded-md"   
-  
-  
-  name="servico"      
- 
-  {...register2('servico', { required: true })}
-
-
-  />
-
-
-</div>
-
-
-
-<div className=" px-4 col-span-2"> 
-
-<label htmlFor="celular" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 pt-2">telefone</label>
-  <input type="text" id="celular"  className="  focus:ring-indigo-500 focus:border-indigo-500 block w-600 shadow-sm sm:text-sm border-gray-300 rounded-md"   
-  
-  
-  name="qualificacao"      
- 
-  {...register2('qualificacao', { required: true })}
-
-
-  />
-
-
-</div>
-
-<div className="px-4  col-span-2">
-<div className="mb-3 xl:w-96">
-<label htmlFor="genêro"  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 pt-2">gênero</label>
-
-  <select  className="form-select appearance-none
-    block
-    w-full
-    px-3
-    py-1.5
-    text-base
-    font-normal
-    text-gray-700
-    bg-white bg-clip-padding bg-no-repeat
-    border border-solid border-gray-300
-    rounded
-    transition
-    ease-in-out
-    m-0
-    focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example"     
-
-
-    name="raio"         
-
-    {...register2('raio', { required: true })}
->
-      <option selected>gênero</option>
-      <option value="masculino">masculino</option>
-      <option value="feminino">feminino</option>
-      <option value="não-binário">não-binário</option>
-      <option value="transgênero">transgênero</option>
-  </select>
-</div>
-</div>
-</div>
-</div>
-
-
-
-<div className="  justify-items-center ml-48 mt-16">
-<input  type="submit" value="cadastro" className="h-12  px-12 w-2/3 m-2 bg-emerald-700 shadow text-lg text-center text-white" />
-</div>
-
-</form>
-</div>
-
-</div>
-)
-}
-
 
 {(() => {
   
@@ -425,7 +93,7 @@ Router.push('/Login')
 }
 
        
-const [datas, setDatas] = useState([usuarioPerfil(), notificacao(),cliente(), profissional()]);
+const [datas, setDatas] = useState([UsuarioPerfil(), Notificacao(),Cliente(), Profissional()]);
   
     
     return (
