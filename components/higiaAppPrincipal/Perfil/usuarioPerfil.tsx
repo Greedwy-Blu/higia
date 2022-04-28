@@ -29,7 +29,7 @@ const {client,  data: PerfilQuery  } = usePerfilQuery();
   <div className="flex-auto w-42 space-x-4 mx-2"><span  className="text-zinc-700 text-center ml-12 mr-2"><a>Idade:</a></span>{PerfilQuery?.perfil?.idade}</div>
   
    </div>
-  <div>{PerfilQuery?.perfil?.id}</div>
+  
   <div className="flex text-lg">
   <div className="flex-auto w-42 space-x-4 mx-2 ml-2"><span  className="text-zinc-700  text-center mr-2"><a>Telefone:</a></span>{PerfilQuery?.perfil?.telefone}</div>
   <div className="flex-auto w-42 space-x-4 mx-2 ml-2"><span className="text-zinc-700  text-center ml-3 mr-3"><a>Cidade:</a></span>{PerfilQuery?.perfil?.cidade}</div>
