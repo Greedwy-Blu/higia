@@ -393,7 +393,7 @@ export type TodosProfissionalqueryQuery = { __typename?: 'Query', todosPro?: { _
 export type PerfilQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type PerfilQuery = { __typename?: 'Query', perfil?: { __typename?: 'Usuario', id?: number | null, telefone?: string | null, senha?: string | null, name?: string | null, idade?: string | null, genero?: string | null, email?: string | null, cidade?: string | null, SobreNome?: string | null, profissional?: Array<{ __typename?: 'Profissional', identificacaoProfissionalId?: number | null, id?: number | null, ambiente?: string | null, especial?: string | null, especialidade?: string | null, grupo?: string | null, servico?: string | null, idade?: string | null, imagens?: string | null, localatendimento?: string | null, qualificacao?: string | null, raio?: string | null } | null> | null } | null };
+export type PerfilQuery = { __typename?: 'Query', perfil?: { __typename?: 'Usuario', id?: number | null, telefone?: string | null, senha?: string | null, name?: string | null, idade?: string | null, genero?: string | null, email?: string | null, cidade?: string | null, SobreNome?: string | null, profissional?: Array<{ __typename?: 'Profissional', identificacaoProfissionalId?: number | null, id?: number | null, ambiente?: string | null, especial?: string | null, especialidade?: string | null, grupo?: string | null, servico?: string | null, idade?: string | null, imagens?: string | null, localatendimento?: string | null, qualificacao?: string | null, raio?: string | null, comentario_post?: Array<{ __typename?: 'Comentario_Post', coteudo?: string | null, nota?: number | null, id?: number | null, notificacao_comentario?: Array<{ __typename?: 'Notificacao_Comentario', comentario?: string | null, id?: number | null, imgem_perfil?: string | null, cliente?: Array<{ __typename?: 'Cliente', id?: number | null } | null> | null } | null> | null } | null> | null } | null> | null, cliente?: Array<{ __typename?: 'Cliente', id?: number | null, nivel?: string | null, medicamentos?: string | null } | null> | null, imgem_perfis?: Array<{ __typename?: 'imagem_perfil', id?: number | null, imagen?: string | null } | null> | null } | null };
 
 export type TodosUsuarioQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1003,6 +1003,28 @@ export const PerfilDocument = gql`
       localatendimento
       qualificacao
       raio
+      comentario_post {
+        coteudo
+        nota
+        id
+        notificacao_comentario {
+          comentario
+          id
+          imgem_perfil
+          cliente {
+            id
+          }
+        }
+      }
+    }
+    cliente {
+      id
+      nivel
+      medicamentos
+    }
+    imgem_perfis {
+      id
+      imagen
     }
   }
 }

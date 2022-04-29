@@ -24,6 +24,30 @@ query Perfil {
     localatendimento
     qualificacao
     raio
+      comentario_post {
+        coteudo
+        nota
+      id
+        notificacao_comentario {
+          comentario
+          id
+          imgem_perfil
+          cliente {
+            id
+          }
+        }
+      }
     }
+    
+      cliente {
+      id
+      nivel
+    medicamentos
+    }
+ imgem_perfis {
+      id
+    imagen
+    }
+
   }
 }

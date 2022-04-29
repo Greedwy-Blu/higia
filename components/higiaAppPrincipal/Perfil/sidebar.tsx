@@ -124,17 +124,7 @@ const [datas, setDatas] = useState([UsuarioPerfil(), Notificacao(),Cliente(), Pr
  
 
 
-  {(() => {
-  const pau =() =>{
-   const e = PerfilQuery?.perfil?.profissional?.map(b => b.id)
-   return Number(e)
-  }
-if(pau() === 0){
-return(<div>M</div>)
-}else{return(<div>b</div>)}
- 
-
-})()}
+  
 
  
 
@@ -182,11 +172,36 @@ return(<div>M</div>)
 <span onClick={() => setCurrent(2)} className="flex ml-1 whitespace-nowrap"><GoPerson className="mr-4 h-7 w-7 text-stone-400"/>Cadastro cliente</span>
 </a>
 </li>
-<li className="mb-4">
+
+{(() => {
+  const idprofi =() =>{
+   const e = PerfilQuery?.perfil?.profissional?.map(b => b?.id)
+   return Number(e)
+  }
+  console.log(idprofi())
+if(idprofi() == 0){
+return(<div><li className="mb-4">
 <a onClick={() => setCurrent(3)} className="flex items-center p-2 text-base font-normal hover:bg-slate-100 text-gray-900 border-r-4 border-transparent hover:border-emerald-500 transition duration-75">
 <span className="flex ml-1 whitespace-nowrap"><BsFillPersonBadgeFill className="mr-4 h-7 w-7 text-stone-400"/>Cadastro profissional</span>
 </a>
-</li>
+</li></div>)
+}else{return(<div>
+
+<div className="flex p-4 mb-4 text-sm text-emerald-700 bg-emerald-300 rounded-lg " role="alert">
+<svg className="inline flex-shrink-0 mr-3 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+<div>
+  <span className="font-medium">alerta!</span>cadastro profisional já foi concluido
+</div>
+</div>
+
+
+
+</div>)}
+ 
+
+})()}
+
+
 <li className="mb-3 mt-4">
 <a  className="flex items-center p-2 text-base font-normal  hover:bg-slate-100 text-gray-900  border-r-4 border-transparent hover:border-emerald-500 transition duration-75">
 <span             onClick={() =>  Logout()   }
