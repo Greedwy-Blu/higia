@@ -67,6 +67,7 @@ const setCurrent = index => {
 
 
 
+
 {(() => {
   
 
@@ -85,22 +86,10 @@ Router.push('/Login')
 
        
 const [datas, setDatas] = useState([UsuarioPerfil(), Notificacao(),Cliente(), Profissional()]);
-<div>{TodosUsuario?.TodosUsuario?.map((t) => (
-  <div key={t?.id}>
-   
-    {t?.profissional?.map((b) => (
-        <div key={b?.id}>
-        <p>{b?.id}</p>
-        </div>
-        ))}
-  </div>
-))
-}</div>
+
     return (
      <div>   
-    <div>{PerfilQuery?.perfil?.profissional?.map((m) =>(
-  <div key={m?.id}>{m?.id}</div>
-))}</div>
+  {PerfilQuery?.perfil?.profissional?.map(b => b.id) }
 <nav className=" flex bg-white px-2 sm:px-4 py-2.5 rounded-none    tracking-wide ">
   
   <a href="#" className="flex justify-start ">
@@ -134,6 +123,20 @@ const [datas, setDatas] = useState([UsuarioPerfil(), Notificacao(),Cliente(), Pr
   </nav>
  
 
+
+  {(() => {
+  const pau =() =>{
+   const e = PerfilQuery?.perfil?.profissional?.map(b => b.id)
+   return Number(e)
+  }
+if(pau() === 0){
+return(<div>M</div>)
+}else{return(<div>b</div>)}
+ 
+
+})()}
+
+ 
 
    
 
@@ -175,43 +178,6 @@ const [datas, setDatas] = useState([UsuarioPerfil(), Notificacao(),Cliente(), Pr
 <li className="mb-3">
 
 
-
-{(() => {
-const peixe = () =>{
-  return Array(<div>{PerfilQuery?.perfil?.profissional?.map((m) =>(
-  <div key={m?.id}>{m?.id}</div>
-))}</div>)
-}
-
-console.log(peixe())
-
-const tid =() =>{
-  return(
-    <div>{TodosUsuario?.TodosUsuario?.map((t) => (
-      <div key={t?.id}>
-     
-        {t?.profissional?.map((b) => (
-            <div key={b?.id}>
-            <p>{b?.id}</p>
-            </div>
-            ))}
-     </div>
-    ))
-    }</div>
-  )
-}
-  if (tid() == 0) {
-    return (
-      <div>someCase</div>
-    )
-  }  else {
-    return (
-      <div>catch all</div>
-    )
-    }
-
-})()}
-
 <a  className="mb-3 mr-2 flex items-center p-2 text-base font-normal hover:bg-slate-100 text-gray-900 border-r-4 border-transparent hover:border-emerald-500 transition duration-75  ">
 <span onClick={() => setCurrent(2)} className="flex ml-1 whitespace-nowrap"><GoPerson className="mr-4 h-7 w-7 text-stone-400"/>Cadastro cliente</span>
 </a>
@@ -244,3 +210,4 @@ const tid =() =>{
 
 
     export default  PerfilPage;
+

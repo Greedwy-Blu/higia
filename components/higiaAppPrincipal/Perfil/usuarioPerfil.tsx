@@ -13,7 +13,7 @@ const  imgicon2 = require('../../assets/ph2.jpg');
 
 export const UsuarioPerfil:React.FC =()=>{
     
-const {client,  data: PerfilQuery  } = usePerfilQuery();
+const {client,  data: PerfilQuery, } = usePerfilQuery();
 
     return (
      <div className="flex justify-center mb-80 pb-40 ">
