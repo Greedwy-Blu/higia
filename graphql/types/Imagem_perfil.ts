@@ -44,7 +44,7 @@ export const imagem_perfil = objectType({
       const uploadDir = resolve(__dirname, '../../static/documents')
       sync(uploadDir)
 
-      const { stream, filename, mimetype, encoding } = await args.imagem
+      const { stream, filename, mimetype, encoding } = await args.imagen
       const id = shortid.generate() + '-' + filename
       const path = `${uploadDir}/${id}-${filename}`
       
@@ -59,7 +59,7 @@ export const imagem_perfil = objectType({
       const criarImagem = await context.prisma.imgem_perfil.create({
 
       data:{
-      imagem:args.imagem,
+      imagem:filename,
       identificacao_perfil:   Number(userId),
       
    },

@@ -33,12 +33,12 @@ const {client,  data: PerfilQuery, } = usePerfilQuery();
 if(idimagem() == 0){
 return(
     <div>
-<Image className="rounded-tl-lg  rounded-r-md bg-gray   object-left  absolute mr-4 mt-1" width={110}    height={100} src={imgicon2} alt="" onClick={UploadFile()}/> </div>
+<Image className="rounded-tl-lg  rounded-r-md bg-gray   object-left  absolute mr-4 mt-1" width={110}    height={100} src={imgicon2} alt="" onClick={() => UploadFile()}/> </div>
 )
 }else{
     return(
         <div>
-<Image className="rounded-tl-lg  rounded-r-md bg-gray   object-left  absolute mr-4 mt-1" width={110}    height={100} src={PerfilQuery?.perfil?.imgem_perfis?.map(c => c?.imagen)} alt="" onClick={UploadFile()}/> 
+<Image className="rounded-tl-lg  rounded-r-md bg-gray   object-left  absolute mr-4 mt-1" width={110}    height={100} src={imgicon2} alt="" onClick={() => UploadFile()}/> 
 
         </div>
     )
