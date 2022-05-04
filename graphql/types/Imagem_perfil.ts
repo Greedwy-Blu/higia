@@ -5,6 +5,10 @@ import { Usuario } from './Usuario';
 
 import { APP_SECRET, getUserId} from '../utils';
 import {Context } from '../context';
+import { createWriteStream } from 'fs'
+import * as sync from 'mkdirp'
+import * as shortid from 'shortid'
+import { resolve } from 'path'
 
 
 export const imagem_perfil = objectType({
@@ -37,7 +41,21 @@ export const imagem_perfil = objectType({
     },
     resolve: async (_root, args, context:Context) => {
       const userId = getUserId(context)
-       
+      const uploadDir = resolve(__dirname, '../../static/documents')
+      sync(uploadDir)
+
+      const { stream, filename, mimetype, encoding } = await args.imagem
+      const id = shortid.generate() + '-' + filename
+      const path = `${uploadDir}/${id}-${filename}`
+      
+      const uploadDer = new Promise((resolve, reject) =>
+          stream
+            .pipe(createWriteStream(path))
+            .on('finish', () => resolve({ id, path }))
+            .on('error', reject),
+        )
+
+
       const criarImagem = await context.prisma.imgem_perfil.create({
 
       data:{

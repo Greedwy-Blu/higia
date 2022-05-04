@@ -2,16 +2,11 @@
 import { gql, useMutation, useQuery, useApolloClient } from '@apollo/client';
 import { APP_SECRET, getUserId} from '../../../graphql/utils';
 
-const SINGLE_UPLOAD_MUTATION = gql`
-  mutation singleUpload($file: Upload!) {
-    singleUpload(file: $file) {
-      id
-    }
-  }
-`;
+
+import { useCriarImagemMutation } from '../../../graphql/generated/graphql';
 
 export function UploadFile() {
-  const [uploadFileMutation] = useMutation(SINGLE_UPLOAD_MUTATION);
+  const [CriarImagem, {data:CriarImagemMutation}] = useCriarImagemMutation();
   const apolloClient = useApolloClient();
 
   const onChange = ({
@@ -21,9 +16,9 @@ export function UploadFile() {
     },
   }) =>
     validity.valid &&
-    uploadFileMutation({ variables: { file } }).then(() => {
+    CriarImagem({ variables: { file } }).then(() => {
       apolloClient.resetStore();
     });
 
-  return <input type="file" required onChange={onChange} />;
+  return <input type="file" className="opacity-100" required onChange={onChange} />;
 }

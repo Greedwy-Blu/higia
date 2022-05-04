@@ -5,7 +5,7 @@ import Router, { useRouter } from "next/router"
 import { usePerfilQuery } from '../../../graphql/generated/graphql';
 
 import Image from 'next/image';
-
+import {UploadFile} from './upload'
 const  imgicon2 = require('../../assets/ph2.jpg');
 
 
@@ -19,7 +19,34 @@ const {client,  data: PerfilQuery, } = usePerfilQuery();
      <div className="flex justify-center mb-80 pb-40 ">
   <div className="rounded-md shadow-lg bg-zinc-50 h-50 max-w-4xl">
   <a href="#!" className="overflow-hidden">
-  <Image className="rounded-tl-lg  rounded-r-md bg-gray   object-left  absolute mr-4 mt-1" width={110}    height={100} src={imgicon2} alt=""/></a>
+
+
+  {(() => {
+  
+  const idimagem = () =>{
+    const r = PerfilQuery?.perfil?.imgem_perfis?.map(n => n?.id)
+    return Number(r)
+  
+  }
+
+
+if(idimagem() == 0){
+return(
+    <div>
+<Image className="rounded-tl-lg  rounded-r-md bg-gray   object-left  absolute mr-4 mt-1" width={110}    height={100} src={imgicon2} alt="" onClick={UploadFile()}/> </div>
+)
+}else{
+    return(
+        <div>
+<Image className="rounded-tl-lg  rounded-r-md bg-gray   object-left  absolute mr-4 mt-1" width={110}    height={100} src={PerfilQuery?.perfil?.imgem_perfis?.map(c => c?.imagen)} alt="" onClick={UploadFile()}/> 
+
+        </div>
+    )
+}
+ 
+
+})()}
+</a>
   <div className="p-6">
    <h5 className="text-zinc-900 text-xl font-medium mb-2">Perfil</h5>
    <p className="text-zinc-400 text-base mb-4 mr-4 space-x-4">
