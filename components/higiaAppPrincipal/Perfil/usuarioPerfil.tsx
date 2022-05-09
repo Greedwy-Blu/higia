@@ -1,46 +1,137 @@
 import Link from 'next/link';
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState , Fragment} from 'react'
+import ReactDOM from "react-dom";
 
 import Router, { useRouter } from "next/router"
 import { usePerfilQuery } from '../../../graphql/generated/graphql';
 
 import Image from 'next/image';
-import {UploadFile} from './upload'
+import { useCriarImagemMutation } from '../../../graphql/generated/graphql';
+
 const  imgicon2 = require('../../assets/ph2.jpg');
+import { gql, useApolloClient, useMutation } from "@apollo/client";
+import styled from "styled-components";
+import { Dialog, Transition } from '@headlessui/react'
 
 
 
+function MyModal() {
+  let [isOpen, setIsOpen] = useState(false)
+
+  function closeModal() {
+    setIsOpen(false)
+  }
+
+  function openModal() {
+    setIsOpen(true)
+  }
+
+  return (
+    <>
+      <div className="">
+        <button
+          type="button"
+          onClick={openModal}
+          className=" rounded-md bg-black bg-opacity-20 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+        >
+          Open dialog
+        </button>
+      </div>
+      <Dialog
+      open={isOpen}
+      onClose={() => setIsOpen(false)}
+      className="relative z-50"
+    >
+
+<div className="fixed inset-0 bg-black/30 blur-sm" aria-hidden="true" />
+
+
+      <div className="fixed inset-0 flex items-center justify-center p-4">
+        <Dialog.Panel className="w-full max-w-sm rounded bg-white">
+        <button
+                      type="button"
+                      className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                      onClick={closeModal}
+                    >
+                    x
+                    </button>
+          <Dialog.Title>Complete your order</Dialog.Title>
+
+          {/* ... */}
+        </Dialog.Panel>
+      </div>
+    </Dialog>
+
+    </>
+  )
+}
 
 export const UsuarioPerfil:React.FC =()=>{
-    
+  
+ const [CriarImagem, {data:CriarImagemMutation}] = useCriarImagemMutation();
+  const apolloClient = useApolloClient();
+
+ 
+  
+
+  
+
 const {client,  data: PerfilQuery, } = usePerfilQuery();
 
     return (
+     
      <div className="flex justify-center mb-80 pb-40 ">
+    
   <div className="rounded-md shadow-lg bg-zinc-50 h-50 max-w-4xl">
   <a href="#!" className="overflow-hidden">
 
 
   {(() => {
-  
+
   const idimagem = () =>{
     const r = PerfilQuery?.perfil?.imgem_perfis?.map(n => n?.id)
     return Number(r)
   
   }
 
+ 
+  const onChange = ({
+    target: {
+      validity,
+      files: [file],
+    },
+  }) =>
+    validity.valid &&
+    CriarImagem({ variables: { file } }).then(() => {
+      apolloClient.resetStore();
+    });
 
 if(idimagem() == 0){
+ 
+  
+
 return(
     <div>
-<Image className="rounded-tl-lg  rounded-r-md bg-gray   object-left  absolute mr-4 mt-1" width={110}    height={100} src={imgicon2} alt="" onClick={() => UploadFile()}/> </div>
+
+      <Image   
+      className="rounded-tl-lg  rounded-r-md bg-gray   object-left  absolute mr-4 mt-1" width={110}    height={100} src={imgicon2} alt="" /> 
+
+
+
+
+</div>
 )
 }else{
     return(
         <div>
-<Image className="rounded-tl-lg  rounded-r-md bg-gray   object-left  absolute mr-4 mt-1" width={110}    height={100} src={imgicon2} alt="" onClick={() => UploadFile()}/> 
+        
+        <Image     className="rounded-tl-lg  rounded-r-md bg-gray   object-left  absolute mr-4 mt-1" width={110}    height={100} src={imgicon2} alt="" /> 
+        <MyModal/>
 
+
+       
         </div>
+
     )
 }
  

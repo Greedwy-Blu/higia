@@ -28,10 +28,13 @@ mode:'',
   },
   variants: {
     extend: {},
-  },
-  plugins: [
+  },plugins: [
     require( 'tailwindcss' ),	
     require('@tailwindcss/forms'),	
   require( 'postcss' ),		
-  require( 'autoprefixer' )],
+  require( 'autoprefixer' ),
+ require('flowbite/plugin')],
+ content: [
+  "./node_modules/flowbite/**/*.js"
+],
 }

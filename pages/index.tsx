@@ -4,8 +4,11 @@ import Navbar from '../components/higiaLandingPageComponents/Navbar'
 import  Higiacorpo from  '../components/higiaLandingPageComponents/higiacorpo';
 import HigiaInformacao from '../components/higiaLandingPageComponents/higiainformacao';
 import Footer from '../components/higiaLandingPageComponents/footer';
+import ReactDOM from 'react-dom';
+import React from 'react';
+
 const Home: NextPage = () => {
-  return (
+ return(
     <div>
       
    <Navbar/>
