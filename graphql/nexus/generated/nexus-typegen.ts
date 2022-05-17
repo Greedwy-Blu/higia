@@ -5,8 +5,23 @@
 
 
 import type { Context } from "./../../context"
-
-
+import type { core } from "nexus"
+declare global {
+  interface NexusGenCustomInputMethods<TypeName extends string> {
+    /**
+     * Upload scalar type
+     */
+    upload<FieldName extends string>(fieldName: FieldName, opts?: core.CommonInputFieldConfig<TypeName, FieldName>): void // "Upload";
+  }
+}
+declare global {
+  interface NexusGenCustomOutputMethods<TypeName extends string> {
+    /**
+     * Upload scalar type
+     */
+    upload<FieldName extends string>(fieldName: FieldName, ...opts: core.ScalarOutSpread<TypeName, FieldName>): void // "Upload";
+  }
+}
 
 
 declare global {
@@ -64,6 +79,7 @@ export interface NexusGenScalars {
   Float: number
   Boolean: boolean
   ID: string
+  Upload: any
 }
 
 export interface NexusGenObjects {
@@ -338,7 +354,7 @@ export interface NexusGenArgTypes {
       nota?: number | null; // Int
     }
     criarImagem: { // args
-      imagen?: string | null; // String
+      file?: NexusGenScalars['Upload'] | null; // Upload
     }
     delatecomentarioPost: { // args
       id?: number | null; // Int

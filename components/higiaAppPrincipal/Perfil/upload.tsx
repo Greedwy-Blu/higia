@@ -12,10 +12,10 @@ export const FileUPload = () =>  {
   const [CriarImagem, {data:CriarImagemMutation}] = useCriarImagemMutation();
  
   const handleFileChange = (e) => {
-    const file = e.target.files;
+    const file = e.target.files[0];
     if (!file) return;
     CriarImagem({ variables: { file } });
   };
 
-  return <input type="file" className="opacity-100" required   onChange={handleFileChange} />;
+  return <input type="file" className="" required   onChange={handleFileChange} />;
 }

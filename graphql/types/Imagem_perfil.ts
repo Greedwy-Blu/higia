@@ -5,10 +5,14 @@ import { Usuario } from './Usuario';
 
 import { APP_SECRET, getUserId} from '../utils';
 import {Context } from '../context';
-const { createWriteStream, unlink } = require("fs");
-const shortId = require("shortid");
-const mkdirp = require('mkdirp');
-import { resolve } from 'path'
+
+import { Upload } from './Upload'
+import { compare, hash } from 'bcrypt'
+import { sign } from 'jsonwebtoken'
+import { createWriteStream, unlinkSync, statSync } from 'fs'
+import * as mkdirp from 'mkdirp'
+import * as cuid from 'cuid'
+import * as sharp from 'sharp'
 
 export const imagem_perfil = objectType({
     name: "imagem_perfil",
@@ -30,34 +34,52 @@ export const imagem_perfil = objectType({
     }
   })
 
+
+  const uploadDir = '../../static/documents'
+  mkdirp.sync(uploadDir)
+
+  const processUpload = async (upload: Promise<any>) => {
+    const { createReadStream, filename, mimetype, encoding } = await upload
+    const stream = createReadStream()
+    return await storeUpload({ stream, filename })
+  }
+  
+  const storeUpload = async ({
+    stream,
+    filename
+  }: {
+    stream: any
+    filename: any
+  }): Promise<any> => {
+    const id = cuid()
+    const path = `${uploadDir}/${id}-${filename}`
+    return new Promise((resolve, reject) =>
+      stream
+        .pipe(createWriteStream(path))
+        .on('finish', () => resolve({ id, path }))
+        .on('error', reject)
+    )
+  }
+  
+
+
   export const imagemPerfilMutation = extendType({
     type: 'Mutation',
     definition(t){
    t.field("criarImagem",{
     type:imagem_perfil,
     args:{
-      imagen:stringArg()
-    },
+      file: Upload
+     },
     resolve: async (_root, args, context:Context) => {
       const userId = getUserId(context)
-      const uploadDir = resolve(__dirname, '../../static/documents')
-      mkdirp.sync(uploadDir)
-
-      const { stream, filename, mimetype, encoding } = await args.imagen;
-      const id = shortId.generate() + '-' + filename
-      const path = `${uploadDir}/${id}-${filename}`
-      
-      const uploadDer = new Promise((resolve, reject) =>
-          stream
-            .pipe(createWriteStream(path))
-            .on('finish', () => resolve({ id, path }))
-            .on('error', reject),
-        )
-
+      const { id, path, ...other } = await processUpload(file)
+        console.log(path, file);
+        
       const criarImagem = await context.prisma.imgem_perfil.create({
 
       data:{
-      imagem:filename,
+      imagem:path,
       identificacao_perfil:   Number(userId),
       
    },

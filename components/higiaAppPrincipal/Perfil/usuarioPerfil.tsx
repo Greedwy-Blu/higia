@@ -6,16 +6,26 @@ import Router, { useRouter } from "next/router"
 import { usePerfilQuery } from '../../../graphql/generated/graphql';
 
 import Image from 'next/image';
-import { useCriarImagemMutation } from '../../../graphql/generated/graphql';
 
 const  imgicon2 = require('../../assets/ph2.jpg');
 import { gql, useApolloClient, useMutation } from "@apollo/client";
 import styled from "styled-components";
 import { Dialog, Transition } from '@headlessui/react'
 
+import { useCriarImagemMutation } from '../../../graphql/generated/graphql';
+
 
 
 function MyModal() {
+  const [CriarImagem, {data:CriarImagemMutation}] = useCriarImagemMutation();
+ 
+const handleFileChange = (e) => {
+
+  const file = e.target.files[0];
+  if (!file) return;
+  CriarImagem({ variables: { file } });
+};
+
   let [isOpen, setIsOpen] = useState(false)
 
   function closeModal() {
@@ -55,7 +65,7 @@ function MyModal() {
                     >
                     x
                     </button>
-          <Dialog.Title>Complete your order</Dialog.Title>
+          <Dialog.Title><input type="file" className="" required   onChange={handleFileChange} /></Dialog.Title>
 
           {/* ... */}
         </Dialog.Panel>

@@ -30,7 +30,7 @@ type Mutation {
   Cliente(medicamentos: String, nivel: String): Cliente
   Profissional(ambiente: String!, especial: String!, especialidade: String!, grupo: String!, idade: String!, imagens: String!, localatendimento: String!, qualificacao: String!, raio: String!, servico: String!): Profissional
   comentarioPost(coteudo: String, nota: Int): Comentario_Post
-  criarImagem(imagen: String): imagem_perfil
+  criarImagem(file: Upload): imagem_perfil
   delatecomentarioPost(id: Int): Comentario_Post
   deleteNotificacao(id: Int): Notificacao_Comentario
   login(email: String!, senha: String!): AuthPayload
@@ -85,6 +85,9 @@ type Query {
   perfil: Usuario
   todosPro: Profissional
 }
+
+"""Upload scalar type"""
+scalar Upload
 
 type Usuario {
   SobreNome: String
