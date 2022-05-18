@@ -6,7 +6,6 @@ import { Usuario } from './Usuario';
 import { APP_SECRET, getUserId} from '../utils';
 import {Context } from '../context';
 
-import { Upload } from './Upload'
 import { compare, hash } from 'bcrypt'
 import { sign } from 'jsonwebtoken'
 import { createWriteStream, unlinkSync, statSync } from 'fs'
