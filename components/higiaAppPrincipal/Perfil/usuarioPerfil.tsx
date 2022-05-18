@@ -21,9 +21,9 @@ function MyModal() {
  
 const handleFileChange = (e) => {
 
-  const file = e.target.files[0];
-  if (!file) return;
-  CriarImagem({ variables: { file } });
+  const imagen = e.target.files[0];
+  if (!imagen) return;
+  CriarImagem({ variables: { imagen } });
 };
 
   let [isOpen, setIsOpen] = useState(false)

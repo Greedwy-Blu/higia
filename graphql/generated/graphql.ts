@@ -13,6 +13,8 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /** Upload scalar type */
+  Upload: any;
 };
 
 export type AuthPayload = {
@@ -103,7 +105,7 @@ export type MutationComentarioPostArgs = {
 
 
 export type MutationCriarImagemArgs = {
-  imagen?: InputMaybe<Scalars['String']>;
+  imagen?: InputMaybe<Scalars['Upload']>;
 };
 
 
@@ -316,7 +318,7 @@ export type UpdatecomentarioPostMutationVariables = Exact<{
 export type UpdatecomentarioPostMutation = { __typename?: 'Mutation', updatecomentarioPost?: { __typename?: 'Comentario_Post', id?: number | null } | null };
 
 export type CriarImagemMutationVariables = Exact<{
-  imagen?: InputMaybe<Scalars['String']>;
+  imagen?: InputMaybe<Scalars['Upload']>;
 }>;
 
 
@@ -640,7 +642,7 @@ export type UpdatecomentarioPostMutationHookResult = ReturnType<typeof useUpdate
 export type UpdatecomentarioPostMutationResult = Apollo.MutationResult<UpdatecomentarioPostMutation>;
 export type UpdatecomentarioPostMutationOptions = Apollo.BaseMutationOptions<UpdatecomentarioPostMutation, UpdatecomentarioPostMutationVariables>;
 export const CriarImagemDocument = gql`
-    mutation CriarImagem($imagen: String) {
+    mutation CriarImagem($imagen: Upload) {
   criarImagem(imagen: $imagen) {
     id
     usuario {

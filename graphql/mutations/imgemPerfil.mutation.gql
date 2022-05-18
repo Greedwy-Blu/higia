@@ -1,4 +1,4 @@
-mutation CriarImagem($imagen: String) {
+mutation CriarImagem($imagen: Upload) {
   criarImagem(imagen: $imagen) {
     id
     usuario {

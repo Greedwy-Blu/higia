@@ -22,7 +22,12 @@ declare global {
     upload<FieldName extends string>(fieldName: FieldName, ...opts: core.ScalarOutSpread<TypeName, FieldName>): void // "Upload";
   }
 }
-
+declare global {
+  interface NexusGenCustomOutputProperties<TypeName extends string> {
+    model: NexusPrisma<TypeName, 'model'>
+    crud: any
+  }
+}
 
 declare global {
   interface NexusGen extends NexusGenTypes {}
@@ -354,7 +359,7 @@ export interface NexusGenArgTypes {
       nota?: number | null; // Int
     }
     criarImagem: { // args
-      file?: NexusGenScalars['Upload'] | null; // Upload
+      imagen?: NexusGenScalars['Upload'] | null; // Upload
     }
     delatecomentarioPost: { // args
       id?: number | null; // Int
