@@ -1,20 +1,17 @@
-import { enumType, intArg, objectType, stringArg,arg } from 'nexus';
+import { enumType, intArg, objectType, stringArg,arg,scalarType } from 'nexus';
 import { extendType } from 'nexus';
 
 import { Usuario } from './Usuario';
 
 import { APP_SECRET, getUserId} from '../utils';
 import {Context } from '../context';
-
-import { compare, hash } from 'bcrypt'
-import { sign } from 'jsonwebtoken'
-import { createWriteStream, unlinkSync, statSync } from 'fs'
-import * as mkdirp from 'mkdirp'
-import * as cuid from 'cuid'
-import * as sharp from 'sharp'
+import { createWriteStream } from 'fs'
+import sync from 'mkdirp';
 import * as shortid from 'shortid'
-
 import { resolve } from 'path'
+import { Upload } from './Upload';
+
+
 
 export const imagem_perfil = objectType({
     name: "imagem_perfil",
@@ -37,7 +34,7 @@ export const imagem_perfil = objectType({
   })
 
 
-
+ 
 
   export const imagemPerfilMutation = extendType({
     type: 'Mutation',
@@ -45,21 +42,25 @@ export const imagem_perfil = objectType({
    t.field("criarImagem",{
     type:imagem_perfil,
     args:{
-      imagen: arg({type:"Upload", required:true})
+      imagen: Upload
      },
     resolve: async (_root, args, context:Context) => {
       const userId = getUserId(context)
 
       const uploadDir = resolve(__dirname, '../../static/documents')
-     sync(uploadDir)
-    
+      sync(uploadDir)
+
       const { stream, filename, mimetype, encoding } = await args.imagen
       const id = shortid.generate() + '-' + filename
       const path = `${uploadDir}/${id}-${filename}`
       
       const uploadDer = new Promise((resolve, reject) =>
-          stream.pipe(createWriteStream(path)).on('finish', () => resolve({ id, path })).on('error', reject),
-        )    
+          stream
+            .pipe(createWriteStream(path))
+            .on('finish', () => resolve({ id, path }))
+            .on('error', reject),
+        )
+
       const criarImagem = await context.prisma.imgem_perfil.create({
 
       data:{
@@ -79,11 +80,12 @@ export const imagem_perfil = objectType({
      t.field("updateimagem",{
         type:imagem_perfil,
         args:{
-           id: intArg()
+           id: intArg(),
+           imagen: Upload
         },
         resolve: async (_root, args, ctx) => {
            const updatesImage = await ctx.prisma.imgem_perfil.update({
-    
+            imagen :args.imagen,
            where:{
            id:args.id
 

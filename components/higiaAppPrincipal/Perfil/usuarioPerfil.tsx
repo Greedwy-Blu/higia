@@ -1,3 +1,4 @@
+// @ts-check
 import Link from 'next/link';
 import React, { useEffect, useRef, useState , Fragment} from 'react'
 import ReactDOM from "react-dom";
@@ -12,19 +13,50 @@ import { gql, useApolloClient, useMutation } from "@apollo/client";
 import styled from "styled-components";
 import { Dialog, Transition } from '@headlessui/react'
 
+import { useForm } from 'react-hook-form';
 import { useCriarImagemMutation } from '../../../graphql/generated/graphql';
 
 
+const imgMutation = gql`
+mutation CriarImagem($filename: String!) {
+  criarImagem(imagen: $filename) {
+    id
+  }
+}
+`;
 
 function MyModal() {
-  const [CriarImagem, {data:CriarImagemMutation}] = useCriarImagemMutation();
- 
-const handleFileChange = (e) => {
+  const [filename, setFilename] = useState('');
+ const [criarImagem, { data, loading, error }] = useMutation(imgMutation);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-  const imagen = e.target.files[0];
-  if (!imagen) return;
-  CriarImagem({ variables: { imagen } });
+
+
+
+  const onSubmit = async () => {
+    try {
+        const response = await criarImagem({
+            variables: {
+              imagen:filename ,
+        
+            },
+        });
+        console.log('onSubmit ~ response', response);
+      
+        
+    } catch (err) {
+        console.log('onSubmit ~ err', err);
+    }
 };
+  
+  
+  
+  
+
 
   let [isOpen, setIsOpen] = useState(false)
 
@@ -44,7 +76,7 @@ const handleFileChange = (e) => {
           onClick={openModal}
           className=" rounded-md bg-black bg-opacity-20 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
         >
-          Open dialog
+         mudar imagem
         </button>
       </div>
       <Dialog
@@ -65,7 +97,20 @@ const handleFileChange = (e) => {
                     >
                     x
                     </button>
-          <Dialog.Title><input type="file" className="" required   onChange={handleFileChange} /></Dialog.Title>
+          <Dialog.Title>
+            
+          <form    onSubmit={handleSubmit(onSubmit)}>
+            <input type="file"  onChange={(e) => {
+                          setFilename(e.target.value);
+                      }} />
+                      
+                      <button className="h-8  px-6 w-1/3 m-2 bg-emerald-700 shadow text-lg text-center text-white">login</button>
+                  
+
+                      </form>
+
+
+                      </Dialog.Title>
 
           {/* ... */}
         </Dialog.Panel>
@@ -78,8 +123,7 @@ const handleFileChange = (e) => {
 
 export const UsuarioPerfil:React.FC =()=>{
   
- const [CriarImagem, {data:CriarImagemMutation}] = useCriarImagemMutation();
-  const apolloClient = useApolloClient();
+const apolloClient = useApolloClient();
 
  
   

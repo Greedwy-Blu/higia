@@ -13,8 +13,6 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  /** Upload scalar type */
-  Upload: any;
 };
 
 export type AuthPayload = {
@@ -105,7 +103,7 @@ export type MutationComentarioPostArgs = {
 
 
 export type MutationCriarImagemArgs = {
-  imagen?: InputMaybe<Scalars['Upload']>;
+  imagen?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -163,6 +161,7 @@ export type MutationUpdatecomentarioPostArgs = {
 
 export type MutationUpdateimagemArgs = {
   id?: InputMaybe<Scalars['Int']>;
+  imagen?: InputMaybe<Scalars['String']>;
 };
 
 export type Notificacao_Comentario = {
@@ -318,18 +317,19 @@ export type UpdatecomentarioPostMutationVariables = Exact<{
 export type UpdatecomentarioPostMutation = { __typename?: 'Mutation', updatecomentarioPost?: { __typename?: 'Comentario_Post', id?: number | null } | null };
 
 export type CriarImagemMutationVariables = Exact<{
-  imagen?: InputMaybe<Scalars['Upload']>;
+  filename?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type CriarImagemMutation = { __typename?: 'Mutation', criarImagem?: { __typename?: 'imagem_perfil', id?: number | null, usuario?: Array<{ __typename?: 'Usuario', id?: number | null } | null> | null } | null };
+export type CriarImagemMutation = { __typename?: 'Mutation', criarImagem?: { __typename?: 'imagem_perfil', id?: number | null, imagen?: string | null, usuario?: Array<{ __typename?: 'Usuario', id?: number | null } | null> | null } | null };
 
 export type UpdateimagemMutationVariables = Exact<{
   updateimagemId?: InputMaybe<Scalars['Int']>;
+  filename?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type UpdateimagemMutation = { __typename?: 'Mutation', updateimagem?: { __typename?: 'imagem_perfil', id?: number | null } | null };
+export type UpdateimagemMutation = { __typename?: 'Mutation', updateimagem?: { __typename?: 'imagem_perfil', id?: number | null, imagen?: string | null, usuario?: Array<{ __typename?: 'Usuario', id?: number | null } | null> | null } | null };
 
 export type LoginMutationVariables = Exact<{
   email: Scalars['String'];
@@ -642,9 +642,10 @@ export type UpdatecomentarioPostMutationHookResult = ReturnType<typeof useUpdate
 export type UpdatecomentarioPostMutationResult = Apollo.MutationResult<UpdatecomentarioPostMutation>;
 export type UpdatecomentarioPostMutationOptions = Apollo.BaseMutationOptions<UpdatecomentarioPostMutation, UpdatecomentarioPostMutationVariables>;
 export const CriarImagemDocument = gql`
-    mutation CriarImagem($imagen: Upload) {
-  criarImagem(imagen: $imagen) {
+    mutation CriarImagem($filename: String) {
+  criarImagem(imagen: $filename) {
     id
+    imagen
     usuario {
       id
     }
@@ -666,7 +667,7 @@ export type CriarImagemMutationFn = Apollo.MutationFunction<CriarImagemMutation,
  * @example
  * const [criarImagemMutation, { data, loading, error }] = useCriarImagemMutation({
  *   variables: {
- *      imagen: // value for 'imagen'
+ *      filename: // value for 'filename'
  *   },
  * });
  */
@@ -678,9 +679,13 @@ export type CriarImagemMutationHookResult = ReturnType<typeof useCriarImagemMuta
 export type CriarImagemMutationResult = Apollo.MutationResult<CriarImagemMutation>;
 export type CriarImagemMutationOptions = Apollo.BaseMutationOptions<CriarImagemMutation, CriarImagemMutationVariables>;
 export const UpdateimagemDocument = gql`
-    mutation Updateimagem($updateimagemId: Int) {
-  updateimagem(id: $updateimagemId) {
+    mutation Updateimagem($updateimagemId: Int, $filename: String) {
+  updateimagem(id: $updateimagemId, imagen: $filename) {
     id
+    imagen
+    usuario {
+      id
+    }
   }
 }
     `;
@@ -700,6 +705,7 @@ export type UpdateimagemMutationFn = Apollo.MutationFunction<UpdateimagemMutatio
  * const [updateimagemMutation, { data, loading, error }] = useUpdateimagemMutation({
  *   variables: {
  *      updateimagemId: // value for 'updateimagemId'
+ *      filename: // value for 'filename'
  *   },
  * });
  */

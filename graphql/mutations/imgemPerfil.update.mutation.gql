@@ -1,5 +1,9 @@
-mutation Updateimagem($updateimagemId: Int) {
-  updateimagem(id: $updateimagemId) {
+mutation Updateimagem($updateimagemId: Int, $filename: String) {
+  updateimagem(id: $updateimagemId, imagen: $filename) {
     id
+    imagen
+    usuario {
+      id
+    }
   }
 }

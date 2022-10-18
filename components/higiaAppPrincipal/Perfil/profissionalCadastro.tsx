@@ -37,7 +37,7 @@ export const Profissional:React.FC = () =>{
   
  
   return(
-  <div className="flex justify-center mb-40 pb-40">
+  <div className="flex justify-center mb-40 pb-40  -translate-x-32">
   <Toaster />
   <div className="grid grid-cols-3 gap-6 ">
   
@@ -220,7 +220,7 @@ export const Profissional:React.FC = () =>{
   
   
   
-  <div className="  justify-items-center ml-48 mt-16">
+  <div className="  justify-items-center ml-48 mt-16 w-full">
   <input  type="submit" value="cadastro" className="h-12  px-12 w-2/3 m-2 bg-emerald-700 shadow text-lg text-center text-white" />
   </div>
   

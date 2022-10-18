@@ -1,6 +1,7 @@
-mutation CriarImagem($imagen: Upload) {
-  criarImagem(imagen: $imagen) {
+mutation CriarImagem($filename: String) {
+  criarImagem(imagen: $filename) {
     id
+    imagen
     usuario {
       id
     }

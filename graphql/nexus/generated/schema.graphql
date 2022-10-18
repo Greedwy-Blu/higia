@@ -39,7 +39,7 @@ type Mutation {
   updateProfissional(ambiente: String, especial: String, especialidade: String, grupo: String, id: Int, idade: String, imagens: String, localatendimento: String, qualificacao: String, raio: String, servico: String): Profissional
   updateUsuario(id: Int): Usuario
   updatecomentarioPost(id: Int): Comentario_Post
-  updateimagem(id: Int): imagem_perfil
+  updateimagem(id: Int, imagen: Upload): imagem_perfil
 }
 
 type Notificacao_Comentario {
